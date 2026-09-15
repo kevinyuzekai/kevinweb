@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于 · KevinWeb</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f6f7f9;
+      color: #1a1a1a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* 头部 */
+    .site-header {
+      margin-bottom: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .site-title {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #111;
+      text-decoration: none;
+      display: inline-block;
+      width: fit-content;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+
+    .site-title:hover {
+      border-bottom-color: #d0d0d0;
+    }
+
+    .site-description {
+      font-size: 1rem;
+      color: #6b6b6b;
+      max-width: 90%;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.75rem;
+      margin: 1rem 0 0.25rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .nav a {
+      color: #3d3d3d;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .nav a:hover {
+      color: #000;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1.5px;
+    }
+
+    .nav a.current {
+      color: #000;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1.5px;
+    }
+
+    /* 关于内容卡片 */
+    .about-card {
+      background-color: #ffffff;
+      border-radius: 24px;
+      border: 1px solid #ededed;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.015);
+      padding: 2.5rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* 正文段落 */
+    .about-card p {
+      font-size: 1rem;
+      color: #3b3b3b;
+      line-height: 1.8;
+    }
+
+    /* 列表 */
+    .about-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      padding-left: 0.25rem;
+    }
+
+    .about-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 1rem;
+      color: #3b3b3b;
+      line-height: 1.7;
+    }
+
+    .about-list li::before {
+      content: "—";
+      color: #b0b0b0;
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+
+    /* 高亮语句 */
+    .highlight-line {
+      font-weight: 500;
+      color: #0a0a0a;
+      background-color: #f7f7f8;
+      padding: 0.85rem 1.15rem;
+      border-radius: 16px;
+      border-left: 3px solid #1a1a1a;
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    /* 联系方式 */
+    .contact-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid #f0f0f0;
+      margin-top: 0.5rem;
+    }
+
+    .contact-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8a8a8a;
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.95rem;
+      color: #3b3b3b;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      width: fit-content;
+      padding: 0.2rem 0;
+    }
+
+    .contact-item:hover {
+      color: #000;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .contact-icon {
+      font-size: 1rem;
+      width: 1.4rem;
+      text-align: center;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    /* 好友推荐卡片 */
+    .friend-card {
+      background-color: #fafafa;
+      border-radius: 16px;
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border: 1px solid #f0f0f0;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      margin-top: 0.25rem;
+    }
+
+    .friend-card:hover {
+      background-color: #f5f5f7;
+      border-color: #e4e4e8;
+    }
+
+    .friend-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .friend-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #9a9a9a;
+    }
+
+    .friend-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #1a1a1a;
+    }
+
+    .friend-link {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #ffffff;
+      background-color: #1a1a1a;
+      padding: 0.5rem 1.1rem;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      white-space: nowrap;
+    }
+
+    .friend-link:hover {
+      background-color: #333333;
+    }
+
+    .friend-link:active {
+      transform: scale(0.97);
+    }
+
+    /* 底部 */
+    .site-footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: #6f6f6f;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: #5a5a5a;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: #000;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 640px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+
+      .about-card {
+        padding: 1.75rem 1.25rem;
+        border-radius: 20px;
+        gap: 1.25rem;
+      }
+
+      .friend-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .friend-link {
+        width: 100%;
+        text-align: center;
+      }
+
+      .site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* 暗色模式 */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #0f0f0f;
+        color: #e0e0e0;
+      }
+
+      .site-title {
+        color: #f0f0f0;
+      }
+
+      .site-title:hover {
+        border-bottom-color: #4a4a4a;
+      }
+
+      .site-description {
+        color: #a0a0a0;
+      }
+
+      .nav a {
+        color: #b0b0b0;
+      }
+
+      .nav a:hover,
+      .nav a.current {
+        color: #fff;
+      }
+
+      .about-card {
+        background-color: #1a1a1a;
+        border-color: #2e2e2e;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .about-card p {
+        color: #b8b8b8;
+      }
+
+      .about-list li {
+        color: #b8b8b8;
+      }
+
+      .about-list li::before {
+        color: #6a6a6a;
+      }
+
+      .highlight-line {
+        background-color: #222222;
+        color: #e8e8e8;
+        border-left-color: #f0f0f0;
+      }
+
+      .contact-section {
+        border-top-color: #2a2a2a;
+      }
+
+      .contact-title {
+        color: #7a7a7a;
+      }
+
+      .contact-item {
+        color: #b8b8b8;
+      }
+
+      .contact-item:hover {
+        color: #fff;
+      }
+
+      .friend-card {
+        background-color: #222222;
+        border-color: #2e2e2e;
+      }
+
+      .friend-card:hover {
+        background-color: #282828;
+        border-color: #3a3a3a;
+      }
+
+      .friend-label {
+        color: #7a7a7a;
+      }
+
+      .friend-name {
+        color: #e0e0e0;
+      }
+
+      .friend-link {
+        background-color: #f0f0f0;
+        color: #1a1a1a;
+      }
+
+      .friend-link:hover {
+        background-color: #ffffff;
+      }
+
+      .site-footer {
+        border-top-color: #2a2a2a;
+        color: #8a8a8a;
+      }
+
+      .footer-links a {
+        color: #9a9a9a;
+      }
+
+      .footer-links a:hover {
+        color: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <header class="site-header">
+      <a href="#" class="site-title">KevinWeb</a>
+      <p class="site-description">收集、整理、分享值得下载的好东西。所有资源均来自互联网，仅供学习交流。</p>
+      <nav class="nav">
+        <a href="#">首页</a>
+        <a href="#">全部资源</a>
+        <a href="#" class="current">关于</a>
+        <a href="#">提交资源</a>
+      </nav>
+    </header>
+
+    <!-- 关于内容 -->
+    <main class="about-card">
+      <p>
+        Hi，我是 Kevin/一架 Cathay Pacific 的 A350。
+      </p>
+
+      <p>
+        一个初中生，一个在作业和兴趣之间反复横跳的人。
+      </p>
+
+      <p>
+        我建这个博客，不是因为我很厉害，恰恰相反——是因为我有很多不懂的东西，想找个地方把它们写下来、理清楚。这里会有：
+      </p>
+
+      <ul class="about-list">
+        <li>我和朋友一起开发的程序</li>
+        <li>一闪而过的有趣的想法</li>
+        <li>一些可能很幼稚、但确实是我自己想出来的观点</li>
+      </ul>
+
+      <div class="highlight-line">
+        我不保证每篇都有用，但我保证每篇都是真的。
+      </div>
+
+      <p>
+        如果你觉得某篇写得还行，或者想纠正我的错误，欢迎留言。初中生写博客，最大的动力就是有人看。
+      </p>
+
+      <!-- 联系方式 -->
+      <div class="contact-section">
+        <div class="contact-title">联系方式</div>
+        <div class="contact-list">
+          <a href="mailto:kevinyuzekai@gmail.com" class="contact-item">
+            <span class="contact-icon">✉️</span>
+            kevinyuzekai@gmail.com
+          </a>
+          <a href="mailto:kevinyuzekai@outlook.com" class="contact-item">
+            <span class="contact-icon">✉️</span>
+            kevinyuzekai@outlook.com
+          </a>
+        </div>
+      </div>
+
+      <!-- 好友推荐 -->
+      <div class="friend-card">
+        <div class="friend-info">
+          <span class="friend-label">推荐</span>
+          <span class="friend-name">去看看我朋友的 Blog</span>
+        </div>
+        <a href="https://www.yzmdwz.me/" target="_blank" rel="noopener noreferrer" class="friend-link">
+          yzmdwz.me →
+        </a>
+      </div>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="site-footer">
+      <div class="footer-copy">
+        © 2025 KevinWeb · 仅供学习交流
+      </div>
+      <div class="footer-links">
+        <a href="#">RSS</a>
+        <a href="#">GitHub</a>
+        <a href="#">免责声明</a>
+        <a href="#">联系</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
