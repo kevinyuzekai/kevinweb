@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KevinWeb · 下载与分享</title>
-  <link rel="preconnect" href="https://kevinyuzekai.github.io/kevinweb/">
-  <link rel="preconnect" href="https://kevinyuzekai.github.io/kevinweb/" crossorigin>
-  <link href="https://kevinyuzekai.github.io/kevinweb/" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -29,7 +29,6 @@
       margin: 0 auto;
     }
 
-    /* 头部 */
     .site-header {
       margin-bottom: 2.5rem;
       display: flex;
@@ -81,7 +80,6 @@
       text-decoration-thickness: 1.5px;
     }
 
-    /* 搜索栏 */
     .toolbar {
       display: flex;
       flex-wrap: wrap;
@@ -133,16 +131,90 @@
       stroke: #1a1a1a;
     }
 
-    /* 资源列表 */
     .resource-list {
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
 
-    /* 空状态 */
-    .empty-state {
+    .resource-card {
       display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.25rem 1.4rem;
+      background-color: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #ececec;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .resource-card:hover {
+      border-color: #d8d8d8;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+    .resource-card.hidden {
+      display: none;
+    }
+
+    .resource-meta {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .resource-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #5a5a5a;
+      background: #f0f1f3;
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .resource-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 0.35rem;
+    }
+
+    .resource-desc {
+      font-size: 0.9rem;
+      color: #6b6b6b;
+    }
+
+    .resource-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 1rem;
+      border-radius: 12px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      white-space: nowrap;
+    }
+
+    .btn-download:hover {
+      background: #000;
+    }
+
+    .empty-state {
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -152,6 +224,10 @@
       border-radius: 24px;
       border: 1px dashed #e0e0e0;
       color: #7a7a7a;
+    }
+
+    .empty-state.visible {
+      display: flex;
     }
 
     .empty-state-icon {
@@ -172,7 +248,6 @@
       color: #a0a0a0;
     }
 
-    /* 底部分页 */
     .pagination {
       display: flex;
       justify-content: center;
@@ -208,7 +283,6 @@
       border-color: #1a1a1a;
     }
 
-    /* 底部 */
     .site-footer {
       margin-top: 4rem;
       padding-top: 1.5rem;
@@ -239,7 +313,6 @@
       text-underline-offset: 3px;
     }
 
-    /* 响应式 */
     @media (max-width: 640px) {
       body {
         padding: 1.5rem 1rem;
@@ -257,9 +330,16 @@
       .empty-state {
         padding: 3.5rem 1rem;
       }
+
+      .resource-actions {
+        width: 100%;
+      }
+
+      .btn-download {
+        width: 100%;
+      }
     }
 
-    /* 暗色模式 */
     @media (prefers-color-scheme: dark) {
       body {
         background-color: #0f0f0f;
@@ -305,6 +385,37 @@
 
       .search-wrapper:focus-within svg {
         stroke: #d0d0d0;
+      }
+
+      .resource-card {
+        background-color: #1a1a1a;
+        border-color: #2e2e2e;
+      }
+
+      .resource-card:hover {
+        border-color: #3a3a3a;
+      }
+
+      .resource-tag {
+        background: #2a2a2a;
+        color: #b0b0b0;
+      }
+
+      .resource-title {
+        color: #f0f0f0;
+      }
+
+      .resource-desc {
+        color: #9a9a9a;
+      }
+
+      .btn-download {
+        background: #f0f0f0;
+        color: #1a1a1a;
+      }
+
+      .btn-download:hover {
+        background: #fff;
       }
 
       .empty-state {
@@ -354,59 +465,105 @@
 </head>
 <body>
   <div class="container">
-    <!-- 头部 -->
     <header class="site-header">
-      <a href="#" class="site-title">KevinWeb</a>
+      <a href="https://kevinyuzekai.github.io/kevinweb/" class="site-title">KevinWeb</a>
       <p class="site-description">收集、整理、分享值得下载的好东西。所有资源均来自互联网，仅供学习交流。</p>
       <nav class="nav">
-        <a href="#">首页</a>
-        <a href="#">全部资源</a>
+        <a href="https://kevinyuzekai.github.io/kevinweb/">首页</a>
+        <a href="https://kevinyuzekai.github.io/kevinweb/#resources">全部资源</a>
         <a href="https://kevinyuzekai.github.io/kevinweb/About_me.html">关于</a>
-        <a href="#">提交资源</a>
+        <a href="https://github.com/kevinyuzekai/kevinweb/issues">提交资源</a>
       </nav>
     </header>
 
-    <!-- 搜索栏 -->
     <div class="toolbar">
       <div class="search-wrapper">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" placeholder="搜索资源名称或描述...">
+        <input id="search-input" type="search" placeholder="搜索资源名称或描述..." autocomplete="off">
       </div>
     </div>
 
-    <!-- 资源列表（空） -->
-    <main class="resource-list">
-      <div class="empty-state">
+    <main id="resources" class="resource-list">
+      <article class="resource-card" data-search="nameplate 点名网页 v27.6 html 课堂">
+        <div class="resource-meta">
+          <span class="resource-tag">Nameplate · HTML</span>
+          <h2 class="resource-title">点名网页 v27.6</h2>
+          <p class="resource-desc">最新版课堂点名单页（HTML）。从晚到早排序中的最新资源。</p>
+        </div>
+        <div class="resource-actions">
+          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.6/v27.6.html" download>下载</a>
+        </div>
+      </article>
+
+      <article class="resource-card" data-search="nameplate 点名网页 v27.5 html 课堂">
+        <div class="resource-meta">
+          <span class="resource-tag">Nameplate · HTML</span>
+          <h2 class="resource-title">点名网页 v27.5</h2>
+          <p class="resource-desc">上一版课堂点名单页（HTML）。</p>
+        </div>
+        <div class="resource-actions">
+          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/HTML/v27.5.html" download>下载</a>
+        </div>
+      </article>
+
+      <article class="resource-card" data-search="nameplate 源码 sourcecode zip html class">
+        <div class="resource-meta">
+          <span class="resource-tag">Nameplate · ZIP</span>
+          <h2 class="resource-title">Nameplate 源码包</h2>
+          <p class="resource-desc">课堂点名相关源码压缩包（sourcecode.html.zip）。</p>
+        </div>
+        <div class="resource-actions">
+          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/Class/sourcecode.html.zip" download>下载</a>
+        </div>
+      </article>
+
+      <div id="empty-state" class="empty-state">
         <div class="empty-state-icon">◌</div>
-        <div class="empty-state-text">这里还没有资源</div>
-        <div class="empty-state-sub">很快就会有新的内容出现</div>
+        <div class="empty-state-text">没有匹配的资源</div>
+        <div class="empty-state-sub">试试别的关键词</div>
       </div>
     </main>
 
-    <!-- 分页 -->
     <div class="pagination">
-      <a href="#" class="active">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">4</a>
-      <a href="#">→</a>
+      <a href="https://kevinyuzekai.github.io/kevinweb/" class="active">1</a>
     </div>
 
-    <!-- 底部 -->
     <footer class="site-footer">
       <div class="footer-copy">
         © 2025 KevinWeb · 仅供学习交流
       </div>
       <div class="footer-links">
-        <a href="#">RSS</a>
-        <a href="#">GitHub</a>
-        <a href="#">免责声明</a>
-        <a href="#">联系</a>
+        <a href="https://kevinyuzekai.github.io/kevinweb/">首页</a>
+        <a href="https://github.com/kevinyuzekai/kevinweb">GitHub</a>
+        <a href="https://kevinyuzekai.github.io/kevinweb/About_me.html">关于</a>
+        <a href="https://github.com/kevinyuzekai/kevinweb/issues">联系</a>
       </div>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var input = document.getElementById('search-input');
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.resource-card'));
+      var empty = document.getElementById('empty-state');
+
+      function filter() {
+        var q = (input.value || '').trim().toLowerCase();
+        var visible = 0;
+        cards.forEach(function (card) {
+          var hay = (card.getAttribute('data-search') || '') + ' ' + card.textContent;
+          var show = !q || hay.toLowerCase().indexOf(q) !== -1;
+          card.classList.toggle('hidden', !show);
+          if (show) visible += 1;
+        });
+        empty.classList.toggle('visible', visible === 0);
+      }
+
+      input.addEventListener('input', filter);
+    })();
+  </script>
 </body>
 </html>
