@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel 转名单 txt · KevinWeb</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#f6f7f9;color:#1a1a1a;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.6;padding:2rem 1.5rem;-webkit-font-smoothing:antialiased}
+    .container{max-width:860px;margin:0 auto}
+    .site-header{margin-bottom:2rem;display:flex;flex-direction:column;gap:.75rem}
+    .site-title{font-size:1.9rem;font-weight:600;letter-spacing:-.02em;color:#111;text-decoration:none;width:fit-content}
+    .home-jump{display:inline-flex;align-items:center;gap:.35rem;width:fit-content;font-size:.9rem;font-weight:500;color:#3d3d3d;text-decoration:none;padding:.35rem .7rem;border-radius:999px;border:1px solid #ececec;background:#fff}
+    .home-jump:hover{color:#000;border-color:#d0d0d0;background:#f7f7f7}
+    .site-description{font-size:1rem;color:#6b6b6b;max-width:90%}
+    .nav{display:flex;flex-wrap:wrap;gap:1.75rem;margin:1rem 0 .25rem;font-size:.95rem;font-weight:500}
+    .nav a{color:#3d3d3d;text-decoration:none}
+    .nav a:hover,.nav a.current{color:#000;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
+    .card{background:#fff;border:1px solid #ececec;border-radius:24px;padding:1.75rem 1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.02);display:flex;flex-direction:column;gap:1.1rem}
+    h1{font-size:1.35rem;font-weight:600}
+    .hint{font-size:.92rem;color:#6b6b6b}
+    .drop{border:1.5px dashed #d0d0d0;border-radius:16px;padding:1.5rem;text-align:center;background:#fafafa;cursor:pointer;transition:border-color .15s,background .15s}
+    .drop:hover,.drop.drag{border-color:#1a1a1a;background:#f3f3f3}
+    .drop input{display:none}
+    .row{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+    label.field{display:flex;flex-direction:column;gap:.35rem;font-size:.85rem;font-weight:500;color:#5a5a5a;min-width:140px}
+    select,input[type=number]{border:1px solid #e0e0e0;border-radius:10px;padding:.45rem .6rem;font:inherit;background:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.55rem 1rem;border-radius:12px;background:#1a1a1a;color:#fff;font-size:.875rem;font-weight:500;border:none;cursor:pointer;text-decoration:none}
+    .btn:disabled{opacity:.4;cursor:not-allowed}
+    .btn.secondary{background:#fff;color:#1a1a1a;border:1px solid #e0e0e0}
+    textarea{width:100%;min-height:280px;border:1px solid #e0e0e0;border-radius:14px;padding:.85rem 1rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;resize:vertical}
+    .status{font-size:.9rem;color:#5a5a5a}
+    .status.err{color:#b42318}
+    .site-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e0e0e0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.85rem;color:#6f6f6f}
+    .footer-links{display:flex;gap:1.5rem}
+    .footer-links a{color:#5a5a5a;text-decoration:none}
+    .footer-links a:hover{color:#000;text-decoration:underline;text-underline-offset:3px}
+    @media (prefers-color-scheme:dark){
+      body{background:#0f0f0f;color:#e0e0e0}
+      .site-title{color:#f0f0f0}
+      .home-jump{color:#b0b0b0;border-color:#2e2e2e;background:#1a1a1a}
+      .site-description,.hint,.status{color:#9a9a9a}
+      .nav a{color:#b0b0b0}
+      .nav a:hover,.nav a.current{color:#fff}
+      .card{background:#1a1a1a;border-color:#2e2e2e}
+      .drop{background:#151515;border-color:#2e2e2e}
+      .drop:hover,.drop.drag{background:#222;border-color:#aaa}
+      select,input[type=number],textarea{background:#111;border-color:#2e2e2e;color:#e0e0e0}
+      .btn{background:#f0f0f0;color:#1a1a1a}
+      .btn.secondary{background:#1a1a1a;color:#e0e0e0;border-color:#2e2e2e}
+      .site-footer{border-top-color:#2a2a2a;color:#8a8a8a}
+      .footer-links a{color:#9a9a9a}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="./" class="site-title">KevinWeb</a>
+      <a class="home-jump" href="./">← 首页</a>
+      <p class="site-description">收集、整理、分享值得下载的好东西。这是 spacekk.com 的子网站，所有资源都是手搓的。</p>
+      <nav class="nav">
+        <a href="./">首页</a>
+        <a href="./All_resources.html">全部资源</a>
+        <a href="./excel_to_roster.html" class="current">Excel 转 txt</a>
+        <a href="./About_me.html">关于</a>
+      </nav>
+    </header>
+
+    <main class="card">
+      <h1>Excel / CSV → 名单 txt</h1>
+      <p class="hint">把班级 Excel 转成「随机点名工具」可上传的 <code>roster.txt</code>：每行一个姓名；也可 <code>姓名,性别,身份证号</code>。转换在你浏览器本地完成，文件不会上传到服务器。</p>
+
+      <div class="drop" id="drop">
+        <p>点击或拖拽上传 <b>.xlsx / .xls / .csv</b></p>
+        <p class="hint" style="margin-top:.4rem">建议第一行是表头</p>
+        <input id="file" type="file" accept=".xlsx,.xls,.csv,.tsv,text/csv">
+      </div>
+
+      <div class="row">
+        <label class="field">姓名列
+          <select id="col-name"></select>
+        </label>
+        <label class="field">性别列（可选）
+          <select id="col-gender"><option value="-1">（无）</option></select>
+        </label>
+        <label class="field">身份证列（可选）
+          <select id="col-id"><option value="-1">（无）</option></select>
+        </label>
+        <label class="field">跳过前 N 行
+          <input id="skip" type="number" min="0" value="0">
+        </label>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="btn-convert" disabled>生成 txt 预览</button>
+        <button class="btn secondary" id="btn-download" disabled>下载 roster.txt</button>
+        <span class="status" id="status"></span>
+      </div>
+
+      <textarea id="out" placeholder="# 转换结果会显示在这里…" spellcheck="false"></textarea>
+    </main>
+
+    <footer class="site-footer">
+      <div>© 2025 KevinWeb · 仅供学习交流</div>
+      <div class="footer-links">
+        <a href="./">首页</a>
+        <a href="https://github.com/kevinyuzekai/kevinweb">GitHub</a>
+        <a href="./About_me.html">关于</a>
+      </div>
+    </footer>
+  </div>
+  <script>
+  (function(){
+    var drop=document.getElementById('drop');
+    var fileInput=document.getElementById('file');
+    var colName=document.getElementById('col-name');
+    var colGender=document.getElementById('col-gender');
+    var colId=document.getElementById('col-id');
+    var skipInput=document.getElementById('skip');
+    var btnConvert=document.getElementById('btn-convert');
+    var btnDownload=document.getElementById('btn-download');
+    var statusEl=document.getElementById('status');
+    var out=document.getElementById('out');
+    var sheetRows=null;
+    var headers=[];
+
+    function setStatus(msg, isErr){
+      statusEl.textContent=msg||'';
+      statusEl.className='status'+(isErr?' err':'');
+    }
+    function fillSelects(hdrs){
+      headers=hdrs||[];
+      function fill(sel, optional){
+        var keep=sel.value;
+        sel.innerHTML='';
+        if(optional){ var o=document.createElement('option'); o.value='-1'; o.textContent='（无）'; sel.appendChild(o); }
+        headers.forEach(function(h,i){
+          var o=document.createElement('option'); o.value=String(i); o.textContent=(h||('列 '+(i+1))); sel.appendChild(o);
+        });
+        // heuristics
+        if(optional){ sel.value='-1'; }
+        var nameIdx=0, gIdx=-1, idIdx=-1;
+        headers.forEach(function(h,i){
+          var t=String(h||'').toLowerCase();
+          if(/姓名|名字|学生|name/.test(t)) nameIdx=i;
+          if(/性别|gender|sex/.test(t)) gIdx=i;
+          if(/身份证|证件|idcard|id_card/.test(t)) idIdx=i;
+        });
+        if(sel===colName) sel.value=String(nameIdx);
+        if(sel===colGender && gIdx>=0) sel.value=String(gIdx);
+        if(sel===colId && idIdx>=0) sel.value=String(idIdx);
+      }
+      fill(colName,false); fill(colGender,true); fill(colId,true);
+    }
+    function parseFile(file){
+      if(!file) return;
+      setStatus('读取中…');
+      var reader=new FileReader();
+      reader.onload=function(e){
+        try{
+          var data=new Uint8Array(e.target.result);
+          var wb=XLSX.read(data,{type:'array'});
+          var sheet=wb.Sheets[wb.SheetNames[0]];
+          var rows=XLSX.utils.sheet_to_json(sheet,{header:1,defval:''});
+          if(!rows.length){ setStatus('表格为空',true); return; }
+          sheetRows=rows;
+          var hdr=rows[0].map(function(c){return String(c==null?'':c).trim();});
+          fillSelects(hdr);
+          btnConvert.disabled=false;
+          setStatus('已加载「'+file.name+'」· '+rows.length+' 行，请确认列映射后生成');
+        }catch(err){ setStatus('解析失败：'+err.message,true); }
+      };
+      reader.onerror=function(){ setStatus('读取文件失败',true); };
+      reader.readAsArrayBuffer(file);
+    }
+    drop.addEventListener('click',function(){ fileInput.click(); });
+    fileInput.addEventListener('change',function(){ if(fileInput.files[0]) parseFile(fileInput.files[0]); });
+    drop.addEventListener('dragover',function(e){ e.preventDefault(); drop.classList.add('drag'); });
+    drop.addEventListener('dragleave',function(){ drop.classList.remove('drag'); });
+    drop.addEventListener('drop',function(e){ e.preventDefault(); drop.classList.remove('drag'); if(e.dataTransfer.files[0]) parseFile(e.dataTransfer.files[0]); });
+
+    function buildTxt(){
+      if(!sheetRows||!sheetRows.length) return '';
+      var ni=+colName.value, gi=+colGender.value, ii=+colId.value;
+      var skip=+skipInput.value||0;
+      var start=1+skip; // assume row0 header; skip extra after header
+      if(skip>0) start=skip; // if user sets skip, treat as absolute rows to skip from top
+      // Better: always treat first row as header unless skip says otherwise
+      start = Math.max(1, skip+1);
+      var lines=['# 随机点名工具 · 学生名单','# 每行一个姓名；也可写：姓名,性别,身份证号',''];
+      var count=0;
+      for(var r=start;r<sheetRows.length;r++){
+        var row=sheetRows[r]||[];
+        var name=String(row[ni]==null?'':row[ni]).trim();
+        if(!name) continue;
+        var gender=gi>=0?String(row[gi]==null?'':row[gi]).trim():'';
+        var idc=ii>=0?String(row[ii]==null?'':row[ii]).trim():'';
+        if(gender||idc) lines.push([name,gender,idc].join(','));
+        else lines.push(name);
+        count++;
+      }
+      setStatus('已生成 '+count+' 人');
+      btnDownload.disabled=count===0;
+      return lines.join('\n')+'\n';
+    }
+    btnConvert.addEventListener('click',function(){ out.value=buildTxt(); });
+    btnDownload.addEventListener('click',function(){
+      var text=out.value||buildTxt();
+      out.value=text;
+      var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='roster.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+  })();
+  </script>
+</body>
+</html>
