@@ -2,9 +2,9 @@
 (function(){
 var D={
 "下载 Mac DMG":"Download Mac DMG",
-"LiteBrowser · Windows / macOS":"LiteBrowser · Windows / macOS",
-"LiteBrowser 轻量浏览器 v0.1.0（Windows / Mac · 免费）":"LiteBrowser v0.1.0 (Windows / Mac · Free)",
-"超轻量的网页浏览器，安装包约 1.3 MB，基于系统自带的 WebView2。无需登录，地址栏可输入网址或直接搜索，支持多标签页、新窗口和本地历史记录（可搜索、删除、清空，只保存在本机）。Mac 版为通用 DMG（约 3.4 MB，Intel / Apple 芯片通用），首次打开请右键 →「打开」。未签名时 SmartScreen 可能提示。":"A super lightweight web browser: about 1.3 MB to install, built on the WebView2 that ships with Windows. No sign-in needed; type a URL or a search into the address bar. Supports tabs, new windows and local history (search, delete, clear; stored only on your PC). The Mac version is a universal DMG (about 3.4 MB, Intel and Apple silicon); right-click → Open the first time. Unsigned, so SmartScreen may warn.",
+"Plume · Windows / macOS":"Plume · Windows / macOS",
+"Plume 羽览 v0.1.0（Windows / Mac · 免费）":"Plume v0.1.0 (Windows / Mac · Free)",
+"超轻量的网页浏览器，安装包约 1.3 MB，基于系统自带的 WebView2。无需登录，地址栏可输入网址或直接搜索，支持多标签页、新窗口和本地历史记录（可搜索、删除、清空，只保存在本机）。Mac 版为通用 DMG（约 5.0 MB，Intel / Apple 芯片通用），首次打开请右键 →「打开」。未签名时 SmartScreen 可能提示。":"A super lightweight web browser: about 1.3 MB to install, built on the WebView2 that ships with Windows. No sign-in needed; type a URL or a search into the address bar. Supports tabs, new windows and local history (search, delete, clear; stored only on your PC). The Mac version is a universal DMG (about 5.0 MB, Intel and Apple silicon); right-click → Open the first time. Unsigned, so SmartScreen may warn.",
 "KevinWeb · 下载与分享":"KevinWeb · Downloads & Sharing",
 "← 首页":"← Home",
 "收集、整理、分享值得下载的好东西。这是 spacekk.com 的子网站，所有资源都是手搓的。":"Collecting, organizing and sharing things worth downloading. This is a sub-site of spacekk.com, and everything here is handmade.",
