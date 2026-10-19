@@ -85,25 +85,25 @@ var R=[[/^已加载「(.*)」· (\d+) 行，请确认列映射后生成$/,"Loade
 var K='kevinweb.lang',L;
 try{L=localStorage.getItem(K)}catch(e){}
 if(L!=='zh'&&L!=='en')L=/^zh/i.test(navigator.language||'')?'zh':'en';
-var orig=new WeakMap(),attrs=['placeholder','title','alt','aria-label'],busy=false;
+var orig=new WeakMap(),attrs=['placeholder','title','alt','aria-label'],busy=false,obs=null;
 function tr(s){var t=s.trim();if(!t)return null;var n=t.replace(/\s+/g,' ');
  if(D[n]!=null)return s.replace(t,D[n]);
  for(var i=0;i<R.length;i++)if(R[i][0].test(n))return s.replace(t,n.replace(R[i][0],R[i][1]));return null}
 function node(n){
  if(n.nodeType===3){var p=n.parentNode;if(!p||/^(SCRIPT|STYLE)$/.test(p.nodeName))return;
   var o=orig.get(n);if(o==null||(n.nodeValue!==o.en)){o={zh:n.nodeValue,en:tr(n.nodeValue)};orig.set(n,o)}
-  if(o.en!=null)n.nodeValue=L==='en'?o.en:o.zh;return}
+  if(o.en!=null){var v=L==='en'?o.en:o.zh;if(n.nodeValue!==v)n.nodeValue=v}return}
  if(n.nodeType!==1||/^(SCRIPT|STYLE)$/.test(n.nodeName))return;
  attrs.forEach(function(a){if(!n.hasAttribute(a))return;var k='data-kw-'+a;
   if(!n.hasAttribute(k))n.setAttribute(k,n.getAttribute(a));var z=n.getAttribute(k),e=tr(z);
-  if(e!=null)n.setAttribute(a,L==='en'?e:z)});
+  if(e!=null){var v=L==='en'?e:z;if(n.getAttribute(a)!==v)n.setAttribute(a,v)}});
  for(var c=n.firstChild;c;c=c.nextSibling)node(c)}
 function apply(){busy=true;node(document.body);
  if(!document.documentElement.hasAttribute('data-kw-title'))document.documentElement.setAttribute('data-kw-title',document.title);
  var zt=document.documentElement.getAttribute('data-kw-title');document.title=L==='en'?(tr(zt)||zt):zt;
  document.documentElement.lang=L==='en'?'en':'zh-CN';
  document.querySelectorAll('ms-store-badge').forEach(function(b){b.setAttribute('language',L==='en'?'en-us':'zh-cn')});
- document.querySelectorAll('.kw-lang button').forEach(function(b){b.classList.toggle('on',b.dataset.l===L)});busy=false}
+ document.querySelectorAll('.kw-lang button').forEach(function(b){b.classList.toggle('on',b.dataset.l===L)});if(obs)obs.takeRecords();busy=false}
 function set(l){L=l;try{localStorage.setItem(K,l)}catch(e){}apply()}
 window.kwSetLang=set;
 function init(){var nav=document.querySelector('.site-header .nav')||document.querySelector('.site-header')||document.body;
@@ -112,7 +112,8 @@ function init(){var nav=document.querySelector('.site-header .nav')||document.qu
  w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.dataset.l)});nav.appendChild(w);
  var st=document.createElement('style');st.textContent='.kw-lang{display:inline-flex;align-items:center;gap:2px;margin-left:.6rem;padding:2px 4px;border:1.5px solid #0066cc;border-radius:999px;background:#fff;font-size:.85rem;line-height:1;white-space:nowrap;flex-shrink:0}.kw-lang span{color:#0066cc}.kw-lang button{border:0;background:none;color:#0066cc;font:inherit;font-weight:600;padding:4px 8px;border-radius:999px;cursor:pointer}.kw-lang button.on{background:#0066cc;color:#fff}.resource-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.resource-actions>*{margin-left:0!important}ms-store-badge{max-width:100%;overflow:hidden}';
  document.head.appendChild(st);apply();
- new MutationObserver(function(m){if(busy||L!=='en')return;busy=true;m.forEach(function(r){r.addedNodes.forEach(node);if(r.type==='characterData')node(r.target)});busy=false})
-  .observe(document.body,{childList:true,subtree:true,characterData:true})}
+ var cfg={childList:true,subtree:true,characterData:true};
+ obs=new MutationObserver(function(m){if(busy||L!=='en')return;busy=true;obs.disconnect();m.forEach(function(r){r.addedNodes.forEach(node);if(r.type==='characterData')node(r.target)});obs.takeRecords();obs.observe(document.body,cfg);busy=false});
+ obs.observe(document.body,cfg)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
