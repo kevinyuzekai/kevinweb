@@ -59,7 +59,7 @@ var D={
 "© 2025 KevinWeb · 仅供学习交流":"© 2025 KevinWeb · For learning and sharing only",
 "联系":"Contact",
 "关于 · KevinWeb":"About · KevinWeb",
-"Hi，我是 Kevin/一架 Cathay Pacific 的 A350。":"Hi, I'm Kevin / a Cathay Pacific A350.",
+"Hi，我是 Kevin/Kevin Yuᥫᩣ༠°ఌ。":"Hi, I'm Kevin / Kevin Yuᥫᩣ༠°ఌ.",
 "一个初中生，一个在作业和兴趣之间反复横跳的人。":"A middle school student who keeps bouncing between homework and hobbies.",
 "我建这个博客，不是因为我很厉害，恰恰相反——是因为我有很多不懂的东西，想找个地方把它们写下来、理清楚。这里会有：":"I didn't build this blog because I'm good at things. Quite the opposite: there's a lot I don't understand, and I wanted a place to write it down and sort it out. Here you'll find:",
 "我和朋友一起开发的程序":"Programs my friends and I built",
