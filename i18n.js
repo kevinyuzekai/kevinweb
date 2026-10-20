@@ -4,7 +4,7 @@ var D={
 "下载 Mac DMG":"Download Mac DMG",
 "微软商店下载":"Get it from Microsoft Store",
 "Plume · Windows / macOS":"Plume · Windows / macOS",
-"Plume Browser v0.1.1（Windows / Mac · 免费）":"Plume Browser v0.1.1 (Windows / Mac · Free)",
+"Plume Browser v0.1.2（Windows / Mac · 免费）":"Plume Browser v0.1.2 (Windows / Mac · Free)",
 "超轻量的网页浏览器，安装包约 1.4 MB，基于系统自带的 WebView2。无需登录，地址栏可输入网址或直接搜索，支持多标签页、新窗口和本地历史记录（可搜索、删除、清空，只保存在本机）。Mac 版为通用 DMG（约 5.2 MB，Intel / Apple 芯片通用），首次打开请右键 →「打开」。未签名时 SmartScreen 可能提示。":"A super lightweight web browser: about 1.4 MB to install, built on the WebView2 that ships with Windows. No sign-in needed; type a URL or a search into the address bar. Supports tabs, new windows and local history (search, delete, clear; stored only on your PC). The Mac version is a universal DMG (about 5.2 MB, Intel and Apple silicon); right-click → Open the first time. Unsigned, so SmartScreen may warn.",
 "KevinWeb · 下载与分享":"KevinWeb · Downloads & Sharing",
 "← 首页":"← Home",
