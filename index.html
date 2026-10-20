@@ -86,6 +86,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      align-items: center;
       gap: 0.75rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--line);
@@ -193,9 +194,11 @@
       color: var(--fg);
     }
 
-    /* 隐藏 i18n.js 自动注入到页头的语言开关，页脚另有开关 */
-    .site-header .kw-lang {
-      display: none !important;
+    /* i18n.js 把语言开关注入到 .site-header .nav（与其他页面一致） */
+    .hero-meta .nav {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
     }
 
     /* ---------------- Sections ---------------- */
@@ -452,7 +455,7 @@
       color: var(--fg);
     }
 
-    .site-footer .kw-lang {
+    .site-header .kw-lang {
       display: inline-flex;
       align-items: center;
       gap: 0;
@@ -465,11 +468,11 @@
       line-height: 1;
     }
 
-    .site-footer .kw-lang span {
+    .site-header .kw-lang span {
       color: var(--line);
     }
 
-    .site-footer .kw-lang button {
+    .site-header .kw-lang button {
       min-width: 48px;
       min-height: 44px;
       padding: 0.35rem 0.75rem;
@@ -484,11 +487,11 @@
       transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    .site-footer .kw-lang button:hover {
+    .site-header .kw-lang button:hover {
       color: var(--fg);
     }
 
-    .site-footer .kw-lang button.on {
+    .site-header .kw-lang button.on {
       background: var(--accent);
       color: #fff;
     }
@@ -609,6 +612,7 @@
       <div class="hero-meta">
         <span>Portfolio / 2026</span>
         <span>Kevin Yu</span>
+        <nav class="nav" aria-label="Language"></nav>
       </div>
 
       <h1 class="wordmark"><span id="wordmark-inner">KEVINWEB</span></h1>
@@ -758,10 +762,6 @@
         <a href="https://spacekk.com" target="_blank" rel="noopener">spacekk.com</a>
         <a href="./About_me.html">关于</a>
         <a href="https://github.com/kevinyuzekai/kevinweb/issues" target="_blank" rel="noopener">联系</a>
-        <div class="kw-lang" role="group" aria-label="Language">
-          <button type="button" data-l="zh">中文</button>
-          <button type="button" data-l="en">EN</button>
-        </div>
       </div>
     </div>
   </footer>
@@ -793,15 +793,6 @@
       if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(fitWordmark);
       }
-
-      /* 页脚语言开关，沿用 i18n.js 的 kwSetLang */
-      document.querySelectorAll('.site-footer .kw-lang button').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          if (typeof window.kwSetLang === 'function') {
-            window.kwSetLang(btn.getAttribute('data-l'));
-          }
-        });
-      });
 
       /* 宣言逐字/逐词出现 */
       var manifesto = document.getElementById('manifesto');
