@@ -257,6 +257,12 @@
       flex-shrink: 0;
     }
 
+
+    .work-row.has-shot { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 0.8fr); }
+    .work-shot { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--line); border-radius: 6px; display: block; }
+    .work-head { display: flex; align-items: center; gap: 0.75rem; }
+    .work-icon { width: 44px; height: 44px; border-radius: 10px; flex: none; }
+
     .work-title {
       margin: 0.55rem 0 0.65rem;
       font-family: var(--sans);
@@ -552,7 +558,8 @@
         gap: 1.75rem;
       }
 
-      .work-row {
+      .work-row,
+      .work-row.has-shot {
         grid-template-columns: 1fr;
       }
 
@@ -647,10 +654,11 @@
           <span class="label">04</span>
         </div>
 
-        <article class="work-row">
+        <article class="work-row has-shot">
+          <img class="work-shot" src="img/plume-shot.webp" width="960" height="540" alt="Plume Browser 截图" loading="lazy" decoding="async">
           <div class="work-main">
             <span class="work-tag">Windows / macOS</span>
-            <h3 class="work-title">Plume Browser</h3>
+            <div class="work-head"><img class="work-icon" src="img/plume-icon.webp" width="44" height="44" alt="" loading="lazy" decoding="async"><h3 class="work-title">Plume Browser</h3></div>
             <p class="work-desc">超轻量的网页浏览器，用系统自带的网页内核，不用登录。</p>
           </div>
           <div class="work-links">
@@ -659,10 +667,11 @@
           </div>
         </article>
 
-        <article class="work-row">
+        <article class="work-row has-shot">
+          <img class="work-shot" src="img/skyroute-shot.webp" width="960" height="540" alt="天际航线 SkyRoute 主菜单截图" loading="lazy" decoding="async">
           <div class="work-main">
             <span class="work-tag">Windows / Web / Microsoft Store</span>
-            <h3 class="work-title">天际航线 SkyRoute</h3>
+            <div class="work-head"><img class="work-icon" src="img/skyroute-icon.webp" width="44" height="44" alt="" loading="lazy" decoding="async"><h3 class="work-title">天际航线 SkyRoute</h3></div>
             <p class="work-desc">免费民航客机飞行模拟器，含完整冷舱启动与可点击三维驾驶舱。</p>
           </div>
           <div class="work-links">
@@ -683,7 +692,7 @@
         <article class="work-row">
           <div class="work-main">
             <span class="work-tag">Windows / macOS / Web</span>
-            <h3 class="work-title">点名·分组工具</h3>
+            <div class="work-head"><img class="work-icon" src="img/nameplate-icon.webp" width="44" height="44" alt="" loading="lazy" decoding="async"><h3 class="work-title">点名·分组工具</h3></div>
             <p class="work-desc">课堂点名、分组与小组赛工具，数据只保存在本机。</p>
           </div>
           <div class="work-links">
@@ -695,7 +704,7 @@
         <article class="work-row">
           <div class="work-main">
             <span class="work-tag">macOS</span>
-            <h3 class="work-title">LinkPool</h3>
+            <div class="work-head"><img class="work-icon" src="img/linkpool-icon.svg" width="44" height="44" alt="" loading="lazy" decoding="async"><h3 class="work-title">LinkPool</h3></div>
             <p class="work-desc">网卡聚合助手，把多条网络的带宽叠在一起。</p>
           </div>
           <div class="work-links">

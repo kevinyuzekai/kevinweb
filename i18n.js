@@ -93,6 +93,7 @@ var D={
 "课堂点名、分组与小组赛工具，数据只保存在本机。":"A classroom roll-call, grouping and group-contest tool. Data stays on your machine.",
 "网卡聚合助手，把多条网络的带宽叠在一起。":"A network bonding helper that adds up the bandwidth of multiple connections.",
 "点名·分组工具":"Roll Call & Grouping Tool",
+"Plume Browser 截图":"Plume Browser screenshot","天际航线 SkyRoute 主菜单截图":"SkyRoute main menu screenshot",
 "下载最新版":"Download latest","全部版本":"All versions",
 "下载资源":"Downloads","小工具":"Small tools","关于我":"About me",
 "好用的东西不必喧哗。它安静地待在那里，在你需要的时候，刚好顺手。":"Good tools don't need to shout. They wait quietly, and feel right exactly when you need them."
