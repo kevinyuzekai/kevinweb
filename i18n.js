@@ -83,7 +83,19 @@ var D={
 "生成 txt 预览":"Generate txt preview","下载 roster.txt":"Download roster.txt",
 "# 转换结果会显示在这里…":"# The result will appear here…",
 "姓名,性别,身份证号":"name,gender,ID number",
-"读取中…":"Reading…","表格为空":"The sheet is empty","读取文件失败":"Failed to read the file"
+"读取中…":"Reading…","表格为空":"The sheet is empty","读取文件失败":"Failed to read the file",
+"好用的东西，值得被认真做出来。":"Good things deserve to be made properly.",
+"我是 Kevin，一名初中生。这里放我做的软件、小工具和一些实验，全部免费，全部手搓。":"I'm Kevin, a middle school student. This is where I keep the software, small tools and experiments I make — all free, all handmade.",
+"[ 向下滚动 ]":"[ Scroll down ]",
+"作品":"Selected work","索引":"Index","宣言":"Manifesto",
+"超轻量的网页浏览器，基于系统 WebView2，不用登录。":"An ultra-light browser built on the system WebView2. No sign-in.",
+"免费民航客机飞行模拟器，含完整冷舱启动与可点击三维驾驶舱。":"A free airliner flight simulator with a full cold-and-dark start and clickable 3D cockpits.",
+"课堂点名、分组与小组赛工具，数据只保存在本机。":"A classroom roll-call, grouping and group-contest tool. Data stays on your machine.",
+"网卡聚合助手，把多条网络的带宽叠在一起。":"A network bonding helper that adds up the bandwidth of multiple connections.",
+"点名·分组工具":"Roll Call & Grouping Tool",
+"下载最新版":"Download latest","全部版本":"All versions",
+"下载资源":"Downloads","小工具":"Small tools","关于我":"About me",
+"好用的东西不必喧哗。它安静地待在那里，在你需要的时候，刚好顺手。":"Good tools don't need to shout. They wait quietly, and feel right exactly when you need them."
 };
 var R=[[/^已加载「(.*)」· (\d+) 行，请确认列映射后生成$/,"Loaded \"$1\" · $2 rows. Check the column mapping, then generate."],
 [/^解析失败：(.*)$/,"Parse failed: $1"],[/^已生成 (\d+) 人$/,"Generated $1 names"],[/^列 (\d+)$/,"Column $1"]];

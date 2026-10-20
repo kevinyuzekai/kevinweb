@@ -3,781 +3,876 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#141414">
   <title>KevinWeb · 下载与分享</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    * {
+    :root {
+      --bg: #141414;
+      --fg: #f2f2f2;
+      --muted: #c6c6c6;
+      --accent: #5f5136;
+      --line: rgba(242, 242, 242, 0.14);
+      --line-soft: rgba(242, 242, 242, 0.08);
+      --pad: clamp(1rem, 4vw, 3.5rem);
+      --sans: "Futura", "Avenir Next", "Century Gothic", "Helvetica Neue", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+      --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", "PingFang SC", "Noto Sans SC", monospace;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+      color-scheme: dark;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
-      background-color: #f6f7f9;
-      color: #1a1a1a;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      line-height: 1.7;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      padding: 2rem 1.5rem;
     }
 
-    .container {
-      max-width: 860px;
-      margin: 0 auto;
+    ::selection {
+      background: var(--accent);
+      color: #fff;
     }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img,
+    svg,
+    ms-store-badge {
+      max-width: 100%;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ---------------- Hero ---------------- */
 
     .site-header {
-      margin-bottom: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+      padding-top: clamp(1.25rem, 3vw, 2.5rem);
     }
 
-    .site-title {
-      font-size: 1.9rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: #111;
-      text-decoration: none;
-      display: inline-block;
-      width: fit-content;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.2s ease;
-    }
-
-    .site-title:hover {
-      border-bottom-color: #d0d0d0;
-    }
-
-
-    .home-jump {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      margin-top: 0.35rem;
-      width: fit-content;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #3d3d3d;
-      text-decoration: none;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid #ececec;
-      background: #fff;
-      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-    }
-    .home-jump:hover {
-      color: #000;
-      border-color: #d0d0d0;
-      background: #f7f7f7;
-    }
-
-    .site-description {
-      font-size: 1rem;
-      color: #6b6b6b;
-      max-width: 90%;
-    }
-
-    .nav {
+    .hero-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.75rem;
-      margin: 1rem 0 0.25rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-
-    .nav a {
-      color: #3d3d3d;
-      text-decoration: none;
-      transition: color 0.15s ease;
-    }
-
-    .nav a:hover {
-      color: #000;
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      text-decoration-thickness: 1.5px;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
       justify-content: space-between;
-      margin: 2rem 0 2rem;
-      padding: 1rem 1.25rem;
-      background-color: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-      border: 1px solid #ececec;
+      gap: 0.75rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
-    .search-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex: 1;
-      min-width: 200px;
+    .wordmark {
+      margin: clamp(1.25rem, 3vw, 2.5rem) 0 0;
+      font-family: var(--sans);
+      font-size: 18.2vw;
+      font-weight: 600;
+      line-height: 0.8;
+      letter-spacing: -0.055em;
+      white-space: nowrap;
+      color: var(--fg);
     }
 
-    .search-wrapper svg {
-      width: 1.1rem;
-      height: 1.1rem;
-      stroke: #9a9a9a;
-      stroke-width: 2;
-      fill: none;
-      transition: stroke 0.2s ease;
+    .wordmark span {
+      display: inline-block;
     }
 
-    .search-wrapper input {
-      border: none;
-      outline: none;
-      font-size: 0.95rem;
-      font-family: inherit;
-      background: transparent;
-      width: 100%;
-      color: #1a1a1a;
-      padding: 0.4rem 0;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      gap: clamp(2rem, 6vw, 6rem);
+      align-items: start;
+      margin-top: clamp(1.75rem, 4vw, 3rem);
+      padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(2.5rem, 6vw, 5rem);
+      border-top: 1px solid var(--line);
     }
 
-    .search-wrapper input::placeholder {
-      color: #b0b0b0;
-      font-weight: 400;
+    .hero-slogan {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 4.6vw, 4.4rem);
+      font-weight: 500;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      max-width: 15em;
     }
 
-    .search-wrapper:focus-within svg {
-      stroke: #1a1a1a;
-    }
-
-    .resource-list {
+    .hero-aside {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-    }
-
-    .resource-card {
-      display: flex;
-      flex-wrap: wrap;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 1rem;
-      padding: 1.25rem 1.4rem;
-      background-color: #ffffff;
-      border-radius: 20px;
-      border: 1px solid #ececec;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      gap: 2.5rem;
+      min-height: 100%;
     }
 
-    .resource-card:hover {
-      border-color: #d8d8d8;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    .hero-intro {
+      font-family: var(--mono);
+      font-size: 0.875rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 36ch;
     }
 
-    .resource-card.hidden {
-      display: none;
-    }
-
-    .resource-meta {
-      flex: 1;
-      min-width: 220px;
-    }
-
-    .resource-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #5a5a5a;
-      background: #f0f1f3;
-      border-radius: 999px;
-      padding: 0.15rem 0.55rem;
-      margin-bottom: 0.45rem;
-    }
-
-    .resource-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #111;
-      margin-bottom: 0.35rem;
-    }
-
-    .resource-desc {
-      font-size: 0.9rem;
-      color: #6b6b6b;
-    }
-
-    .resource-actions {
-      display: flex;
+    .scroll-hint {
+      display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      min-height: 44px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg);
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 0.35rem;
+      transition: color 0.2s ease, border-color 0.2s ease;
     }
 
-    .btn-download {
+    .scroll-hint:hover {
+      color: var(--muted);
+      border-bottom-color: var(--muted);
+    }
+
+    .platforms {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1.5rem;
+      padding: 1.1rem 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .platforms .dot {
+      color: var(--accent);
+    }
+
+    .platforms a {
+      transition: color 0.2s ease;
+    }
+
+    .platforms a:hover {
+      color: var(--fg);
+    }
+
+    /* 隐藏 i18n.js 自动注入到页头的语言开关，页脚另有开关 */
+    .site-header .kw-lang {
+      display: none !important;
+    }
+
+    /* ---------------- Sections ---------------- */
+
+    section {
+      padding: clamp(3rem, 7vw, 6.5rem) 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: clamp(1.75rem, 4vw, 3rem);
+    }
+
+    /* ---------------- Work list ---------------- */
+
+    .work-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: clamp(1.5rem, 4vw, 4rem);
+      align-items: start;
+      padding: clamp(1.75rem, 3.5vw, 2.75rem) 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .work-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .work-main,
+    .work-links {
+      min-width: 0;
+    }
+
+    .work-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .work-tag::before {
+      content: "";
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .work-title {
+      margin: 0.55rem 0 0.65rem;
+      font-family: var(--sans);
+      font-size: clamp(1.75rem, 3.8vw, 3.35rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .work-desc {
+      font-family: var(--mono);
+      font-size: 0.875rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 52ch;
+    }
+
+    .work-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem 1.25rem;
+    }
+
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.55rem 1rem;
-      border-radius: 12px;
-      background: #1a1a1a;
-      color: #fff;
-      font-size: 0.875rem;
+      min-height: 46px;
+      padding: 0.7rem 1.35rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
       font-weight: 500;
-      text-decoration: none;
-      transition: background-color 0.15s ease, transform 0.1s ease;
-      white-space: nowrap;
+      letter-spacing: 0.04em;
+      color: var(--fg);
+      background: transparent;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
 
-    .btn-download:hover {
-      background: #000;
+    .btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
-    .empty-state {
-      display: none;
-      flex-direction: column;
+    .btn-quiet {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 5rem 1.5rem;
-      background-color: #ffffff;
-      border-radius: 24px;
-      border: 1px dashed #e0e0e0;
-      color: #7a7a7a;
+      min-height: 44px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
     }
 
-    .empty-state.visible {
+    .btn-quiet:hover {
+      color: var(--fg);
+      border-bottom-color: var(--accent);
+    }
+
+    .work-links ms-store-badge {
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    /* ---------------- Index list ---------------- */
+
+    .index-row {
+      display: grid;
+      grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+      gap: clamp(0.75rem, 2vw, 2rem);
+      align-items: center;
+      padding: clamp(1.35rem, 3vw, 2rem) 0;
+      border-top: 1px solid var(--line);
+      transition: border-color 0.25s ease, padding-left 0.25s ease;
+    }
+
+    .index-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .index-row:hover {
+      border-top-color: var(--accent);
+      padding-left: 0.5rem;
+    }
+
+    .index-num {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .index-main {
       display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.25rem 1rem;
     }
 
-    .empty-state-icon {
-      font-size: 2.2rem;
-      margin-bottom: 0.75rem;
-      opacity: 0.35;
+    .index-name {
+      font-family: var(--sans);
+      font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
     }
 
-    .empty-state-text {
+    .index-note {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .index-arrow {
+      font-family: var(--mono);
       font-size: 1rem;
+      color: var(--muted);
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .index-row:hover .index-arrow {
+      color: var(--fg);
+      transform: translate(3px, -3px);
+    }
+
+    /* ---------------- Manifesto ---------------- */
+
+    .manifesto-text {
+      max-width: 26em;
+      font-family: var(--sans);
+      font-size: clamp(1.65rem, 4vw, 3.6rem);
       font-weight: 500;
-      color: #5a5a5a;
+      line-height: 1.28;
+      letter-spacing: -0.025em;
+      text-wrap: pretty;
     }
 
-    .empty-state-sub {
-      font-size: 0.85rem;
-      margin-top: 0.3rem;
-      color: #a0a0a0;
+    .manifesto-text .unit {
+      display: inline;
     }
 
-    .pagination {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 2.5rem;
+    .manifesto-text.reveal-ready .unit {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateY(0.35em);
+      transition:
+        opacity 0.55s ease,
+        filter 0.55s ease,
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: calc(var(--i) * 24ms);
     }
 
-    .pagination a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 2rem;
-      height: 2rem;
-      padding: 0 0.6rem;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #4a4a4a;
-      background-color: #ffffff;
-      border: 1px solid #ececec;
-      text-decoration: none;
-      transition: background-color 0.2s ease, border-color 0.2s ease;
+    .manifesto-text.reveal-ready.is-visible .unit {
+      opacity: 1;
+      filter: blur(0);
+      transform: none;
     }
 
-    .pagination a:hover {
-      background-color: #f0f0f0;
-      border-color: #dcdcdc;
-    }
-
-    .pagination a.active {
-      background-color: #1a1a1a;
-      color: #fff;
-      border-color: #1a1a1a;
-    }
+    /* ---------------- Footer ---------------- */
 
     .site-footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #e0e0e0;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      font-size: 0.85rem;
-      color: #6f6f6f;
+      gap: 1.25rem 2rem;
+      padding: 2rem 0 3rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
     .footer-links {
       display: flex;
-      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1.5rem;
     }
 
     .footer-links a {
-      color: #5a5a5a;
-      text-decoration: none;
-      transition: color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      transition: color 0.2s ease;
     }
 
     .footer-links a:hover {
-      color: #000;
-      text-decoration: underline;
-      text-underline-offset: 3px;
+      color: var(--fg);
     }
 
-    @media (max-width: 640px) {
-      body {
-        padding: 1.5rem 1rem;
+    .site-footer .kw-lang {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      margin-left: 0;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      font-size: 0.78rem;
+      line-height: 1;
+    }
+
+    .site-footer .kw-lang span {
+      color: var(--line);
+    }
+
+    .site-footer .kw-lang button {
+      min-width: 48px;
+      min-height: 44px;
+      padding: 0.35rem 0.75rem;
+      border: 0;
+      border-radius: 999px;
+      background: none;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .site-footer .kw-lang button:hover {
+      color: var(--fg);
+    }
+
+    .site-footer .kw-lang button.on {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ---------------- Entrance motion ---------------- */
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-meta,
+      .wordmark,
+      .hero-grid,
+      .platforms {
+        animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
       }
 
-      .toolbar {
-        padding: 1rem;
+      .wordmark {
+        animation-delay: 0.06s;
       }
 
-      .site-footer {
-        flex-direction: column;
-        align-items: flex-start;
+      .hero-grid {
+        animation-delay: 0.12s;
       }
 
-      .empty-state {
-        padding: 3.5rem 1rem;
+      .platforms {
+        animation-delay: 0.18s;
+      }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* ---------------- Mobile ---------------- */
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
       }
 
-      .resource-actions {
+      .hero-slogan {
+        max-width: 100%;
+      }
+
+      .hero-aside {
+        gap: 1.75rem;
+      }
+
+      .work-row {
+        grid-template-columns: 1fr;
+      }
+
+      .work-links {
+        justify-content: flex-start;
+      }
+
+      .index-row {
+        grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-intro {
+        font-size: 0.82rem;
+      }
+
+      .work-links {
         width: 100%;
       }
 
-      .btn-download {
-        width: 100%;
+      .btn {
+        flex: 1 1 auto;
+      }
+
+      .footer-links {
+        gap: 0.25rem 1.25rem;
       }
     }
 
-    @media (prefers-color-scheme: dark) {
-      .home-jump {
-        color: #b0b0b0;
-        border-color: #2e2e2e;
-        background: #1a1a1a;
-      }
-      .home-jump:hover {
-        color: #fff;
-        border-color: #3a3a3a;
-        background: #222;
+    /* ---------------- Reduced motion ---------------- */
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
       }
 
-      body {
-        background-color: #0f0f0f;
-        color: #e0e0e0;
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
       }
 
-      .site-title {
-        color: #f0f0f0;
-      }
-
-      .site-title:hover {
-        border-bottom-color: #4a4a4a;
-      }
-
-      .site-description {
-        color: #a0a0a0;
-      }
-
-      .nav a {
-        color: #b0b0b0;
-      }
-
-      .nav a:hover {
-        color: #fff;
-      }
-
-      .toolbar {
-        background-color: #1a1a1a;
-        border-color: #2e2e2e;
-      }
-
-      .search-wrapper svg {
-        stroke: #7a7a7a;
-      }
-
-      .search-wrapper input {
-        color: #e0e0e0;
-      }
-
-      .search-wrapper input::placeholder {
-        color: #6a6a6a;
-      }
-
-      .search-wrapper:focus-within svg {
-        stroke: #d0d0d0;
-      }
-
-      .resource-card {
-        background-color: #1a1a1a;
-        border-color: #2e2e2e;
-      }
-
-      .resource-card:hover {
-        border-color: #3a3a3a;
-      }
-
-      .resource-tag {
-        background: #2a2a2a;
-        color: #b0b0b0;
-      }
-
-      .resource-title {
-        color: #f0f0f0;
-      }
-
-      .resource-desc {
-        color: #9a9a9a;
-      }
-
-      .btn-download {
-        background: #f0f0f0;
-        color: #1a1a1a;
-      }
-
-      .btn-download:hover {
-        background: #fff;
-      }
-
-      .empty-state {
-        background-color: #1a1a1a;
-        border-color: #2e2e2e;
-        color: #8a8a8a;
-      }
-
-      .empty-state-text {
-        color: #a0a0a0;
-      }
-
-      .empty-state-sub {
-        color: #6a6a6a;
-      }
-
-      .pagination a {
-        background-color: #1a1a1a;
-        border-color: #2e2e2e;
-        color: #b0b0b0;
-      }
-
-      .pagination a:hover {
-        background-color: #2a2a2a;
-      }
-
-      .pagination a.active {
-        background-color: #f0f0f0;
-        color: #1a1a1a;
-        border-color: #f0f0f0;
-      }
-
-      .site-footer {
-        border-top-color: #2a2a2a;
-        color: #8a8a8a;
-      }
-
-      .footer-links a {
-        color: #9a9a9a;
-      }
-
-      .footer-links a:hover {
-        color: #fff;
+      .manifesto-text .unit,
+      .manifesto-text.reveal-ready .unit {
+        opacity: 1 !important;
+        filter: none !important;
+        transform: none !important;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="site-header">
-      <a href="./" class="site-title">KevinWeb</a>
-      <a class="home-jump" href="./">← 首页</a>
-      <p class="site-description">收集、整理、分享值得下载的好东西。这是 spacekk.com 的子网站，所有资源都是手搓的。</p>
-      <nav class="nav">
-        <a href="./" class="current">首页</a>
-        <a href="./All_resources.html">全部资源</a>
-                <a href="./excel_to_roster.html">Excel 转 txt</a>
+  <header class="site-header">
+    <div class="wrap">
+      <div class="hero-meta">
+        <span>Portfolio / 2026</span>
+        <span>Kevin Yu</span>
+      </div>
 
-        <a href="./About_me.html">关于</a>
+      <h1 class="wordmark"><span id="wordmark-inner">KEVINWEB</span></h1>
+
+      <div class="hero-grid">
+        <h2 class="hero-slogan">好用的东西，值得被认真做出来。</h2>
+        <div class="hero-aside">
+          <p class="hero-intro">我是 Kevin，一名初中生。这里放我做的软件、小工具和一些实验，全部免费，全部手搓。</p>
+          <a class="scroll-hint" href="#work">[ 向下滚动 ]</a>
+        </div>
+      </div>
+
+      <nav class="platforms" aria-label="Platforms">
+        <span>Windows</span>
+        <span class="dot">·</span>
+        <span>macOS</span>
+        <span class="dot">·</span>
+        <span>Web</span>
+        <span class="dot">·</span>
+        <span>Microsoft Store</span>
+        <span class="dot">·</span>
+        <a href="https://github.com/kevinyuzekai" target="_blank" rel="noopener">GitHub</a>
       </nav>
-    </header>
-
-    <div class="toolbar">
-      <div class="search-wrapper">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input id="search-input" type="search" placeholder="搜索资源名称或描述..." autocomplete="off">
-      </div>
     </div>
+  </header>
 
-    <main id="resources" class="resource-list">
+  <main>
+    <section id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label" id="work-title">作品</span>
+          <span class="label">04</span>
+        </div>
 
+        <article class="work-row">
+          <div class="work-main">
+            <span class="work-tag">Windows / macOS</span>
+            <h3 class="work-title">Plume Browser</h3>
+            <p class="work-desc">超轻量的网页浏览器，基于系统 WebView2，不用登录。</p>
+          </div>
+          <div class="work-links">
+            <a class="btn" href="https://github.com/kevinyuzekai/Plume/releases/download/v0.1.2/Plume.Browser_0.1.2_x64-setup.exe" download>下载最新版</a>
+            <a class="btn-quiet" href="./All_resources.html">全部版本</a>
+          </div>
+        </article>
 
-      
-      <article class="resource-card" data-search="天际航线 skyroute 飞行模拟器 flight simulator windows portable 便携版 microsoft store 商店 msix beta 0.5.2 0.5.1 0.5.0 多语言 language 音效 检查更新 0.4.2 0.4.1 0.4 客机 a330 max 777 三维驾驶舱 冷舱启动 a320ceo c919 e190 可点击 立体机场 osm 自动驾驶 摇杆 脚舵 免费">
-        <div class="resource-meta">
-          <img src="https://raw.githubusercontent.com/kevinyuzekai/Flight-Simulator/main/assets/brand/skyroute_logo_transparent.png" alt="天际航线 SkyRoute" style="height:46px;width:auto;display:block;margin-bottom:0.4rem">
-          <span class="resource-tag">天际航线 SkyRoute · Windows / 商店</span>
-          <h2 class="resource-title">天际航线 SkyRoute beta 0.5.2（Windows 便携版 · 免费）</h2>
-          <p class="resource-desc">民航客机飞行模拟器（原「飞行模拟器」），免费。beta 0.5.2：新增 7 种游戏界面语言（简体中文、English、日本語、한국어、Français、Deutsch、Español）；含 0.5.1 音效与游戏内检查更新、0.5.0 新机模（中性涂装，新增 A320ceo，C919 / E190 自制模型）；按机型重做三维驾驶舱（空客 / 波音各自的顶板与中央操纵台）；完整冷舱启动（所需开关和旋钮都可点击）；含 0.4.2 可点击座舱、0.4.1 摇杆 / 脚舵热修复与 0.4 的更多 OSM 立体机场、A330 / MAX / 777 机模与自动驾驶手感修复。无 NSIS Setup.exe，GitHub 上 Windows 仅提供便携版 zip（解压后运行「天际航线.exe」，未签名，SmartScreen 可能提示）。GitHub 与 Microsoft Store 均已提供 0.5.2。旧版（0.5.1 / 0.5.0 / 0.4.2 / 0.4.1 / 0.4 / 0.3.x）仍可在 GitHub Releases 下载。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Flight-Simulator/releases/download/beta_v0.5.2/SkyRoute-Windows-portable-beta_v0.5.2-x64.zip" download>下载便携版</a>
-          <script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>
-          <ms-store-badge
-          	productid="9p25xzzm8jxt"
-          	window-mode="full"
-          	theme="auto"
-          	size="large"
-          	language="zh-cn"
-          	animation="on"
-          	style="display:inline-block;vertical-align:middle;margin-left:0.5rem;flex-shrink:0">
-          </ms-store-badge>
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Flight-Simulator/releases/tag/beta_v0.5.2" style="margin-left:0.5rem">发布页</a>
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Flight-Simulator/releases" style="margin-left:0.5rem">历史版本</a>
-        </div>
-      </article>
+        <article class="work-row">
+          <div class="work-main">
+            <span class="work-tag">Windows / Microsoft Store</span>
+            <h3 class="work-title">天际航线 SkyRoute</h3>
+            <p class="work-desc">免费民航客机飞行模拟器，含完整冷舱启动与可点击三维驾驶舱。</p>
+          </div>
+          <div class="work-links">
+            <a class="btn" href="https://github.com/kevinyuzekai/Flight-Simulator/releases/download/beta_v0.5.2/SkyRoute-Windows-portable-beta_v0.5.2-x64.zip" download>下载最新版</a>
+            <a class="btn-quiet" href="./All_resources.html">全部版本</a>
+            <script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>
+            <ms-store-badge
+              productid="9p25xzzm8jxt"
+              window-mode="full"
+              theme="dark"
+              size="small"
+              language="zh-cn"
+              animation="on">
+            </ms-store-badge>
+          </div>
+        </article>
 
-      <article class="resource-card" data-search="天际航线 skyroute 飞行模拟器 flight simulator zip 网页版 html 浏览器 离线 beta 0.5.2 0.5.1 0.5.0 多语言 language 音效 检查更新 0.4.2 0.4.1 0.4 三维驾驶舱 冷舱启动 a320ceo c919 e190 可点击 立体机场 osm a330 max 777 摇杆 脚舵 mac 免费">
-        <div class="resource-meta">
-          <span class="resource-tag">天际航线 SkyRoute · ZIP（网页版）</span>
-          <h2 class="resource-title">天际航线 SkyRoute beta 0.5.2（网页版 ZIP · 免费）</h2>
-          <p class="resource-desc">解压后用 Chrome / Edge 打开 index.html 即可（macOS 可双击「启动游戏.command」）。beta 0.5.2：新增 7 种游戏界面语言（简体中文、English、日本語、한국어、Français、Deutsch、Español）；含 0.5.1 音效与游戏内检查更新、0.5.0 新机模（中性涂装）、按机型重做三维驾驶舱（顶板 / 中央操纵台）、完整冷舱启动；含 0.4.2 可点击座舱、0.4.1 摇杆 / 脚舵热修复与 0.4 的更多 OSM 立体机场、A330 / MAX / 777 机模、自动驾驶手感修复；离线可玩，联网时自动加载真实卫星影像与地形。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Flight-Simulator/releases/download/beta_v0.5.2/SkyRoute-beta_v0.5.2.zip" download>下载 ZIP</a>
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Flight-Simulator" style="margin-left:0.5rem">源码</a>
-        </div>
-      </article>
+        <article class="work-row">
+          <div class="work-main">
+            <span class="work-tag">Windows / macOS / Web</span>
+            <h3 class="work-title">点名·分组工具</h3>
+            <p class="work-desc">课堂点名、分组与小组赛工具，数据只保存在本机。</p>
+          </div>
+          <div class="work-links">
+            <a class="btn" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.10/Nameplate-Setup-v27.10.exe" download>下载最新版</a>
+            <a class="btn-quiet" href="./All_resources.html">全部版本</a>
+          </div>
+        </article>
 
-      <article class="resource-card" data-search="plume browser 浏览器 browser windows mac macos dmg 安装包 setup nsis 无需登录 历史记录 标签页 tauri webview2 v0.1.2 免费 microsoft store 微软商店">
-        <div class="resource-meta">
-          <span class="resource-tag">Plume · Windows / macOS</span>
-          <h2 class="resource-title">Plume Browser v0.1.2（Windows / Mac · 免费）</h2>
-          <p class="resource-desc">超轻量的网页浏览器，安装包约 1.4 MB，基于系统自带的 WebView2。无需登录，地址栏可输入网址或直接搜索，支持多标签页、新窗口和本地历史记录（可搜索、删除、清空，只保存在本机）。Mac 版为通用 DMG（约 5.2 MB，Intel / Apple 芯片通用），首次打开请右键 →「打开」。未签名时 SmartScreen 可能提示。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Plume/releases/download/v0.1.2/Plume.Browser_0.1.2_x64-setup.exe" download>下载安装包</a> <a class="btn-download" href="https://github.com/kevinyuzekai/Plume/releases/download/v0.1.2/Plume.Browser_0.1.2_universal.dmg" download style="margin-left:0.5rem">下载 Mac DMG</a>
-          <a class="btn-download" href="https://apps.microsoft.com/detail/9NHJ2KGT51X3" target="_blank" rel="noopener" style="margin-left:0.5rem">微软商店下载</a>
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Plume/releases/tag/v0.1.2" style="margin-left:0.5rem">发布页</a>
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Plume" style="margin-left:0.5rem">源码</a>
-        </div>
-      </article>
-
-            <article class="resource-card" data-search="linkpool 网卡聚合 macos mac arm64 amd64 intel dmg zip wifi 多网卡 代理 自适应 分段">
-        <div class="resource-meta">
-          <span class="resource-tag">LinkPool · macOS</span>
-          <h2 class="resource-title">LinkPool 0.2.0（网卡聚合助手）</h2>
-          <p class="resource-desc">自适应调度 + 拨号换卡 + 分段加速下载，尽量叠满多网卡带宽。Apple Silicon 与 Intel 均有 DMG。控制台 http://127.0.0.1:8787；若提示已损坏可 xattr -cr。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.0/LinkPool-0.2.0-arm64.dmg" download>Apple Silicon DMG</a>
-          <a class="btn-download" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.0/LinkPool-0.2.0-amd64.dmg" download style="margin-left:0.5rem">Intel DMG</a>
-          <a class="btn-download" href="https://github.com/kevinyuzekai/LinkPool" style="margin-left:0.5rem">源码</a>
-        </div>
-      </article>
-
-<article class="resource-card" data-search="随机点名工具 windows installer nsis setup 1.0.2 安装包 点名 txt">
-        <div class="resource-meta">
-          <span class="resource-tag">随机点名工具 · Windows 安装包</span>
-          <h2 class="resource-title">随机点名工具 1.0.2</h2>
-          <p class="resource-desc">正式安装包（可选安装路径）。名单上传 txt；界面提示「没有名单文件？去转换页获取」。Excel 请用「Excel 转 txt」页面转换。名单数据保存在本机 AppData。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/suiji-dianming-1.0.2/SuijiDianming-Setup-1.0.2.exe" download>下载安装包</a>
-        </div>
-      </article>
-
-<article class="resource-card" data-search="nameplate windows installer nsis setup 安装包 点名 分组 桌面 v27.10 推荐 生日提醒">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · Windows 安装包</span>
-          <h2 class="resource-title">点名·分组工具 v27.10（Windows 安装包 · 推荐）</h2>
-          <p class="resource-desc">最新版，推荐下载。可选安装路径，自动创建桌面和开始菜单快捷方式；可与 v27.9 在同一台电脑上并存安装，互不覆盖；沿用 v27.7 桌面版的名单与积分数据。修复生日提醒「已开启 / 已关闭」文字不显示。未签名时 SmartScreen 可能提示。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.10/Nameplate-Setup-v27.10.exe" download>下载安装包</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate v27.10 html 点名网页 推荐">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · HTML</span>
-          <h2 class="resource-title">点名网页 v27.10</h2>
-          <p class="resource-desc">浏览器单页版（与 v27.10 安装包同源功能），课堂工具集 + 小组赛 + AI 助手。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.10/Nameplate-v27.10.html" download>下载</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate windows installer nsis setup 安装包 点名 分组 桌面 v27.9 课堂工具 小组赛">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · Windows 安装包</span>
-          <h2 class="resource-title">点名·分组工具 v27.9（Windows 安装包）</h2>
-          <p class="resource-desc">可选安装路径，自动创建桌面和开始菜单快捷方式；可与 v27.10 并存安装，数据独立。新增课堂工具、小组赛、趣味面板。未签名时 SmartScreen 可能提示。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.9/Nameplate-Setup-v27.9.exe" download>下载安装包</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate v27.9 html 点名网页">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · HTML</span>
-          <h2 class="resource-title">点名网页 v27.9</h2>
-          <p class="resource-desc">浏览器单页版（与 v27.9 安装包同源功能）。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.9/Nameplate-v27.9.html" download>下载</a>
-        </div>
-      </article>
-
-<article class="resource-card" data-search="nameplate mac macos apple silicon arm64 点名 分组 桌面 v27.7 m1 m2 m3 m4">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · macOS arm64</span>
-          <h2 class="resource-title">点名·分组工具 v27.7（Mac Apple Silicon）</h2>
-          <p class="resource-desc">推荐 M1/M2/M3/M4 Mac。解压后打开「点名分组工具.app」；若 Gatekeeper 拦截：右键 → 打开。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.7/Nameplate-v27.7-mac-arm64.zip" download>下载 arm64</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate mac macos intel x64 点名 分组 桌面 v27.7">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · macOS x64</span>
-          <h2 class="resource-title">点名·分组工具 v27.7（Mac Intel）</h2>
-          <p class="resource-desc">Intel Mac 使用。解压后打开「点名分组工具.app」。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.7/Nameplate-v27.7-mac-x64.zip" download>下载 x64</a>
-        </div>
-      </article>
-
-
-      <article class="resource-card" data-search="nameplate windows app exe portable 点名 分组 桌面 v27.7">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · Windows</span>
-          <h2 class="resource-title">点名·分组工具 v27.7（Windows 便携版）</h2>
-          <p class="resource-desc">桌面 APP，双击即可运行。亦可下载解压版或 Electron 源码；未签名时 SmartScreen 可能提示。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.7/Nameplate-v27.7-win-portable.exe" download>下载 EXE</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate windows unpacked zip 解压版 v27.7">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · Windows ZIP</span>
-          <h2 class="resource-title">点名·分组工具 v27.7（解压版）</h2>
-          <p class="resource-desc">解压后运行「点名分组工具.exe」。适合不便携安装环境。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.7/Nameplate-v27.7-win-unpacked.zip" download>下载 ZIP</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate v27.7 html 点名网页">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · HTML</span>
-          <h2 class="resource-title">点名网页 v27.7</h2>
-          <p class="resource-desc">浏览器单页版（与桌面 APP 同源功能）。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.7/v27.7.html" download>下载</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate 点名网页 v27.6 html 课堂">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · HTML</span>
-          <h2 class="resource-title">点名网页 v27.6</h2>
-          <p class="resource-desc">最新版课堂点名单页（HTML）。从晚到早排序中的最新资源。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/v27.6/v27.6.html" download>下载</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate 点名网页 v27.5 html 课堂">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · HTML</span>
-          <h2 class="resource-title">点名网页 v27.5</h2>
-          <p class="resource-desc">上一版课堂点名单页（HTML）。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/HTML/v27.5.html" download>下载</a>
-        </div>
-      </article>
-
-      <article class="resource-card" data-search="nameplate 源码 sourcecode zip html class">
-        <div class="resource-meta">
-          <span class="resource-tag">Nameplate · ZIP</span>
-          <h2 class="resource-title">Nameplate 源码包</h2>
-          <p class="resource-desc">课堂点名相关源码压缩包（sourcecode.html.zip）。</p>
-        </div>
-        <div class="resource-actions">
-          <a class="btn-download" href="https://github.com/kevinyuzekai/Nameplate/releases/download/Class/sourcecode.html.zip" download>下载</a>
-        </div>
-      </article>
-
-      <div id="empty-state" class="empty-state">
-        <div class="empty-state-icon">◌</div>
-        <div class="empty-state-text">没有匹配的资源</div>
-        <div class="empty-state-sub">试试别的关键词</div>
+        <article class="work-row">
+          <div class="work-main">
+            <span class="work-tag">macOS</span>
+            <h3 class="work-title">LinkPool</h3>
+            <p class="work-desc">网卡聚合助手，把多条网络的带宽叠在一起。</p>
+          </div>
+          <div class="work-links">
+            <a class="btn" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.0/LinkPool-0.2.0-arm64.dmg" download>下载最新版</a>
+            <a class="btn-quiet" href="./All_resources.html">全部版本</a>
+          </div>
+        </article>
       </div>
-    </main>
+    </section>
 
-    <div class="pagination">
-      <a href="./" class="active">1</a>
-    </div>
+    <section aria-labelledby="index-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label" id="index-title">索引</span>
+          <span class="label">04</span>
+        </div>
 
-    <footer class="site-footer">
-      <div class="footer-copy">
-        © 2025 KevinWeb · 仅供学习交流
+        <a class="index-row" href="./All_resources.html">
+          <span class="index-num">01</span>
+          <span class="index-main"><span class="index-name">下载资源</span></span>
+          <span class="index-arrow">↗</span>
+        </a>
+
+        <a class="index-row" href="./excel_to_roster.html">
+          <span class="index-num">02</span>
+          <span class="index-main">
+            <span class="index-name">小工具</span>
+            <span class="index-note">Excel 转 txt</span>
+          </span>
+          <span class="index-arrow">↗</span>
+        </a>
+
+        <a class="index-row" href="./About_me.html">
+          <span class="index-num">03</span>
+          <span class="index-main"><span class="index-name">关于我</span></span>
+          <span class="index-arrow">↗</span>
+        </a>
+
+        <a class="index-row" href="https://github.com/kevinyuzekai/kevinweb/issues" target="_blank" rel="noopener">
+          <span class="index-num">04</span>
+          <span class="index-main"><span class="index-name">联系</span></span>
+          <span class="index-arrow">↗</span>
+        </a>
       </div>
+    </section>
+
+    <section aria-labelledby="manifesto-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label" id="manifesto-title">宣言</span>
+          <span class="label">KevinWeb</span>
+        </div>
+
+        <p class="manifesto-text" id="manifesto" data-zh="好用的东西不必喧哗。它安静地待在那里，在你需要的时候，刚好顺手。" data-en="Good tools don't need to shout. They wait quietly, and feel right exactly when you need them.">好用的东西不必喧哗。它安静地待在那里，在你需要的时候，刚好顺手。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
       <div class="footer-links">
-        <a href="./">首页</a>
-        <a href="https://github.com/kevinyuzekai/kevinweb">GitHub</a>
+        <span>© <span id="year">2026</span> KevinWeb</span>
+        <a href="https://github.com/kevinyuzekai" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://spacekk.com" target="_blank" rel="noopener">spacekk.com</a>
         <a href="./About_me.html">关于</a>
-        <a href="https://github.com/kevinyuzekai/kevinweb/issues">联系</a>
+        <a href="https://github.com/kevinyuzekai/kevinweb/issues" target="_blank" rel="noopener">联系</a>
+        <div class="kw-lang" role="group" aria-label="Language">
+          <button type="button" data-l="zh">中文</button>
+          <button type="button" data-l="en">EN</button>
+        </div>
       </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   <script>
     (function () {
-      var input = document.getElementById('search-input');
-      var cards = Array.prototype.slice.call(document.querySelectorAll('.resource-card'));
-      var empty = document.getElementById('empty-state');
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      function filter() {
-        var q = (input.value || '').trim().toLowerCase();
-        var visible = 0;
-        cards.forEach(function (card) {
-          var hay = (card.getAttribute('data-search') || '') + ' ' + card.textContent;
-          var show = !q || hay.toLowerCase().indexOf(q) !== -1;
-          card.classList.toggle('hidden', !show);
-          if (show) visible += 1;
-        });
-        empty.classList.toggle('visible', visible === 0);
+      /* 年份 */
+      var yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+      /* 大标题按容器宽度精确缩放，避免溢出 */
+      var wordmark = document.querySelector('.wordmark');
+      var wordmarkInner = document.getElementById('wordmark-inner');
+
+      function fitWordmark() {
+        if (!wordmark || !wordmarkInner) return;
+        wordmark.style.fontSize = '100px';
+        var textWidth = wordmarkInner.getBoundingClientRect().width;
+        var boxWidth = wordmark.clientWidth;
+        if (textWidth > 0 && boxWidth > 0) {
+          wordmark.style.fontSize = (100 * boxWidth / textWidth * 0.995) + 'px';
+        }
       }
 
-      input.addEventListener('input', filter);
+      fitWordmark();
+      window.addEventListener('resize', fitWordmark);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(fitWordmark);
+      }
+
+      /* 页脚语言开关，沿用 i18n.js 的 kwSetLang */
+      document.querySelectorAll('.site-footer .kw-lang button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (typeof window.kwSetLang === 'function') {
+            window.kwSetLang(btn.getAttribute('data-l'));
+          }
+        });
+      });
+
+      /* 宣言逐字/逐词出现 */
+      var manifesto = document.getElementById('manifesto');
+      var revealed = false;
+      var observer = null;
+
+      function currentLang() {
+        return document.documentElement.lang === 'en' ? 'en' : 'zh';
+      }
+
+      function buildManifesto() {
+        if (!manifesto) return;
+
+        var lang = currentLang();
+        var text = manifesto.getAttribute(lang === 'en' ? 'data-en' : 'data-zh') || '';
+
+        manifesto.textContent = '';
+        manifesto.setAttribute('aria-label', text);
+
+        var parts = lang === 'en' ? text.split(/(\s+)/) : Array.from(text);
+        parts.forEach(function (part, i) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) {
+            manifesto.appendChild(document.createTextNode(part));
+            return;
+          }
+          var span = document.createElement('span');
+          span.className = 'unit';
+          span.style.setProperty('--i', i);
+          span.setAttribute('aria-hidden', 'true');
+          span.textContent = part;
+          manifesto.appendChild(span);
+        });
+
+        manifesto.classList.add('reveal-ready');
+
+        if (reduceMotion || revealed) {
+          manifesto.classList.add('is-visible');
+          return;
+        }
+
+        manifesto.classList.remove('is-visible');
+        if (!observer) {
+          observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                revealed = true;
+                manifesto.classList.add('is-visible');
+                observer.unobserve(manifesto);
+              }
+            });
+          }, { threshold: 0.3 });
+        } else {
+          observer.unobserve(manifesto);
+        }
+        observer.observe(manifesto);
+      }
+
+      buildManifesto();
+
+      /* i18n.js 切换语言时会更新 html lang；先等它换完，再重建宣言 */
+      var lastLang = document.documentElement.lang;
+      new MutationObserver(function () {
+        if (document.documentElement.lang !== lastLang) {
+          lastLang = document.documentElement.lang;
+          buildManifesto();
+        }
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
     })();
   </script>
+
   <script src="i18n.js"></script>
 </body>
 </html>
