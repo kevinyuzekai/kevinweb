@@ -611,6 +611,33 @@
         transform: none !important;
       }
     }
+
+    /* ---------- Motion (only when JS adds .kw-anim; reduced motion stays static) ---------- */
+    .roll-src { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .roll-vis { display: inline-flex; white-space: pre; }
+    .rl { display: inline-block; position: relative; overflow: hidden; vertical-align: top; }
+    .rli { display: block; transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1); transition-delay: calc(var(--i) * 18ms); }
+    .rli::after { content: attr(data-c); position: absolute; left: 0; top: 100%; }
+    .btn:hover .rli, .btn-quiet:hover .rli, .index-row:hover .rli, .btn:focus-visible .rli, .index-row:focus-visible .rli { transform: translateY(-100%); }
+    .kw-anim .wordmark { animation: none !important; }
+    .wl { display: inline-block; overflow: hidden; padding: 0.08em 0; margin: -0.08em 0; vertical-align: top; }
+    .wli { display: inline-block; }
+    .kw-anim .wli { animation: kwUp 1s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(0.08s + var(--i) * 0.05s); }
+    .kw-anim .hero-slogan { animation: kwMask 1s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both !important; }
+    @keyframes kwUp { from { transform: translateY(105%); } to { transform: none; } }
+    @keyframes kwMask { from { clip-path: inset(0 0 100% 0); transform: translateY(0.5em); } to { clip-path: inset(0 0 -20% 0); transform: none; } }
+    .kw-anim .rv { clip-path: inset(0 0 100% 0); transform: translateY(0.9em); transition: clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: calc(var(--d, 0) * 70ms); }
+    .kw-anim .rv.in { clip-path: inset(-10% -10% -20% -10%); transform: none; }
+    .work-shot, .work-icon { will-change: transform; }
+    @media (hover: hover) and (min-width: 900px) {
+      .work-row { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.45s ease; }
+      .work-row:hover { transform: translateY(-6px); background-color: rgba(242, 242, 242, 0.025); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .rli, .work-row { transition: none !important; }
+      .btn:hover .rli, .btn-quiet:hover .rli, .index-row:hover .rli { transform: none; }
+      .work-row:hover { transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -874,5 +901,70 @@
   </script>
 
   <script src="i18n.js"></script>
+  <script>
+    /* KevinWeb motion: vanilla, runs after i18n.js */
+    (function () {
+      var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!RM) document.documentElement.classList.add('kw-anim');
+      /* letter roll: keep the real text in .roll-src (i18n.js translates it), draw letters from it */
+      var rolls = [].slice.call(document.querySelectorAll('.btn, .btn-quiet, .index-name'));
+      rolls.forEach(function (el) {
+        var src = document.createElement('span'); src.className = 'roll-src';
+        [].slice.call(el.childNodes).forEach(function (n) { if (n.nodeType === 3 && n.nodeValue.trim()) src.appendChild(n); });
+        if (!src.firstChild) return;
+        var vis = document.createElement('span'); vis.className = 'roll-vis'; vis.setAttribute('aria-hidden', 'true');
+        el.insertBefore(vis, el.firstChild); el.insertBefore(src, vis); el._roll = [src, vis];
+      });
+      function drawRolls() {
+        rolls.forEach(function (el) {
+          if (!el._roll) return; var t = el._roll[0].textContent.trim(), v = el._roll[1]; v.textContent = '';
+          Array.from(t).forEach(function (ch, i) {
+            var o = document.createElement('span'), n = document.createElement('span');
+            o.className = 'rl'; n.className = 'rli'; n.style.setProperty('--i', i);
+            n.textContent = ch === ' ' ? '\u00a0' : ch; n.setAttribute('data-c', n.textContent); o.appendChild(n); v.appendChild(o);
+          });
+        });
+      }
+      drawRolls();
+      var lang = document.documentElement.lang;
+      new MutationObserver(function () {
+        if (document.documentElement.lang !== lang) { lang = document.documentElement.lang; setTimeout(drawRolls, 0); }
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+      if (RM) return;
+      /* wordmark letter rise */
+      var wi = document.getElementById('wordmark-inner');
+      if (wi) {
+        var t = wi.textContent; wi.parentNode.setAttribute('aria-label', t); wi.textContent = '';
+        Array.from(t).forEach(function (ch, i) {
+          var o = document.createElement('span'), n = document.createElement('span');
+          o.className = 'wl'; o.setAttribute('aria-hidden', 'true'); n.className = 'wli'; n.style.setProperty('--i', i); n.textContent = ch; o.appendChild(n); wi.appendChild(o);
+        });
+        window.dispatchEvent(new Event('resize'));
+      }
+      /* masked slide-up on scroll */
+      var targets = document.querySelectorAll('.section-head .label, .work-tag, .work-head, .work-desc, .work-links, .index-row, .platforms');
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      [].forEach.call(targets, function (el, i) {
+        el.classList.add('rv'); var p = el.parentNode; el.style.setProperty('--d', [].indexOf.call(p.children, el) % 5); io.observe(el);
+      });
+      /* subtle parallax / scale for screenshots and icons (desktop) */
+      var mq = window.matchMedia('(min-width: 900px)'), items = document.querySelectorAll('.work-shot, .work-icon'), tick = false;
+      function para() {
+        tick = false; var vh = window.innerHeight;
+        [].forEach.call(items, function (el) {
+          if (!mq.matches) { el.style.transform = ''; return; }
+          var r = el.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return;
+          var p = ((r.top + r.height / 2) / vh - 0.5);
+          el.style.transform = el.classList.contains('work-shot')
+            ? 'translateY(' + (p * -18).toFixed(1) + 'px) scale(' + (1.04 - Math.abs(p) * 0.04).toFixed(3) + ')'
+            : 'scale(' + (1 - Math.abs(p) * 0.08).toFixed(3) + ')';
+        });
+      }
+      window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(para); } }, { passive: true });
+      window.addEventListener('resize', para); para();
+    })();
+  </script>
 </body>
 </html>
