@@ -964,6 +964,48 @@
       }
       window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(para); } }, { passive: true });
       window.addEventListener('resize', para); para();
+
+      /* smooth (lerp) wheel scrolling: desktop + fine pointer only; drives native window scroll */
+      if (window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 900px)').matches) {
+        var root = document.documentElement, cur = scrollY, tgt = cur, run = false, last = 0;
+        root.style.scrollBehavior = 'auto';
+        function maxY() { return root.scrollHeight - innerHeight; }
+        function innerScroll(el) {
+          for (; el && el !== document.body && el !== root; el = el.parentElement) {
+            var oy = getComputedStyle(el).overflowY;
+            if ((oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight) return true;
+          }
+          return false;
+        }
+        function go() { if (!run) { run = true; last = performance.now(); requestAnimationFrame(step); } }
+        function step(now) {
+          if (!run) return;
+          var k = 1 - Math.pow(0.9, Math.min(64, now - last) / 16.67); last = now;
+          cur += (tgt - cur) * k;
+          if (Math.abs(tgt - cur) < 0.5) { cur = tgt; run = false; }
+          window.scrollTo({ top: cur, behavior: 'instant' });
+          para();
+          if (run) requestAnimationFrame(step);
+        }
+        window.addEventListener('wheel', function (e) {
+          if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || innerScroll(e.target)) return;
+          e.preventDefault();
+          if (!run) cur = tgt = scrollY;
+          var d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
+          tgt = Math.max(0, Math.min(maxY(), tgt + d)); go();
+        }, { passive: false });
+        /* keyboard, scrollbar drag, find-in-page: stop and resync to the native position */
+        window.addEventListener('keydown', function () { run = false; cur = tgt = scrollY; });
+        window.addEventListener('mousedown', function () { run = false; cur = tgt = scrollY; });
+        window.addEventListener('scroll', function () { if (!run) cur = tgt = scrollY; }, { passive: true });
+        document.addEventListener('click', function (e) {
+          var l = e.target.closest && e.target.closest('a[href^="#"]'); if (!l) return;
+          var id = l.getAttribute('href').slice(1), el = id && document.getElementById(id); if (!el) return;
+          e.preventDefault(); if (!run) cur = scrollY;
+          tgt = Math.max(0, Math.min(maxY(), el.getBoundingClientRect().top + scrollY)); go();
+          history.pushState(null, '', '#' + id);
+        });
+      }
     })();
   </script>
 </body>
