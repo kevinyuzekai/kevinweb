@@ -668,6 +668,15 @@
     .kw-anim .ap-fade.in{opacity:1;transform:none}
     @media (max-width:900px){.ap-grid{grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.ap-stat{border-bottom:1px solid var(--line)}.ap-duo{grid-template-columns:1fr}.ap-zoom{height:180vh}.ap-zoom img{border-radius:14px}}
     @media (prefers-reduced-motion: reduce){.ap-zoom,.ap-read{height:auto}.ap-zoom .ap-stick,.ap-read .ap-stick{position:static;height:auto;padding-top:5rem;padding-bottom:5rem}.ap-read .w{color:var(--fg)}}
+
+    /* produx-style hero wordmark: full-bleed on load, scroll-scrubbed into a top-left logo */
+    @media (orientation: landscape) and (min-width: 900px) {
+      .site-header{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+      .site-header>.wrap{flex:1;display:flex;flex-direction:column;width:100%}
+      .site-header .hero-grid{margin-top:auto}
+    }
+    .wordmark.wm-live{position:relative;z-index:60;transform-origin:0 0;will-change:transform}
+    .kw-bar{position:fixed;left:0;right:0;top:0;height:64px;z-index:55;pointer-events:none;opacity:0;background:rgba(20,20,20,.97);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft)}
   </style>
 </head>
 <body>
@@ -1139,6 +1148,42 @@
         es.forEach(function (e) { if (!e.isIntersecting) return; e.target.classList.add('in'); var n = e.target.querySelector('.ap-num'); if (n) count(n); io.unobserve(e.target); });
       }, { threshold: 0.25 });
       document.querySelectorAll('.ap-fade').forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 0.08 + 's'; io.observe(el); });
+    })();
+  </script>
+
+  <script>
+    /* Hero wordmark -> pinned top-left logo, scrubbed by scroll position (reversible) */
+    (function () {
+      var wm = document.querySelector('.wordmark'); if (!wm) return;
+      var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var big = window.matchMedia('(orientation: landscape) and (min-width: 900px)');
+      var bar = document.createElement('div'); bar.className = 'kw-bar'; bar.setAttribute('aria-hidden', 'true'); document.body.appendChild(bar);
+      var top0 = 0, left0 = 0, h0 = 1, padL = 24, D = 400, on = false;
+      var TOP = 20, H = 30;
+      function measure() {
+        wm.style.transform = '';
+        var r = wm.getBoundingClientRect(), wr = wm.parentNode.getBoundingClientRect();
+        top0 = r.top + scrollY; left0 = r.left; h0 = r.height || 1;
+        padL = wr.left + parseFloat(getComputedStyle(wm.parentNode).paddingLeft || 0);
+        D = Math.max(240, Math.min(innerHeight * 0.6, 520));
+        on = !RM && big.matches; wm.classList.toggle('wm-live', on);
+        if (!on) bar.style.opacity = '';
+        update();
+      }
+      function update() {
+        if (!on) return;
+        var p = Math.min(1, Math.max(0, scrollY / D)); p = p * p * (3 - 2 * p);
+        var s = 1 + (H / h0 - 1) * p;
+        var ty = (top0 + (TOP - top0) * p) - (top0 - scrollY), tx = (padL - left0) * p;
+        wm.style.transform = 'translate3d(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px,0) scale(' + s.toFixed(4) + ')';
+        bar.style.opacity = Math.max(0, (p - 0.6) / 0.4).toFixed(3);
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', function () { setTimeout(measure, 0); });
+      if (big.addEventListener) big.addEventListener('change', measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      window.addEventListener('load', measure);
+      measure();
     })();
   </script>
 </body>
