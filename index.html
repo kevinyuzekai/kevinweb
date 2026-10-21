@@ -640,14 +640,14 @@
     }
 
     /* ---------------- Apple-style scroll sections ---------------- */
-    .ap-zoom{position:relative;height:240vh;border-top:1px solid var(--line)}
+    .ap-zoom{position:relative;height:240vh;height:240svh;border-top:1px solid var(--line)}
     .ap-zoom .ap-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:0 var(--pad)}
     .ap-kicker{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .8rem}
     .ap-h{font-family:var(--sans);font-weight:600;font-size:clamp(2rem,min(5.2vw,9vh),5rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 1.6rem;text-align:center}
-    .ap-zoom figure{margin:0;width:min(1000px,100%,(100vh - 340px)*1.78);will-change:transform}
+    .ap-zoom figure{margin:0;width:min(1000px,100%,(100vh - 340px)*1.78);width:min(1000px,100%,(100svh - 340px)*1.78);will-change:transform}
     .ap-zoom img{display:block;width:100%;height:auto;border-radius:22px;box-shadow:0 40px 120px rgba(0,0,0,.55)}
     .ap-cap{font-size:.85rem;color:var(--muted);text-align:center;margin-top:1.2rem}
-    .ap-read{position:relative;height:260vh}
+    .ap-read{position:relative;height:260vh;height:260svh}
     .ap-read .ap-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
     .ap-read p{font-family:var(--sans);font-weight:600;font-size:clamp(1.7rem,4.6vw,4rem);line-height:1.18;letter-spacing:-.01em;margin:0;max-width:22ch}
     html[lang=en] .ap-read p{max-width:26ch}
@@ -666,7 +666,7 @@
     .ap-card p{margin:0 0 1.2rem;color:var(--muted);font-size:.9rem;line-height:1.6;max-width:36ch}
     .kw-anim .ap-fade{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
     .kw-anim .ap-fade.in{opacity:1;transform:none}
-    @media (max-width:900px){.ap-grid{grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.ap-stat{border-bottom:1px solid var(--line)}.ap-duo{grid-template-columns:1fr}.ap-zoom{height:180vh}.ap-zoom img{border-radius:14px}}
+    @media (max-width:900px){.ap-grid{grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.ap-stat{border-bottom:1px solid var(--line)}.ap-duo{grid-template-columns:1fr}.ap-zoom{height:180vh;height:180svh}.ap-zoom img{border-radius:14px}}
     @media (prefers-reduced-motion: reduce){.ap-zoom,.ap-read{height:auto}.ap-zoom .ap-stick,.ap-read .ap-stick{position:static;height:auto;padding-top:5rem;padding-bottom:5rem}.ap-read .w{color:var(--fg)}}
 
     /* produx-style hero wordmark: full-bleed on load, scroll-scrubbed into a top-left logo */
@@ -677,6 +677,8 @@
     }
     .wordmark.wm-live{position:fixed;top:0;left:0;margin:0;z-index:60;transform-origin:0 0;will-change:transform}
     .wm-spacer{display:none}.wm-spacer.on{display:block}
+    /* touch / narrow: never animate or anchor-adjust scrolling (prevents self-scrolling on phones) */
+    @media (pointer: coarse), (max-width: 900px){html{scroll-behavior:auto!important;overflow-anchor:none}body{overflow-anchor:none}}
     .kw-bar{position:fixed;left:0;right:0;top:0;height:64px;z-index:55;pointer-events:none;opacity:0;background:rgba(20,20,20,.97);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft)}
   </style>
 </head>
@@ -1153,6 +1155,7 @@
   </script>
 
   <script>
+    if (window.matchMedia('(pointer: coarse), (max-width: 900px)').matches && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
     /* Hero wordmark -> pinned top-left logo, scrubbed by scroll position (reversible) */
     (function () {
       var wm = document.querySelector('.wordmark'); if (!wm) return;
