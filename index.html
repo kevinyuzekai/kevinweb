@@ -671,6 +671,8 @@
     .kw-grav{position:relative;height:min(70vh,560px);height:min(70svh,560px);border-radius:28px;background:#1b1b1b;border:1px solid rgba(242,242,242,.08);overflow:hidden;margin-top:1.5rem}
     .kw-grav canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y;cursor:crosshair;-webkit-tap-highlight-color:transparent}
     .kw-grav p{position:absolute;inset:0;display:grid;place-items:center;margin:0;color:rgba(242,242,242,.28);font-family:var(--sans);font-size:.95rem;letter-spacing:.08em;pointer-events:none;text-align:center;padding:0 1rem}
+    .kw-grav .kw-h-t{display:none}
+    @media (hover: none), (pointer: coarse){.kw-grav .kw-h-d{display:none}.kw-grav .kw-h-t{display:grid}}
     @media (prefers-reduced-motion: reduce){.kw-grav canvas{cursor:default}}
     @media (prefers-reduced-motion: reduce){.ap-zoom,.ap-read{height:auto}.ap-zoom .ap-stick,.ap-read .ap-stick{position:static;height:auto;padding-top:5rem;padding-bottom:5rem}.ap-read .w{color:var(--fg)}}
 
@@ -826,7 +828,8 @@
           <span class="label">Gravity</span>
         </div>
         <div class="kw-grav" id="kw-grav">
-          <p>点一下掉一个字母，按住不放连续倒</p>
+          <p class="kw-h-d">点一下掉一个字母，按住不放连续倒</p>
+          <p class="kw-h-t">点一下掉一个字</p>
           <canvas aria-label="重力字母小游戏" role="img"></canvas>
         </div>
       </div>
