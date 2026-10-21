@@ -1155,7 +1155,20 @@
   </script>
 
   <script>
-    if (window.matchMedia('(pointer: coarse), (max-width: 900px)').matches && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (window.matchMedia('(pointer: coarse), (max-width: 900px)').matches && 'scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+      /* phones: always open at the very top; drop a stale #hash (e.g. #work left by tapping "看看作品") */
+      if (location.hash) { history.replaceState(null, '', location.pathname + location.search); }
+      var kwTop = function () { if (!kwTouched) window.scrollTo(0, 0); }, kwTouched = false;
+      ['touchstart', 'wheel', 'keydown'].forEach(function (t) { window.addEventListener(t, function () { kwTouched = true; }, { once: true, passive: true }); });
+      kwTop(); window.addEventListener('DOMContentLoaded', kwTop); window.addEventListener('load', function () { kwTop(); setTimeout(kwTop, 0); });
+      /* in-page links still work but don't leave a hash behind */
+      document.addEventListener('click', function (e) {
+        var l = e.target.closest && e.target.closest('a[href^="#"]'); if (!l) return;
+        var el = document.getElementById(l.getAttribute('href').slice(1)); if (!el) return;
+        e.preventDefault(); kwTouched = true; window.scrollTo(0, el.getBoundingClientRect().top + scrollY);
+      });
+    }
     /* Hero wordmark -> pinned top-left logo, scrubbed by scroll position (reversible) */
     (function () {
       var wm = document.querySelector('.wordmark'); if (!wm) return;
