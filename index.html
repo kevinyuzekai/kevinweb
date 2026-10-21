@@ -675,7 +675,8 @@
       .site-header>.wrap{flex:1;display:flex;flex-direction:column;width:100%}
       .site-header .hero-grid{margin-top:auto}
     }
-    .wordmark.wm-live{position:relative;z-index:60;transform-origin:0 0;will-change:transform}
+    .wordmark.wm-live{position:fixed;top:0;left:0;margin:0;z-index:60;transform-origin:0 0;will-change:transform}
+    .wm-spacer{display:none}.wm-spacer.on{display:block}
     .kw-bar{position:fixed;left:0;right:0;top:0;height:64px;z-index:55;pointer-events:none;opacity:0;background:rgba(20,20,20,.97);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft)}
   </style>
 </head>
@@ -1158,23 +1159,29 @@
       var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var big = window.matchMedia('(orientation: landscape) and (min-width: 900px)');
       var bar = document.createElement('div'); bar.className = 'kw-bar'; bar.setAttribute('aria-hidden', 'true'); document.body.appendChild(bar);
-      var top0 = 0, left0 = 0, h0 = 1, padL = 24, D = 400, on = false;
+      var top0 = 0, left0 = 0, h0 = 1, padL = 24, D = 400, on = false, lastP = -1;
+      var sp = document.createElement('div'); sp.className = 'wm-spacer'; sp.setAttribute('aria-hidden', 'true'); wm.parentNode.insertBefore(sp, wm);
       var TOP = 20, H = 30;
       function measure() {
-        wm.style.transform = '';
-        var r = wm.getBoundingClientRect(), wr = wm.parentNode.getBoundingClientRect();
+        wm.classList.remove('wm-live'); sp.classList.remove('on'); wm.style.transform = ''; wm.style.width = ''; lastP = -1;
+        var r = wm.getBoundingClientRect(), wr = wm.parentNode.getBoundingClientRect(), cs = getComputedStyle(wm);
         top0 = r.top + scrollY; left0 = r.left; h0 = r.height || 1;
+        sp.style.height = r.height + 'px'; sp.style.marginTop = cs.marginTop; sp.style.width = r.width + 'px';
         padL = wr.left + parseFloat(getComputedStyle(wm.parentNode).paddingLeft || 0);
         D = Math.max(240, Math.min(innerHeight * 0.6, 520));
-        on = !RM && big.matches; wm.classList.toggle('wm-live', on);
+        on = !RM && big.matches; wm.classList.toggle('wm-live', on); sp.classList.toggle('on', on);
+        if (on) wm.style.width = r.width + 'px';
         if (!on) bar.style.opacity = '';
         update();
       }
       function update() {
         if (!on) return;
         var p = Math.min(1, Math.max(0, scrollY / D)); p = p * p * (3 - 2 * p);
+        if (p === 1 && lastP === 1) return; /* pinned: fixed position, no scroll-tied transform */
+        lastP = p;
         var s = 1 + (H / h0 - 1) * p;
-        var ty = (top0 + (TOP - top0) * p) - (top0 - scrollY), tx = (padL - left0) * p;
+        /* element is position:fixed; viewport coords only. At p=1 this is constant (padL, TOP). */
+        var ty = (top0 - scrollY) * (1 - p) + TOP * p, tx = left0 + (padL - left0) * p;
         wm.style.transform = 'translate3d(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px,0) scale(' + s.toFixed(4) + ')';
         bar.style.opacity = Math.max(0, (p - 0.6) / 0.4).toFixed(3);
       }
