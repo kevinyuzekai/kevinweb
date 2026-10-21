@@ -667,13 +667,11 @@
     .kw-anim .ap-fade{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
     .kw-anim .ap-fade.in{opacity:1;transform:none}
     @media (max-width:900px){.ap-grid{grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.ap-stat{border-bottom:1px solid var(--line)}.ap-duo{grid-template-columns:1fr}.ap-zoom{height:180vh;height:180svh}.ap-zoom img{border-radius:14px}}
-    .kw-grav-sec{padding:5rem 0}
-    .kw-grav{position:relative;height:min(70vh,560px);height:min(70svh,560px);border-radius:28px;background:#1b1b1b;border:1px solid rgba(242,242,242,.08);overflow:hidden;margin-top:1.5rem}
-    .kw-grav canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y;cursor:crosshair;-webkit-tap-highlight-color:transparent}
-    .kw-grav p{position:absolute;inset:0;display:grid;place-items:center;margin:0;color:rgba(242,242,242,.28);font-family:var(--sans);font-size:.95rem;letter-spacing:.08em;pointer-events:none;text-align:center;padding:0 1rem}
-    .kw-grav .kw-h-t{display:none}
-    @media (hover: none), (pointer: coarse){.kw-grav .kw-h-d{display:none}.kw-grav .kw-h-t{display:grid}}
-    @media (prefers-reduced-motion: reduce){.kw-grav canvas{cursor:default}}
+    .kw-grav-sec{padding:2rem 0}
+    .kw-grav-hint{margin:0;text-align:center;color:rgba(242,242,242,.4);font-family:var(--sans);font-size:.9rem;letter-spacing:.08em}
+    .kw-grav-hint .kw-h-t{display:none}
+    @media (hover: none), (pointer: coarse){.kw-grav-hint .kw-h-d{display:none}.kw-grav-hint .kw-h-t{display:inline}}
+    .kw-grav-layer{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:55}
     @media (prefers-reduced-motion: reduce){.ap-zoom,.ap-read{height:auto}.ap-zoom .ap-stick,.ap-read .ap-stick{position:static;height:auto;padding-top:5rem;padding-bottom:5rem}.ap-read .w{color:var(--fg)}}
 
     /* produx-style hero wordmark: full-bleed on load, scroll-scrubbed into a top-left logo */
@@ -821,18 +819,8 @@
       </div>
     </section>
 
-    <section class="kw-grav-sec" aria-labelledby="kw-grav-title">
-      <div class="wrap">
-        <div class="section-head">
-          <span class="label" id="kw-grav-title">玩一下</span>
-          <span class="label">Gravity</span>
-        </div>
-        <div class="kw-grav" id="kw-grav">
-          <p class="kw-h-d">点一下掉一个字母，按住不放连续倒</p>
-          <p class="kw-h-t">点一下掉一个字</p>
-          <canvas aria-label="重力字母小游戏" role="img"></canvas>
-        </div>
-      </div>
+    <section class="kw-grav-sec" aria-label="Gravity">
+      <div class="wrap"><p class="kw-grav-hint"><span class="kw-h-d">在页面任意空白处点一下，掉一个字母</span><span class="kw-h-t">在页面任意空白处点一下，掉一个字</span></p></div>
     </section>
 
     <section aria-label="Nameplate / LinkPool">
