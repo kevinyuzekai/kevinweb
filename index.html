@@ -638,6 +638,36 @@
       .btn:hover .rli, .btn-quiet:hover .rli, .index-row:hover .rli { transform: none; }
       .work-row:hover { transform: none; }
     }
+
+    /* ---------------- Apple-style scroll sections ---------------- */
+    .ap-zoom{position:relative;height:240vh;border-top:1px solid var(--line)}
+    .ap-zoom .ap-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:0 var(--pad)}
+    .ap-kicker{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .8rem}
+    .ap-h{font-family:var(--sans);font-weight:600;font-size:clamp(2rem,6.4vw,5.6rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 1.6rem;text-align:center}
+    .ap-zoom figure{margin:0;width:min(1100px,100%,(100vh - 300px)*1.78);will-change:transform}
+    .ap-zoom img{display:block;width:100%;height:auto;border-radius:22px;box-shadow:0 40px 120px rgba(0,0,0,.55)}
+    .ap-cap{font-size:.85rem;color:var(--muted);text-align:center;margin-top:1.2rem}
+    .ap-read{position:relative;height:260vh}
+    .ap-read .ap-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
+    .ap-read p{font-family:var(--sans);font-weight:600;font-size:clamp(1.7rem,4.6vw,4rem);line-height:1.18;letter-spacing:-.01em;margin:0;max-width:22ch}
+    html[lang=en] .ap-read p{max-width:26ch}
+    .ap-read .w{color:rgba(242,242,242,.16);transition:color .25s}
+    .ap-read .w.lit{color:var(--fg)}
+    .ap-stats{border-top:1px solid var(--line);padding:clamp(4rem,10vw,8rem) 0}
+    .ap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-left:1px solid var(--line)}
+    .ap-stat{border-right:1px solid var(--line);padding:1.4rem 1.2rem 1.6rem;min-width:0}
+    .ap-num{display:block;font-family:var(--sans);font-weight:600;font-size:clamp(2.6rem,6vw,5.2rem);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+    .ap-num small{font-size:.4em;margin-left:.15em;letter-spacing:0}
+    .ap-lab{display:block;margin-top:.9rem;font-size:.82rem;color:var(--muted);line-height:1.5}
+    .ap-duo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,3vw,2.5rem);padding-bottom:clamp(4rem,10vw,8rem)}
+    .ap-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:22px;padding:clamp(1.4rem,3vw,2.6rem);min-height:clamp(300px,42vw,520px);display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(120% 80% at 80% 0%,rgba(95,81,54,.45),transparent 60%),#1b1b1b}
+    .ap-card .ap-ic{width:clamp(72px,9vw,120px);height:auto;align-self:flex-end;will-change:transform;border-radius:22%}
+    .ap-card h3{font-family:var(--sans);font-weight:600;font-size:clamp(1.5rem,3vw,2.4rem);margin:0 0 .6rem;letter-spacing:-.01em}
+    .ap-card p{margin:0 0 1.2rem;color:var(--muted);font-size:.9rem;line-height:1.6;max-width:36ch}
+    .kw-anim .ap-fade{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+    .kw-anim .ap-fade.in{opacity:1;transform:none}
+    @media (max-width:900px){.ap-grid{grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.ap-stat{border-bottom:1px solid var(--line)}.ap-duo{grid-template-columns:1fr}.ap-zoom{height:180vh}.ap-zoom img{border-radius:14px}}
+    @media (prefers-reduced-motion: reduce){.ap-zoom,.ap-read{height:auto}.ap-zoom .ap-stick,.ap-read .ap-stick{position:static;height:auto;padding-top:5rem;padding-bottom:5rem}.ap-read .w{color:var(--fg)}}
   </style>
 </head>
 <body>
@@ -736,6 +766,59 @@
           </div>
           <div class="work-links">
             <a class="btn" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.0/LinkPool-0.2.0-arm64.dmg" download>下载最新版</a>
+            <a class="btn-quiet" href="./All_resources.html">全部版本</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="ap-zoom" id="ap-zoom" aria-labelledby="ap-zoom-h">
+      <div class="ap-stick">
+        <p class="ap-kicker">SkyRoute · beta 0.5.2</p>
+        <h2 class="ap-h" id="ap-zoom-h">从冷舱，到起飞。</h2>
+        <figure><img src="img/skyroute-shot.webp" width="960" height="540" alt="天际航线 SkyRoute 主菜单截图" loading="lazy" decoding="async"></figure>
+        <p class="ap-cap">完整冷舱启动、可点击的三维驾驶舱。Windows 便携版与网页版，免费。</p>
+      </div>
+    </section>
+
+    <section class="ap-read" aria-label="Kevin">
+      <div class="wrap ap-stick">
+        <p id="ap-read" data-zh="Hi，我是 Kevin Yuᥫᩣ༠°ఌ。四个作品，全部免费，全部手搓：一个浏览器，一个飞行模拟器，一个课堂工具，一个网卡聚合助手。" data-en="Hi, I'm Kevin Yuᥫᩣ༠°ఌ. Four projects, all free, all handmade: a browser, a flight simulator, a classroom tool, and a network bonding helper."></p>
+      </div>
+    </section>
+
+    <section class="ap-stats" aria-labelledby="ap-stats-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label" id="ap-stats-title">数字</span>
+          <span class="label">Facts</span>
+        </div>
+        <div class="ap-grid">
+          <div class="ap-stat ap-fade"><span class="ap-num" data-to="4">4</span><span class="ap-lab">个免费作品</span></div>
+          <div class="ap-stat ap-fade"><span class="ap-num" data-to="1.4" data-dec="1">1.4<small>MB</small></span><span class="ap-lab">Plume Browser 安装包大小（约）</span></div>
+          <div class="ap-stat ap-fade"><span class="ap-num" data-to="7">7</span><span class="ap-lab">种 SkyRoute 游戏界面语言</span></div>
+          <div class="ap-stat ap-fade"><span class="ap-num" data-to="0">0</span><span class="ap-lab">Plume 的账号与统计</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Nameplate / LinkPool">
+      <div class="wrap ap-duo">
+        <article class="ap-card ap-fade">
+          <img class="ap-ic" src="img/nameplate-icon.webp" width="120" height="120" alt="" loading="lazy" decoding="async">
+          <div>
+            <p class="ap-kicker">v27.10 · Windows / Web</p>
+            <h3>点名·分组工具</h3>
+            <p>课堂工具集 + 小组赛 + AI 助手。名单和积分只保存在本机。</p>
+            <a class="btn-quiet" href="./All_resources.html">全部版本</a>
+          </div>
+        </article>
+        <article class="ap-card ap-fade">
+          <img class="ap-ic" src="img/linkpool-icon.svg" width="120" height="120" alt="" loading="lazy" decoding="async">
+          <div>
+            <p class="ap-kicker">0.2.0 · macOS</p>
+            <h3>LinkPool</h3>
+            <p>自适应调度 + 拨号换卡 + 分段加速下载，尽量叠满多网卡带宽。只在本机 127.0.0.1 运行。</p>
             <a class="btn-quiet" href="./All_resources.html">全部版本</a>
           </div>
         </article>
@@ -1006,6 +1089,56 @@
           history.pushState(null, '', '#' + id);
         });
       }
+    })();
+  </script>
+
+  <script>
+    /* Apple-style scroll sections */
+    (function () {
+      var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var read = document.getElementById('ap-read'), words = [];
+      function build() {
+        var en = document.documentElement.lang === 'en', t = read.getAttribute(en ? 'data-en' : 'data-zh');
+        read.textContent = ''; read.setAttribute('aria-label', t);
+        var parts = en ? t.split(/(\s+)/) : (t.match(/Kevin Yu\S*|Hi，|[^\s]/g) || []);
+        parts.forEach(function (p) {
+          if (/^\s+$/.test(p)) { read.appendChild(document.createTextNode(p)); return; }
+          if (!en && /^Kevin Yu/.test(p)) { read.appendChild(document.createTextNode(' ')); }
+          var s = document.createElement('span'); s.className = 'w'; s.setAttribute('aria-hidden', 'true'); s.textContent = p; read.appendChild(s);
+        });
+        words = read.querySelectorAll('.w'); frame();
+      }
+      var zoom = document.getElementById('ap-zoom'), fig = zoom.querySelector('figure'), zh = zoom.querySelector('.ap-h'), cap = zoom.querySelector('.ap-cap');
+      var cards = document.querySelectorAll('.ap-card .ap-ic'), tick = false;
+      function prog(el) { var r = el.getBoundingClientRect(), d = r.height - innerHeight; return d > 0 ? Math.min(1, Math.max(0, -r.top / d)) : 1; }
+      function frame() {
+        tick = false;
+        if (RM) { [].forEach.call(words, function (w) { w.classList.add('lit'); }); return; }
+        var p = prog(zoom), s = 0.6 + 0.4 * Math.min(1, p / 0.7);
+        fig.style.transform = 'scale(' + s.toFixed(3) + ')';
+        zh.style.opacity = Math.max(0, 1 - Math.max(0, p - 0.55) / 0.3).toFixed(2);
+        zh.style.transform = 'translateY(' + (-p * 12).toFixed(1) + 'px)';
+        cap.style.opacity = Math.min(1, Math.max(0, (p - 0.5) / 0.25)).toFixed(2);
+        var q = prog(read.parentNode.parentNode), n = Math.round(q * 1.15 * words.length);
+        [].forEach.call(words, function (w, i) { w.classList.toggle('lit', i < n); });
+        var vh = innerHeight;
+        [].forEach.call(cards, function (c) { var r = c.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return; var k = (r.top + r.height / 2) / vh - 0.5; c.style.transform = 'translateY(' + (k * 60).toFixed(1) + 'px) rotate(' + (k * -8).toFixed(1) + 'deg)'; });
+      }
+      build();
+      new MutationObserver(build).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+      window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(frame); } }, { passive: true });
+      window.addEventListener('resize', frame);
+      /* fade-ins + counters */
+      var nums = document.querySelectorAll('.ap-num');
+      function count(el) {
+        var to = parseFloat(el.dataset.to), dec = +(el.dataset.dec || 0), small = el.querySelector('small'), suf = small ? small.outerHTML : '', t0 = performance.now();
+        if (RM || !to) return;
+        (function st(now) { var k = Math.min(1, (now - t0) / 1400), e = 1 - Math.pow(1 - k, 3); el.innerHTML = (to * e).toFixed(dec) + suf; if (k < 1) requestAnimationFrame(st); })(t0);
+      }
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (!e.isIntersecting) return; e.target.classList.add('in'); var n = e.target.querySelector('.ap-num'); if (n) count(n); io.unobserve(e.target); });
+      }, { threshold: 0.25 });
+      document.querySelectorAll('.ap-fade').forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 0.08 + 's'; io.observe(el); });
     })();
   </script>
 </body>
