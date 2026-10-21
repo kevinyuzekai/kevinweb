@@ -3,7 +3,7 @@
 var D={
 "从冷舱，到起飞。":"From cold and dark, to takeoff.",
 "完整冷舱启动、可点击的三维驾驶舱。Windows 便携版与网页版，免费。":"A full cold-and-dark start and a clickable 3D cockpit. Windows portable and web versions, free.",
-"数字":"Numbers","个免费作品":"free projects","Plume Browser 安装包大小（约）":"Plume Browser installer size (approx.)",
+"数字":"Numbers","玩一下":"Play","点一下掉一个字母，按住不放连续倒":"Tap to drop a letter, hold to pour","重力字母小游戏":"Gravity letters toy","个免费作品":"free projects","Plume Browser 安装包大小（约）":"Plume Browser installer size (approx.)",
 "种 SkyRoute 游戏界面语言":"SkyRoute interface languages","Plume 的账号与统计":"accounts or telemetry in Plume",
 "课堂工具集 + 小组赛 + AI 助手。名单和积分只保存在本机。":"Classroom tools + group contests + AI assistant. Rosters and points stay on your device.",
 "自适应调度 + 拨号换卡 + 分段加速下载，尽量叠满多网卡带宽。只在本机 127.0.0.1 运行。":"Adaptive scheduling + interface switching + segmented accelerated downloads to fill the bandwidth of multiple network interfaces. Runs only on 127.0.0.1.",
