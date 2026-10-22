@@ -642,7 +642,7 @@
 
     /* ---------------- Apple-style scroll sections ---------------- */
     .ap-zoom{position:relative;height:240vh;height:240svh;border-top:1px solid var(--line)}
-    .ap-zoom .ap-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:0 var(--pad)}
+    .ap-zoom .ap-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:0 var(--pad);perspective:1500px;perspective-origin:50% 42%}
     .ap-kicker{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .8rem}
     .ap-h{font-family:var(--sans);font-weight:600;font-size:clamp(2rem,min(5.2vw,9vh),5rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 1.6rem;text-align:center}
     .ap-zoom figure{margin:0;width:min(1000px,100%,(100vh - 340px)*1.78);width:min(1000px,100%,(100svh - 340px)*1.78);will-change:transform}
@@ -652,8 +652,8 @@
     .ap-read .ap-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
     .ap-read p{font-family:var(--sans);font-weight:600;font-size:clamp(1.7rem,4.6vw,4rem);line-height:1.18;letter-spacing:-.01em;margin:0;max-width:22ch}
     html[lang=en] .ap-read p{max-width:26ch}
-    .ap-read .w{color:rgba(242,242,242,.16);transition:color .25s}
-    .ap-read .w.lit{color:var(--fg)}
+    .ap-read .w{display:inline-block;color:rgba(242,242,242,.16);transform:translateY(.16em);transition:color .3s ease,transform .55s cubic-bezier(.22,1,.36,1)}
+    .ap-read .w.lit{color:var(--fg);transform:none}
     .ap-stats{border-top:1px solid var(--line);padding:clamp(4rem,10vw,8rem) 0}
     .ap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-left:1px solid var(--line)}
     .ap-stat{border-right:1px solid var(--line);padding:1.4rem 1.2rem 1.6rem;min-width:0}
@@ -691,6 +691,13 @@
     .scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:80;pointer-events:none}
     .scroll-progress span{display:block;height:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--accent),#c9b48a);box-shadow:0 0 14px rgba(201,180,138,.5);opacity:0;transition:opacity .45s ease;will-change:transform}
     .scroll-progress.on span{opacity:1}
+    .scroll-progress i{position:absolute;top:50%;left:0;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#e6d3a8;box-shadow:0 0 12px rgba(201,180,138,.9);opacity:0;transition:opacity .45s ease}
+    .scroll-progress.on i{opacity:1}
+    /* giant scroll-driven marquee between hero and work */
+    .kw-marquee{position:relative;overflow:hidden;padding:clamp(1rem,2.6vw,2rem) 0;border-top:1px solid var(--line);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+    .kw-marquee-track{display:flex;width:max-content;will-change:transform}
+    .kw-marquee-track span{display:block;white-space:nowrap;font-family:var(--sans);font-weight:600;font-size:clamp(2.6rem,10.5vw,8.5rem);line-height:.92;letter-spacing:-.035em;text-transform:uppercase;color:rgba(242,242,242,.06);padding-right:.3em}
+    @media (prefers-reduced-motion: reduce){.kw-marquee-track{transform:none!important}}
     /* hero pointer light: a warm, slowly-trailing glow living on the header background itself
        (an extra stacking layer here would fight the pinned wordmark / top bar) */
     @property --kw-hi{syntax:"<number>";inherits:false;initial-value:0}
@@ -728,7 +735,7 @@
   </style>
 </head>
 <body>
-  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="scroll-progress" aria-hidden="true"><span></span><i></i></div>
   <header class="site-header">
     <div class="wrap">
       <div class="hero-meta">
@@ -760,6 +767,12 @@
       </nav>
     </div>
   </header>
+
+  <div class="kw-marquee" aria-hidden="true">
+    <div class="kw-marquee-track">
+      <span>Selected Work — 2026 —</span><span>Selected Work — 2026 —</span><span>Selected Work — 2026 —</span><span>Selected Work — 2026 —</span>
+    </div>
+  </div>
 
   <main>
     <section id="work" aria-labelledby="work-title">
@@ -1200,7 +1213,8 @@
         tick = false;
         if (RM) { [].forEach.call(words, function (w) { w.classList.add('lit'); }); return; }
         var p = prog(zoom), s = 0.6 + 0.4 * Math.min(1, p / 0.7);
-        fig.style.transform = 'scale(' + s.toFixed(3) + ')';
+        var rx = (1 - Math.min(1, p / 0.72)) * 11;
+        fig.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
         zh.style.opacity = Math.max(0, 1 - Math.max(0, p - 0.55) / 0.3).toFixed(2);
         zh.style.transform = 'translateY(' + (-p * 12).toFixed(1) + 'px)';
         cap.style.opacity = Math.min(1, Math.max(0, (p - 0.5) / 0.25)).toFixed(2);
@@ -1283,11 +1297,12 @@
     })();
   </script>
   <script>
-    /* Premium interaction layer: scroll progress, cursor spotlight on work rows, magnetic buttons */
+    /* Premium interaction layer: scroll progress, marquee, hero exit, spotlight, magnetic buttons */
     (function () {
       var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var bar = document.querySelector('.scroll-progress');
       var fill = bar && bar.querySelector('span');
+      var dot = bar && bar.querySelector('i');
       var doc = document.documentElement;
 
       function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -1295,18 +1310,51 @@
       function progress() {
         var y = window.pageYOffset || doc.scrollTop || 0;
         var max = doc.scrollHeight - window.innerHeight;
-        if (fill) fill.style.transform = 'scaleX(' + (max > 0 ? clamp01(y / max).toFixed(4) : '0') + ')';
+        var p = max > 0 ? clamp01(y / max) : 0;
+        if (fill) fill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+        if (dot) dot.style.left = (p * 100).toFixed(2) + '%';
         if (bar) bar.classList.toggle('on', y > 24);
+      }
+
+      /* marquee slides with the scroll, hero contents lift and fade away behind it */
+      var mq = document.querySelector('.kw-marquee'), track = document.querySelector('.kw-marquee-track');
+      var hero = [document.querySelector('.hero-grid'), document.querySelector('.platforms')];
+      var half = 0, fadeAt = 1;
+      function measure() {
+        if (track) { track.style.transform = 'translate3d(0,0,0)'; half = track.scrollWidth / 2 || 0; }
+        fadeAt = Math.max(240, window.innerHeight * 0.72);
+      }
+      function extras() {
+        if (RM) return;
+        var y = window.pageYOffset || doc.scrollTop || 0;
+        if (track && half) track.style.transform = 'translate3d(' + (-((y * 0.42) % half)).toFixed(1) + 'px,0,0)';
+        var q = fadeAt > 1 ? Math.min(1, y / fadeAt) : 0;
+        var ty = (-q * 52).toFixed(1) + 'px';
+        /* the entrance keyframes own opacity/transform, so the exit has to outrank them */
+        for (var i = 0; i < hero.length; i++) {
+          var el = hero[i];
+          if (!el) continue;
+          if (y < 2) {
+            el.style.removeProperty('opacity');
+            el.style.removeProperty('transform');
+            continue;
+          }
+          el.style.setProperty('transform', 'translate3d(0,' + ty + ',0)', 'important');
+          el.style.setProperty('opacity', Math.max(0, 1 - q * 1.18).toFixed(3), 'important');
+        }
       }
 
       var ticking = false;
       window.addEventListener('scroll', function () {
         if (ticking) return;
         ticking = true;
-        window.requestAnimationFrame(function () { ticking = false; progress(); });
+        window.requestAnimationFrame(function () { ticking = false; progress(); extras(); });
       }, { passive: true });
-      window.addEventListener('resize', progress);
+      window.addEventListener('resize', function () { measure(); progress(); extras(); });
+      measure();
       progress();
+      extras();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 
       if (RM || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
