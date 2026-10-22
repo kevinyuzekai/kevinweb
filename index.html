@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#141414">
+  <script src="site-transition.js"></script>
   <title>KevinWeb · 下载与分享</title>
   <style>
     :root {
@@ -704,158 +705,9 @@
       .btn,.btn-quiet{transform:none!important}
       .work-row::before{display:none}
     }
-
-    /* ---------- Boot loader (only when JS adds .kw-boot) ---------- */
-    .kw-loader{
-      position:fixed;
-      inset:0;
-      z-index:300;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:22px;
-      background:var(--bg);
-      opacity:0;
-      visibility:hidden;
-      pointer-events:none;
-      transition:opacity .55s ease,visibility 0s linear .55s;
-    }
-    html.kw-boot,
-    html.kw-boot body{overflow:hidden}
-    html.kw-boot .kw-loader{
-      opacity:1;
-      visibility:visible;
-      pointer-events:auto;
-      transition:opacity .25s ease,visibility 0s;
-    }
-    html.kw-boot .kw-loader.done{
-      opacity:0;
-      visibility:visible;
-      pointer-events:none;
-      transition:opacity .6s cubic-bezier(.4,0,.2,1),visibility 0s;
-    }
-    .kw-loader .container{
-      --uib-size:45px;
-      --uib-color:var(--fg);
-      --uib-speed:2.5s;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      height:var(--uib-size);
-      width:var(--uib-size);
-    }
-    .kw-loader .slice{
-      position:relative;
-      height:calc(var(--uib-size) / 6);
-      width:100%;
-    }
-    .kw-loader .slice::before,
-    .kw-loader .slice::after{
-      --uib-a:calc(var(--uib-speed) / -2);
-      --uib-b:calc(var(--uib-speed) / -6);
-      content:"";
-      position:absolute;
-      top:0;
-      left:calc(50% - var(--uib-size) / 12);
-      height:100%;
-      width:calc(100% / 6);
-      border-radius:50%;
-      background-color:var(--uib-color);
-      flex-shrink:0;
-      animation:kw-orbit var(--uib-speed) linear infinite;
-    }
-    .kw-loader .slice:nth-child(1)::after{animation-delay:var(--uib-a)}
-    .kw-loader .slice:nth-child(2)::before{animation-delay:var(--uib-b)}
-    .kw-loader .slice:nth-child(2)::after{animation-delay:calc(var(--uib-a) + var(--uib-b))}
-    .kw-loader .slice:nth-child(3)::before{animation-delay:calc(var(--uib-b) * 2)}
-    .kw-loader .slice:nth-child(3)::after{animation-delay:calc(var(--uib-a) + var(--uib-b) * 2)}
-    .kw-loader .slice:nth-child(4)::before{animation-delay:calc(var(--uib-b) * 3)}
-    .kw-loader .slice:nth-child(4)::after{animation-delay:calc(var(--uib-a) + var(--uib-b) * 3)}
-    .kw-loader .slice:nth-child(5)::before{animation-delay:calc(var(--uib-b) * 4)}
-    .kw-loader .slice:nth-child(5)::after{animation-delay:calc(var(--uib-a) + var(--uib-b) * 4)}
-    .kw-loader .slice:nth-child(6)::before{animation-delay:calc(var(--uib-b) * 5)}
-    .kw-loader .slice:nth-child(6)::after{animation-delay:calc(var(--uib-a) + var(--uib-b) * 5)}
-    .kw-loader-word{
-      font-family:var(--mono);
-      font-size:.68rem;
-      letter-spacing:.42em;
-      text-indent:.42em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    @keyframes kw-orbit{
-      0%{transform:translateX(calc(var(--uib-size) * .25)) scale(.73684);opacity:.65}
-      5%{transform:translateX(calc(var(--uib-size) * .235)) scale(.684208);opacity:.58}
-      10%{transform:translateX(calc(var(--uib-size) * .182)) scale(.631576);opacity:.51}
-      15%{transform:translateX(calc(var(--uib-size) * .129)) scale(.578944);opacity:.44}
-      20%{transform:translateX(calc(var(--uib-size) * .076)) scale(.526312);opacity:.37}
-      25%{transform:translateX(0) scale(.47368);opacity:.3}
-      30%{transform:translateX(calc(var(--uib-size) * -.076)) scale(.526312);opacity:.37}
-      35%{transform:translateX(calc(var(--uib-size) * -.129)) scale(.578944);opacity:.44}
-      40%{transform:translateX(calc(var(--uib-size) * -.182)) scale(.631576);opacity:.51}
-      45%{transform:translateX(calc(var(--uib-size) * -.235)) scale(.684208);opacity:.58}
-      50%{transform:translateX(calc(var(--uib-size) * -.25)) scale(.73684);opacity:.65}
-      55%{transform:translateX(calc(var(--uib-size) * -.235)) scale(.789472);opacity:.72}
-      60%{transform:translateX(calc(var(--uib-size) * -.182)) scale(.842104);opacity:.79}
-      65%{transform:translateX(calc(var(--uib-size) * -.129)) scale(.894736);opacity:.86}
-      70%{transform:translateX(calc(var(--uib-size) * -.076)) scale(.947368);opacity:.93}
-      75%{transform:translateX(0) scale(1);opacity:1}
-      80%{transform:translateX(calc(var(--uib-size) * .076)) scale(.947368);opacity:.93}
-      85%{transform:translateX(calc(var(--uib-size) * .129)) scale(.894736);opacity:.86}
-      90%{transform:translateX(calc(var(--uib-size) * .182)) scale(.842104);opacity:.79}
-      95%{transform:translateX(calc(var(--uib-size) * .235)) scale(.789472);opacity:.72}
-      100%{transform:translateX(calc(var(--uib-size) * .25)) scale(.73684);opacity:.65}
-    }
-    @media (prefers-reduced-motion: reduce){
-      .kw-loader .slice::before,
-      .kw-loader .slice::after{animation:none;opacity:.7;transform:scale(.73684)}
-    }
   </style>
 </head>
 <body>
-  <div class="kw-loader" id="kw-loader" aria-hidden="true">
-    <div class="container">
-      <div class="slice"></div>
-      <div class="slice"></div>
-      <div class="slice"></div>
-      <div class="slice"></div>
-      <div class="slice"></div>
-      <div class="slice"></div>
-    </div>
-    <div class="kw-loader-word">KevinWeb</div>
-  </div>
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var el = document.getElementById('kw-loader');
-      root.classList.add('kw-boot');
-
-      var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var MIN = RM ? 220 : 750;
-      var MAX = 2200;
-      var t0 = Date.now();
-      var done = false;
-
-      function hide() {
-        if (done || !el) return;
-        done = true;
-        var wait = Math.max(0, MIN - (Date.now() - t0));
-        setTimeout(function () {
-          el.classList.add('done');
-          setTimeout(function () {
-            root.classList.remove('kw-boot');
-            if (el.parentNode) el.parentNode.removeChild(el);
-          }, 620);
-        }, wait);
-      }
-
-      if (document.readyState === 'complete') hide();
-      else window.addEventListener('load', hide);
-      setTimeout(hide, MAX);
-    })();
-  </script>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <header class="site-header">
     <div class="wrap">
@@ -1178,7 +1030,15 @@
     /* KevinWeb motion: vanilla, runs after i18n.js */
     (function () {
       var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!RM) document.documentElement.classList.add('kw-anim');
+      var rootEl = document.documentElement;
+      /* hold the intro until the page-transition shutter starts lifting */
+      (function () {
+        function start() { rootEl.classList.add('kw-anim'); }
+        if (RM) return;
+        if (!rootEl.classList.contains('kw-trans-lock')) { start(); return; }
+        document.addEventListener('kw:reveal', start, { once: true });
+        setTimeout(start, 2800);
+      })();
       /* letter roll: keep the real text in .roll-src (i18n.js translates it), draw letters from it */
       var rolls = [].slice.call(document.querySelectorAll('.btn, .btn-quiet, .index-name'));
       rolls.forEach(function (el) {
