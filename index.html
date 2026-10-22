@@ -697,6 +697,11 @@
     .kw-marquee{position:relative;overflow:hidden;padding:clamp(1rem,2.6vw,2rem) 0;border-top:1px solid var(--line);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
     .kw-marquee-track{display:flex;width:max-content;will-change:transform}
     .kw-marquee-track span{display:block;white-space:nowrap;font-family:var(--sans);font-weight:600;font-size:clamp(2.6rem,10.5vw,8.5rem);line-height:.92;letter-spacing:-.035em;text-transform:uppercase;color:rgba(242,242,242,.06);padding-right:.3em}
+    /* kinetic type scrubbed by scroll: an outlined word pans behind the pinned shot,
+       work titles and index names drift sideways at their own pace */
+    .ap-zoom .kw-pan{position:absolute;left:0;top:50%;z-index:0;white-space:nowrap;font-family:var(--sans);font-weight:600;font-size:clamp(4.5rem,16vw,14rem);line-height:1;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1px rgba(242,242,242,.13);pointer-events:none;user-select:none;will-change:transform;transform:translate3d(8%,-50%,0)}
+    .ap-zoom .ap-stick>figure{position:relative;z-index:1}
+    .work-main,.index-row{will-change:transform}
     @media (prefers-reduced-motion: reduce){.kw-marquee-track{transform:none!important}}
     /* hero pointer light: a warm, slowly-trailing glow living on the header background itself
        (an extra stacking layer here would fight the pinned wordmark / top bar) */
@@ -861,6 +866,7 @@
 
     <section class="ap-zoom" id="ap-zoom" aria-labelledby="ap-zoom-h">
       <div class="ap-stick">
+        <span class="kw-pan" aria-hidden="true">SKYROUTE · COLD &amp; DARK · SKYROUTE · COLD &amp; DARK</span>
         <p class="ap-kicker">SkyRoute · beta 0.5.2</p>
         <h2 class="ap-h" id="ap-zoom-h">从冷舱，到起飞。</h2>
         <figure><img src="img/skyroute-shot.webp" width="960" height="540" alt="天际航线 SkyRoute 主菜单截图" loading="lazy" decoding="async"></figure>
@@ -1223,8 +1229,10 @@
         words = read.querySelectorAll('.w'); frame();
       }
       var zoom = document.getElementById('ap-zoom'), fig = zoom.querySelector('figure'), zh = zoom.querySelector('.ap-h'), cap = zoom.querySelector('.ap-cap');
+      var pan = zoom.querySelector('.kw-pan'), rows = document.querySelectorAll('.work-row'), idx = document.querySelectorAll('.index-row');
       var cards = document.querySelectorAll('.ap-card .ap-ic'), tick = false;
       function prog(el) { var r = el.getBoundingClientRect(), d = r.height - innerHeight; return d > 0 ? Math.min(1, Math.max(0, -r.top / d)) : 1; }
+      function drift(el, k, amp) { if (el) el.style.transform = 'translate3d(' + (k * amp).toFixed(1) + 'px,0,0)'; }
       function frame() {
         tick = false;
         if (RM) { [].forEach.call(words, function (w) { w.classList.add('lit'); }); return; }
@@ -1234,10 +1242,26 @@
         zh.style.opacity = Math.max(0, 1 - Math.max(0, p - 0.55) / 0.3).toFixed(2);
         zh.style.transform = 'translateY(' + (-p * 12).toFixed(1) + 'px)';
         cap.style.opacity = Math.min(1, Math.max(0, (p - 0.5) / 0.25)).toFixed(2);
+        if (pan) {
+          pan.style.transform = 'translate3d(' + (8 - p * 62).toFixed(1) + '%,-50%,0)';
+          pan.style.opacity = (0.35 + 0.65 * Math.min(1, p * 2.5)).toFixed(2);
+        }
         var q = prog(read.parentNode.parentNode), n = Math.round(q * 1.15 * words.length);
         [].forEach.call(words, function (w, i) { w.classList.toggle('lit', i < n); });
         var vh = innerHeight;
         [].forEach.call(cards, function (c) { var r = c.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return; var k = (r.top + r.height / 2) / vh - 0.5; c.style.transform = 'translateY(' + (k * 60).toFixed(1) + 'px) rotate(' + (k * -8).toFixed(1) + 'deg)'; });
+        if (innerWidth > 900) {
+          [].forEach.call(rows, function (row) {
+            var m = row.querySelector('.work-main'); if (!m) return;
+            var r = row.getBoundingClientRect(); if (r.bottom < -120 || r.top > vh + 120) return;
+            drift(m, (r.top + r.height / 2) / vh - 0.5, -52);
+          });
+          [].forEach.call(idx, function (row) {
+            var m = row.querySelector('.index-main'); if (!m) return;
+            var r = row.getBoundingClientRect(); if (r.bottom < -120 || r.top > vh + 120) return;
+            drift(m, (r.top + r.height / 2) / vh - 0.5, 34);
+          });
+        }
       }
       build();
       new MutationObserver(build).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
@@ -1335,15 +1359,32 @@
       /* marquee slides with the scroll, hero contents lift and fade away behind it */
       var mq = document.querySelector('.kw-marquee'), track = document.querySelector('.kw-marquee-track');
       var hero = [document.querySelector('.hero-grid'), document.querySelector('.platforms')];
-      var half = 0, fadeAt = 1;
+      var half = 0, fadeAt = 1, boost = 0, lastY = 0, echoRaf = 0;
       function measure() {
         if (track) { track.style.transform = 'translate3d(0,0,0)'; half = track.scrollWidth / 2 || 0; }
         fadeAt = Math.max(240, window.innerHeight * 0.72);
       }
+      /* the rail keeps its slow drift, but a hard flick adds an echo that decays back to rest */
+      function paintMarquee(y) {
+        if (!track || !half) return;
+        var off = ((y * 0.42 + boost) % half + half) % half;
+        track.style.transform = 'translate3d(' + (-off).toFixed(1) + 'px,0,0) skewX(' + (boost * 0.007).toFixed(2) + 'deg)';
+      }
+      function echo() {
+        boost *= 0.9;
+        if (Math.abs(boost) < 0.5) { boost = 0; echoRaf = 0; } else echoRaf = requestAnimationFrame(echo);
+        paintMarquee(lastY);
+      }
       function extras() {
         if (RM) return;
         var y = window.pageYOffset || doc.scrollTop || 0;
-        if (track && half) track.style.transform = 'translate3d(' + (-((y * 0.42) % half)).toFixed(1) + 'px,0,0)';
+        var v = y - lastY;
+        lastY = y;
+        if (Math.abs(v) > 1 && Math.abs(v) < 500) {
+          boost = Math.max(-260, Math.min(260, boost * 0.45 + v * 1.5));
+          if (!echoRaf) echoRaf = requestAnimationFrame(echo);
+        }
+        paintMarquee(y);
         var q = fadeAt > 1 ? Math.min(1, y / fadeAt) : 0;
         var ty = (-q * 52).toFixed(1) + 'px';
         /* the entrance keyframes own opacity/transform, so the exit has to outrank them */
