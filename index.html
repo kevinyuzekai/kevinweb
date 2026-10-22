@@ -716,14 +716,7 @@
     .kw-grain{position:fixed;inset:0;z-index:75;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");animation:kwGrain 7s steps(3) infinite}
     @keyframes kwGrain{0%,100%{background-position:0 0}33%{background-position:-46px 26px}66%{background-position:38px -34px}}
     @media (prefers-reduced-motion: reduce){.kw-grain{animation:none}}
-    /* custom cursor: fast dot + lazy ring that swells over anything clickable */
-    .kw-cur{position:fixed;top:0;left:0;z-index:99990;pointer-events:none;border-radius:50%;opacity:0;transition:opacity .3s ease}
-    .kw-cur.on{opacity:1}
-    .kw-cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;background:#f2f2f2;mix-blend-mode:difference}
-    .kw-cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid rgba(242,242,242,.42);transition:width .34s cubic-bezier(.22,1,.36,1),height .34s cubic-bezier(.22,1,.36,1),margin .34s cubic-bezier(.22,1,.36,1),border-color .34s ease,background-color .34s ease,opacity .3s ease}
-    .kw-cur-ring.hot{width:62px;height:62px;margin:-31px 0 0 -31px;border-color:rgba(201,180,138,.75);background:rgba(201,180,138,.1)}
     @media (hover: hover) and (pointer: fine){
-      html.kw-cur-on,html.kw-cur-on body,html.kw-cur-on a,html.kw-cur-on button{cursor:none}
       .ap-duo{perspective:1300px}
       .ap-card{transition:transform .55s cubic-bezier(.22,1,.36,1),border-color .45s ease;transform-style:preserve-3d}
     }
@@ -1458,39 +1451,6 @@
         btn.addEventListener('pointerleave', reset);
         btn.addEventListener('pointercancel', reset);
       });
-
-      /* custom cursor: a fast dot with a slower ring trailing behind it */
-      var curDot = document.createElement('div'), curRing = document.createElement('div');
-      curDot.className = 'kw-cur kw-cur-dot';
-      curRing.className = 'kw-cur kw-cur-ring';
-      curDot.setAttribute('aria-hidden', 'true');
-      curRing.setAttribute('aria-hidden', 'true');
-      document.body.appendChild(curRing);
-      document.body.appendChild(curDot);
-      document.documentElement.classList.add('kw-cur-on');
-      var cx0 = -200, cy0 = -200, dx = cx0, dy = cy0, rx = cx0, ry = cy0, curRaf = 0;
-      function cursorTick() {
-        dx += (cx0 - dx) * 0.6; dy += (cy0 - dy) * 0.6;
-        rx += (cx0 - rx) * 0.16; ry += (cy0 - ry) * 0.16;
-        curDot.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)';
-        curRing.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0)';
-        curRaf = (Math.abs(cx0 - rx) > 0.3 || Math.abs(cy0 - ry) > 0.3) ? requestAnimationFrame(cursorTick) : 0;
-      }
-      window.addEventListener('pointermove', function (e) {
-        cx0 = e.clientX; cy0 = e.clientY;
-        if (!curDot.classList.contains('on')) {
-          dx = rx = cx0; dy = ry = cy0;
-          curDot.classList.add('on'); curRing.classList.add('on');
-        }
-        if (!curRaf) curRaf = requestAnimationFrame(cursorTick);
-      }, { passive: true });
-      function hideCursor() { curDot.classList.remove('on'); curRing.classList.remove('on'); }
-      document.addEventListener('pointerleave', hideCursor);
-      window.addEventListener('blur', hideCursor);
-      document.addEventListener('pointerover', function (e) {
-        var t = e.target.closest && e.target.closest('a,button,.work-row,.ap-card,.ap-stat');
-        curRing.classList.toggle('hot', !!t);
-      }, true);
 
       /* cards tip toward the cursor in 3D */
       Array.prototype.forEach.call(document.querySelectorAll('.ap-card'), function (card) {
