@@ -685,9 +685,29 @@
     /* touch / narrow: never animate or anchor-adjust scrolling (prevents self-scrolling on phones) */
     @media (pointer: coarse), (max-width: 900px){html{scroll-behavior:auto!important;overflow-anchor:none}body{overflow-anchor:none}}
     .kw-bar{position:fixed;left:0;right:0;top:0;height:64px;z-index:55;pointer-events:none;opacity:0;background:rgba(20,20,20,.97);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft)}
+
+    /* ---------- Premium interaction layer ---------- */
+    .scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:80;pointer-events:none}
+    .scroll-progress span{display:block;height:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--accent),#c9b48a);box-shadow:0 0 14px rgba(201,180,138,.5);opacity:0;transition:opacity .45s ease;will-change:transform}
+    .scroll-progress.on span{opacity:1}
+    @media (hover: hover) and (pointer: fine){
+      .work-row{position:relative;isolation:isolate}
+      .work-row::before{content:"";position:absolute;inset:-1px;z-index:0;pointer-events:none;opacity:0;transition:opacity .5s ease;background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),rgba(201,180,138,.16),rgba(95,81,54,.12) 45%,transparent 72%)}
+      .work-row:hover::before{opacity:1}
+      .work-row>*{position:relative;z-index:1}
+      .btn{transform:translate3d(var(--tx,0px),var(--ty,0px),0);transition:background-color .2s ease,border-color .2s ease,color .2s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+      .btn-quiet{transform:translate3d(var(--tx,0px),var(--ty,0px),0);transition:color .2s ease,border-color .2s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+      .btn:active{transform:translate3d(var(--tx,0px),var(--ty,0px),0) scale(.97)}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .scroll-progress span{transition:none}
+      .btn,.btn-quiet{transform:none!important}
+      .work-row::before{display:none}
+    }
   </style>
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <header class="site-header">
     <div class="wrap">
       <div class="hero-meta">
@@ -1216,6 +1236,59 @@
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
       window.addEventListener('load', measure);
       measure();
+    })();
+  </script>
+  <script>
+    /* Premium interaction layer: scroll progress, cursor spotlight on work rows, magnetic buttons */
+    (function () {
+      var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var bar = document.querySelector('.scroll-progress');
+      var fill = bar && bar.querySelector('span');
+      var doc = document.documentElement;
+
+      function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+      function progress() {
+        var y = window.pageYOffset || doc.scrollTop || 0;
+        var max = doc.scrollHeight - window.innerHeight;
+        if (fill) fill.style.transform = 'scaleX(' + (max > 0 ? clamp01(y / max).toFixed(4) : '0') + ')';
+        if (bar) bar.classList.toggle('on', y > 24);
+      }
+
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(function () { ticking = false; progress(); });
+      }, { passive: true });
+      window.addEventListener('resize', progress);
+      progress();
+
+      if (RM || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+      Array.prototype.forEach.call(document.querySelectorAll('.work-row'), function (row) {
+        row.addEventListener('pointermove', function (e) {
+          var r = row.getBoundingClientRect();
+          row.style.setProperty('--mx', (e.clientX - r.left).toFixed(1) + 'px');
+          row.style.setProperty('--my', (e.clientY - r.top).toFixed(1) + 'px');
+        });
+      });
+
+      Array.prototype.forEach.call(document.querySelectorAll('.btn, .btn-quiet'), function (btn) {
+        var reset = function () {
+          btn.style.setProperty('--tx', '0px');
+          btn.style.setProperty('--ty', '0px');
+        };
+        btn.addEventListener('pointermove', function (e) {
+          var r = btn.getBoundingClientRect();
+          var dx = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+          var dy = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+          btn.style.setProperty('--tx', (dx * 5).toFixed(2) + 'px');
+          btn.style.setProperty('--ty', (dy * 4).toFixed(2) + 'px');
+        });
+        btn.addEventListener('pointerleave', reset);
+        btn.addEventListener('pointercancel', reset);
+      });
     })();
   </script>
   <script src="gravity.js"></script>
