@@ -707,6 +707,21 @@
     .platforms a,.footer-links a{position:relative}
     .platforms a::after,.footer-links a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:0 50%;transition:transform .45s cubic-bezier(.22,1,.36,1)}
     .platforms a:hover::after,.platforms a:focus-visible::after,.footer-links a:hover::after,.footer-links a:focus-visible::after{transform:scaleX(1)}
+    /* film grain */
+    .kw-grain{position:fixed;inset:0;z-index:75;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");animation:kwGrain 7s steps(3) infinite}
+    @keyframes kwGrain{0%,100%{background-position:0 0}33%{background-position:-46px 26px}66%{background-position:38px -34px}}
+    @media (prefers-reduced-motion: reduce){.kw-grain{animation:none}}
+    /* custom cursor: fast dot + lazy ring that swells over anything clickable */
+    .kw-cur{position:fixed;top:0;left:0;z-index:99990;pointer-events:none;border-radius:50%;opacity:0;transition:opacity .3s ease}
+    .kw-cur.on{opacity:1}
+    .kw-cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;background:#f2f2f2;mix-blend-mode:difference}
+    .kw-cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid rgba(242,242,242,.42);transition:width .34s cubic-bezier(.22,1,.36,1),height .34s cubic-bezier(.22,1,.36,1),margin .34s cubic-bezier(.22,1,.36,1),border-color .34s ease,background-color .34s ease,opacity .3s ease}
+    .kw-cur-ring.hot{width:62px;height:62px;margin:-31px 0 0 -31px;border-color:rgba(201,180,138,.75);background:rgba(201,180,138,.1)}
+    @media (hover: hover) and (pointer: fine){
+      html.kw-cur-on,html.kw-cur-on body,html.kw-cur-on a,html.kw-cur-on button{cursor:none}
+      .ap-duo{perspective:1300px}
+      .ap-card{transition:transform .55s cubic-bezier(.22,1,.36,1),border-color .45s ease;transform-style:preserve-3d}
+    }
     /* screenshots unmask as they enter; the mask closes again only when leaving the top of the viewport */
     @media (prefers-reduced-motion: no-preference){
       .kw-anim .work-shot{clip-path:inset(0 0 101% 0)}
@@ -736,6 +751,7 @@
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span><i></i></div>
+  <div class="kw-grain" aria-hidden="true"></div>
   <header class="site-header">
     <div class="wrap">
       <div class="hero-meta">
@@ -1400,6 +1416,66 @@
         });
         btn.addEventListener('pointerleave', reset);
         btn.addEventListener('pointercancel', reset);
+      });
+
+      /* custom cursor: a fast dot with a slower ring trailing behind it */
+      var curDot = document.createElement('div'), curRing = document.createElement('div');
+      curDot.className = 'kw-cur kw-cur-dot';
+      curRing.className = 'kw-cur kw-cur-ring';
+      curDot.setAttribute('aria-hidden', 'true');
+      curRing.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(curRing);
+      document.body.appendChild(curDot);
+      document.documentElement.classList.add('kw-cur-on');
+      var cx0 = -200, cy0 = -200, dx = cx0, dy = cy0, rx = cx0, ry = cy0, curRaf = 0;
+      function cursorTick() {
+        dx += (cx0 - dx) * 0.6; dy += (cy0 - dy) * 0.6;
+        rx += (cx0 - rx) * 0.16; ry += (cy0 - ry) * 0.16;
+        curDot.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)';
+        curRing.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0)';
+        curRaf = (Math.abs(cx0 - rx) > 0.3 || Math.abs(cy0 - ry) > 0.3) ? requestAnimationFrame(cursorTick) : 0;
+      }
+      window.addEventListener('pointermove', function (e) {
+        cx0 = e.clientX; cy0 = e.clientY;
+        if (!curDot.classList.contains('on')) {
+          dx = rx = cx0; dy = ry = cy0;
+          curDot.classList.add('on'); curRing.classList.add('on');
+        }
+        if (!curRaf) curRaf = requestAnimationFrame(cursorTick);
+      }, { passive: true });
+      function hideCursor() { curDot.classList.remove('on'); curRing.classList.remove('on'); }
+      document.addEventListener('pointerleave', hideCursor);
+      window.addEventListener('blur', hideCursor);
+      document.addEventListener('pointerover', function (e) {
+        var t = e.target.closest && e.target.closest('a,button,.work-row,.ap-card,.ap-stat');
+        curRing.classList.toggle('hot', !!t);
+      }, true);
+
+      /* cards tip toward the cursor in 3D */
+      Array.prototype.forEach.call(document.querySelectorAll('.ap-card'), function (card) {
+        card.addEventListener('pointermove', function (e) {
+          var r = card.getBoundingClientRect();
+          var nx = (e.clientX - r.left) / r.width - 0.5;
+          var ny = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = 'rotateX(' + (-ny * 14).toFixed(2) + 'deg) rotateY(' + (nx * 14).toFixed(2) + 'deg) translateZ(10px)';
+        });
+        card.addEventListener('pointerleave', function () { card.style.transform = ''; });
+      });
+
+      /* text that decodes into place on hover */
+      var GLYPH = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%/*+';
+      function decode(el) {
+        if (el.__decode) return;
+        var txt = el.textContent, n = txt.length, f = 0;
+        el.__decode = setInterval(function () {
+          var shown = Math.floor((f++ * n) / (n + 6)), out = '';
+          for (var i = 0; i < n; i++) out += i < shown || txt.charAt(i) === ' ' ? txt.charAt(i) : GLYPH.charAt((Math.random() * GLYPH.length) | 0);
+          el.textContent = out;
+          if (f >= n + 6) { clearInterval(el.__decode); el.__decode = 0; el.textContent = txt; }
+        }, 28);
+      }
+      Array.prototype.forEach.call(document.querySelectorAll('.footer-links a, .btn-quiet'), function (el) {
+        el.addEventListener('pointerenter', function () { decode(el); });
       });
     })();
   </script>
