@@ -731,6 +731,11 @@
     .kw-marquee{position:relative;overflow:hidden;padding:clamp(1rem,2.6vw,2rem) 0;border-top:1px solid var(--line);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
     .kw-marquee-track{display:flex;width:max-content;will-change:transform}
     .kw-marquee-track span{display:block;white-space:nowrap;font-family:var(--sans);font-weight:600;font-size:clamp(2.6rem,10.5vw,8.5rem);line-height:.92;letter-spacing:-.035em;text-transform:uppercase;color:rgba(242,242,242,.06);padding-right:.3em}
+    .kw-marquee-track.rev{margin-top:clamp(.3rem,1.2vw,.9rem)}
+    .kw-marquee-track.rev span{font-size:clamp(1.1rem,4.4vw,3rem);line-height:1;letter-spacing:.02em;color:rgba(242,242,242,.05);padding-right:1.4em}
+    /* the hairline above each work row lights up as that row reaches the middle of the screen */
+    .work-row::after{content:"";position:absolute;left:0;top:-1.5px;height:2px;width:100%;pointer-events:none;z-index:2;opacity:var(--hl-o,0);transform:scaleX(var(--hl-s,0));transform-origin:0 50%;will-change:transform,opacity;background:linear-gradient(90deg,rgba(201,180,138,0),#e2caa0 14%,rgba(201,180,138,.75) 58%,rgba(201,180,138,0));box-shadow:0 0 12px rgba(201,180,138,.35)}
+    .index-num{will-change:transform}
     /* kinetic type scrubbed by scroll: an outlined word pans behind the pinned shot,
        work titles and index names drift sideways at their own pace */
     .ap-zoom .kw-pan{position:absolute;left:0;top:50%;z-index:0;white-space:nowrap;font-family:var(--sans);font-weight:600;font-size:clamp(4.5rem,16vw,14rem);line-height:1;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1px rgba(242,242,242,.13);pointer-events:none;user-select:none;will-change:transform;transform:translate3d(8%,-50%,0)}
@@ -824,6 +829,9 @@
   <div class="kw-marquee" aria-hidden="true">
     <div class="kw-marquee-track">
       <span>Selected Work — 2026 —</span><span>Selected Work — 2026 —</span><span>Selected Work — 2026 —</span><span>Selected Work — 2026 —</span>
+    </div>
+    <div class="kw-marquee-track rev">
+      <span>Handmade · Free · Always —</span><span>Handmade · Free · Always —</span><span>Handmade · Free · Always —</span><span>Handmade · Free · Always —</span>
     </div>
   </div>
 
@@ -1289,9 +1297,13 @@
         var wide = innerWidth > 900;
         [].forEach.call(rows, function (row, ri) {
           var m = row.querySelector('.work-main'), ic = row.querySelector('.work-icon'), lk = row.querySelector('.work-links');
-          if (!wide) { if (m) m.style.transform = ''; if (ic) ic.style.transform = ''; if (lk) lk.style.transform = ''; return; }
+          if (!wide) { if (m) m.style.transform = ''; if (ic) ic.style.transform = ''; if (lk) lk.style.transform = ''; row.style.setProperty('--hl-o', 0); row.style.setProperty('--hl-s', 0); return; }
           var r = row.getBoundingClientRect(); if (r.bottom < -160 || r.top > vh + 160) return;
           var k = (r.top + r.height / 2) / vh - 0.5, dir = ri % 2 ? 1 : -1;
+          var near = 1 - Math.min(1, Math.abs(k) * 1.75);
+          near = near * near * (3 - 2 * near);
+          row.style.setProperty('--hl-o', near.toFixed(3));
+          row.style.setProperty('--hl-s', near.toFixed(3));
           if (m) m.style.transform =
             'translate3d(' + (k * -54).toFixed(1) + 'px,' + (k * -26).toFixed(1) + 'px,' + (-Math.abs(k) * 130).toFixed(0) + 'px)' +
             ' rotateY(' + (k * -11 * dir).toFixed(2) + 'deg) rotateX(' + (k * 3.4).toFixed(2) + 'deg)' +
@@ -1304,14 +1316,17 @@
             ' rotateY(' + (k * 6 * dir).toFixed(2) + 'deg)';
         });
         [].forEach.call(idx, function (row) {
-          var m = row.querySelector('.index-main');
-          if (!wide) { if (m) m.style.transform = ''; return; }
+          var m = row.querySelector('.index-main'), num = row.querySelector('.index-num');
+          if (!wide) { if (m) m.style.transform = ''; if (num) num.style.transform = ''; return; }
           if (!m) return;
           var r = row.getBoundingClientRect(); if (r.bottom < -160 || r.top > vh + 160) return;
           var k = (r.top + r.height / 2) / vh - 0.5;
+          var near = 1 - Math.min(1, Math.abs(k) * 1.75);
           m.style.transform =
             'translate3d(' + (k * 44).toFixed(1) + 'px,' + (k * -10).toFixed(1) + 'px,' + (-Math.abs(k) * 100).toFixed(0) + 'px)' +
             ' rotateY(' + (k * 9).toFixed(2) + 'deg)';
+          if (num) num.style.transform =
+            'translate3d(' + (k * 14).toFixed(1) + 'px,0,0) scale(' + (1 + near * 0.22).toFixed(3) + ') rotate(' + (k * -7).toFixed(2) + 'deg)';
         });
       }
       build();
@@ -1408,18 +1423,30 @@
       }
 
       /* marquee slides with the scroll, hero contents lift and fade away behind it */
-      var mq = document.querySelector('.kw-marquee'), track = document.querySelector('.kw-marquee-track');
+      var mq = document.querySelector('.kw-marquee');
+      var tracks = [].slice.call(document.querySelectorAll('.kw-marquee-track'));
       var hero = [document.querySelector('.hero-grid'), document.querySelector('.platforms')];
-      var half = 0, fadeAt = 1, boost = 0, lastY = 0, echoRaf = 0;
+      var halves = [0, 0], fadeAt = 1, boost = 0, lastY = 0, echoRaf = 0;
       function measure() {
-        if (track) { track.style.transform = 'translate3d(0,0,0)'; half = track.scrollWidth / 2 || 0; }
+        for (var i = 0; i < tracks.length; i++) {
+          tracks[i].style.transform = 'translate3d(0,0,0)';
+          halves[i] = tracks[i].scrollWidth / 2 || 0;
+        }
         fadeAt = Math.max(240, window.innerHeight * 0.72);
       }
       /* the rail keeps its slow drift, but a hard flick adds an echo that decays back to rest */
       function paintMarquee(y) {
-        if (!track || !half) return;
-        var off = ((y * 0.42 + boost) % half + half) % half;
-        track.style.transform = 'translate3d(' + (-off).toFixed(1) + 'px,0,0) skewX(' + (boost * 0.007).toFixed(2) + 'deg)';
+        if (!tracks.length) return;
+        var skew = (boost * 0.007).toFixed(2);
+        if (halves[0]) {
+          var off = ((y * 0.42 + boost) % halves[0] + halves[0]) % halves[0];
+          tracks[0].style.transform = 'translate3d(' + (-off).toFixed(1) + 'px,0,0) skewX(' + skew + 'deg)';
+        }
+        /* the small band runs the other way, so the two lines scissor past each other */
+        if (tracks[1] && halves[1]) {
+          var off2 = ((y * 0.3 - boost * 0.5) % halves[1] + halves[1]) % halves[1];
+          tracks[1].style.transform = 'translate3d(' + (off2 - halves[1]).toFixed(1) + 'px,0,0) skewX(' + (-skew) + 'deg)';
+        }
       }
       function echo() {
         boost *= 0.9;
