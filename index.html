@@ -719,6 +719,11 @@
     .ap-zoom .kw-pan{position:absolute;left:0;top:50%;z-index:0;white-space:nowrap;font-family:var(--sans);font-weight:600;font-size:clamp(4.5rem,16vw,14rem);line-height:1;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1px rgba(242,242,242,.13);pointer-events:none;user-select:none;will-change:transform;transform:translate3d(8%,-50%,0)}
     .ap-zoom .ap-stick>figure{position:relative;z-index:1}
     .work-main,.index-row{will-change:transform}
+    /* depth stage for the scroll flight: rows tilt, parts travel on their own Z plane */
+    .work-row{perspective:1250px}
+    .index-row{perspective:1100px}
+    .work-main,.work-shot,.work-icon,.index-main{transform-style:preserve-3d;backface-visibility:hidden}
+    .work-shot,.work-icon,.work-main,.index-main,.work-links{will-change:transform}
     @media (prefers-reduced-motion: reduce){.kw-marquee-track{transform:none!important}}
     /* hero pointer light: a warm, slowly-trailing glow living on the header background itself
        (an extra stacking layer here would fight the pinned wordmark / top bar) */
@@ -1158,8 +1163,9 @@
         });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
       [].forEach.call(shotRows, function (el) { ios.observe(el); });
-      /* subtle parallax / scale for screenshots and icons (desktop) + scroll-velocity skew */
-      var mq = window.matchMedia('(min-width: 900px)'), items = document.querySelectorAll('.work-shot, .work-icon'), tick = false;
+      /* subtle parallax / scale for screenshots (desktop) + scroll-velocity skew */
+      var mq = window.matchMedia('(min-width: 900px)'), items = document.querySelectorAll('.work-shot'), tick = false;
+      var RM0 = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var lastY = window.scrollY, vel = 0;
       function para() {
         tick = false; var vh = window.innerHeight;
@@ -1167,12 +1173,13 @@
         vel += (dy - vel) * 0.16;
         var skew = Math.max(-1.2, Math.min(1.2, vel * 0.025));
         [].forEach.call(items, function (el) {
-          if (!mq.matches) { el.style.transform = ''; return; }
+          if (!mq.matches || RM0) { el.style.transform = ''; return; }
           var r = el.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return;
           var p = ((r.top + r.height / 2) / vh - 0.5);
-          el.style.transform = el.classList.contains('work-shot')
-            ? 'translateY(' + (p * -18).toFixed(1) + 'px) scale(' + (1.04 - Math.abs(p) * 0.04).toFixed(3) + ') skewY(' + skew.toFixed(2) + 'deg)'
-            : 'scale(' + (1 - Math.abs(p) * 0.08).toFixed(3) + ')';
+          el.style.transform =
+            'translate3d(0,' + (p * -26).toFixed(1) + 'px,' + (-Math.abs(p) * 150).toFixed(0) + 'px)' +
+            ' rotateY(' + (p * -9).toFixed(2) + 'deg) rotateX(' + (p * 4).toFixed(2) + 'deg)' +
+            ' scale(' + (1.06 - Math.abs(p) * 0.06).toFixed(3) + ') skewY(' + skew.toFixed(2) + 'deg)';
         });
       }
       window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(para); } }, { passive: true });
@@ -1242,36 +1249,53 @@
       var pan = zoom.querySelector('.kw-pan'), rows = document.querySelectorAll('.work-row'), idx = document.querySelectorAll('.index-row');
       var cards = document.querySelectorAll('.ap-card .ap-ic'), tick = false;
       function prog(el) { var r = el.getBoundingClientRect(), d = r.height - innerHeight; return d > 0 ? Math.min(1, Math.max(0, -r.top / d)) : 1; }
-      function drift(el, k, amp) { if (el) el.style.transform = 'translate3d(' + (k * amp).toFixed(1) + 'px,0,0)'; }
+      var lY = window.scrollY, vv = 0;
       function frame() {
         tick = false;
         if (RM) { [].forEach.call(words, function (w) { w.classList.add('lit'); }); return; }
+        var dy = window.scrollY - lY; lY = window.scrollY; vv += (dy - vv) * 0.18;
+        var roll = Math.max(-2.6, Math.min(2.6, vv * 0.055));
         var p = prog(zoom), s = 0.6 + 0.4 * Math.min(1, p / 0.7);
         var rx = (1 - Math.min(1, p / 0.72)) * 11;
-        fig.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
+        fig.style.transform = 'translate3d(0,' + (p * -46).toFixed(1) + 'px,' + ((1 - p) * 120).toFixed(0) + 'px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + (roll * 0.9).toFixed(2) + 'deg) rotateZ(' + (roll * 0.45).toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
         zh.style.opacity = Math.max(0, 1 - Math.max(0, p - 0.55) / 0.3).toFixed(2);
         zh.style.transform = 'translateY(' + (-p * 12).toFixed(1) + 'px)';
         cap.style.opacity = Math.min(1, Math.max(0, (p - 0.5) / 0.25)).toFixed(2);
         if (pan) {
-          pan.style.transform = 'translate3d(' + (8 - p * 62).toFixed(1) + '%,-50%,0)';
+          pan.style.transform = 'translate3d(' + (8 - p * 62).toFixed(1) + '%,-50%,0) skewX(' + (roll * -2.2).toFixed(2) + 'deg)';
           pan.style.opacity = (0.35 + 0.65 * Math.min(1, p * 2.5)).toFixed(2);
         }
         var q = prog(read.parentNode.parentNode), n = Math.round(q * 1.15 * words.length);
         [].forEach.call(words, function (w, i) { w.classList.toggle('lit', i < n); });
         var vh = innerHeight;
         [].forEach.call(cards, function (c) { var r = c.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return; var k = (r.top + r.height / 2) / vh - 0.5; c.style.transform = 'translateY(' + (k * 60).toFixed(1) + 'px) rotate(' + (k * -8).toFixed(1) + 'deg)'; });
-        if (innerWidth > 900) {
-          [].forEach.call(rows, function (row) {
-            var m = row.querySelector('.work-main'); if (!m) return;
-            var r = row.getBoundingClientRect(); if (r.bottom < -120 || r.top > vh + 120) return;
-            drift(m, (r.top + r.height / 2) / vh - 0.5, -52);
-          });
-          [].forEach.call(idx, function (row) {
-            var m = row.querySelector('.index-main'); if (!m) return;
-            var r = row.getBoundingClientRect(); if (r.bottom < -120 || r.top > vh + 120) return;
-            drift(m, (r.top + r.height / 2) / vh - 0.5, 34);
-          });
-        }
+        var wide = innerWidth > 900;
+        [].forEach.call(rows, function (row, ri) {
+          var m = row.querySelector('.work-main'), ic = row.querySelector('.work-icon'), lk = row.querySelector('.work-links');
+          if (!wide) { if (m) m.style.transform = ''; if (ic) ic.style.transform = ''; if (lk) lk.style.transform = ''; return; }
+          var r = row.getBoundingClientRect(); if (r.bottom < -160 || r.top > vh + 160) return;
+          var k = (r.top + r.height / 2) / vh - 0.5, dir = ri % 2 ? 1 : -1;
+          if (m) m.style.transform =
+            'translate3d(' + (k * -54).toFixed(1) + 'px,' + (k * -26).toFixed(1) + 'px,' + (-Math.abs(k) * 130).toFixed(0) + 'px)' +
+            ' rotateY(' + (k * -11 * dir).toFixed(2) + 'deg) rotateX(' + (k * 3.4).toFixed(2) + 'deg)' +
+            ' rotateZ(' + (k * 1.5 * dir + roll * 0.5).toFixed(2) + 'deg)';
+          if (ic) ic.style.transform =
+            'translate3d(0,' + (k * -38).toFixed(1) + 'px,' + (Math.abs(k) * 110).toFixed(0) + 'px)' +
+            ' rotateZ(' + (k * 10 * dir).toFixed(2) + 'deg)';
+          if (lk) lk.style.transform =
+            'translate3d(' + (k * 22).toFixed(1) + 'px,' + (k * 16).toFixed(1) + 'px,' + (-Math.abs(k) * 60).toFixed(0) + 'px)' +
+            ' rotateY(' + (k * 6 * dir).toFixed(2) + 'deg)';
+        });
+        [].forEach.call(idx, function (row) {
+          var m = row.querySelector('.index-main');
+          if (!wide) { if (m) m.style.transform = ''; return; }
+          if (!m) return;
+          var r = row.getBoundingClientRect(); if (r.bottom < -160 || r.top > vh + 160) return;
+          var k = (r.top + r.height / 2) / vh - 0.5;
+          m.style.transform =
+            'translate3d(' + (k * 44).toFixed(1) + 'px,' + (k * -10).toFixed(1) + 'px,' + (-Math.abs(k) * 100).toFixed(0) + 'px)' +
+            ' rotateY(' + (k * 9).toFixed(2) + 'deg)';
+        });
       }
       build();
       new MutationObserver(build).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
