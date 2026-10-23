@@ -1,7 +1,8 @@
 /* KevinWeb gravity letters — self-written verlet solver, no library.
    Click/tap anywhere (not on links/buttons/inputs) drops one letter at that point; letters fall to the
    bottom of the viewport and pile up. Mouse/pen can drag & fling a letter (JS hit-test, overlay itself is
-   pointer-events:none). Cleared on pagehide, bfcache restore, hashchange, popstate, link navigation, language switch. */
+   pointer-events:none). Shaking the phone twice, once letters are lying around, blows the pile apart.
+   Cleared on pagehide, bfcache restore, hashchange, popstate, link navigation, language switch. */
 (function () {
   var cv = document.createElement('canvas'); cv.className = 'kw-grav-layer'; cv.setAttribute('aria-hidden', 'true');
   document.body.appendChild(cv);
@@ -27,7 +28,49 @@
     if (RM) { for (var i = 0; i < 240; i++) step(1 / 60); b.forEach(function (q) { q.px = q.x; q.py = q.y; q.va = 0; }); }
     draw(); start();
   }
-  function clear() { b.length = 0; drag = null; if (ctx) ctx.clearRect(0, 0, W, H); }
+  function clear() { b.length = 0; drag = null; peaks.length = 0; if (ctx) ctx.clearRect(0, 0, W, H); }
+  /* blast: every letter gets thrown away from the centre of the pile, kept by the same solver, and fades out */
+  function explode() {
+    var i, o, cx = 0, cy = 0, n = 0;
+    for (i = 0; i < b.length; i++) if (!b[i].dying) { cx += b[i].x; cy += b[i].y; n++; }
+    if (!n) return;
+    cx /= n; cy /= n;
+    for (i = 0; i < b.length; i++) {
+      o = b[i];
+      if (o.dying) { o.fade = 0; continue; }
+      var dx = o.x - cx, dy = o.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+      var sp = (760 + Math.random() * 900) / 60;                  /* outward, in px per solver step */
+      o.px = o.x - dx / d * sp;
+      o.py = o.y - (dy / d * sp - 5.4 - Math.random() * 3.4);      /* plus a kick upwards */
+      o.va = (Math.random() - 0.5) * 0.55;
+      o.dying = true; o.fade = 1;
+    }
+    drag = null; start();
+  }
+  /* two shakes of the phone is enough. A shake shows up as a sharp departure from the smoothed gravity
+     reading, so tilting or walking around never triggers it. */
+  var peaks = [], baseMag = 0, lastPeak = 0, motionArmed = false;
+  function armMotion() {
+    if (motionArmed) return; motionArmed = true;
+    if (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') {
+      try { DeviceMotionEvent.requestPermission().catch(function () {}); } catch (e) {}
+    }
+  }
+  function onMotion(e) {
+    if (RM || !b.length) { peaks.length = 0; return; }
+    var a = e.accelerationIncludingGravity || e.acceleration;
+    if (!a || a.x === null || a.x === undefined) return;
+    var m = Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+    if (!baseMag) baseMag = m;
+    var dev = Math.abs(m - baseMag), now = Date.now();
+    baseMag = baseMag * 0.88 + m * 0.12;
+    if (dev > 9 && now - lastPeak > 110) {
+      lastPeak = now; peaks.push(now);
+      peaks = peaks.filter(function (t) { return now - t < 1600; });
+      if (peaks.length >= 2) { peaks.length = 0; explode(); }
+    }
+  }
+  addEventListener('devicemotion', onMotion, { passive: true });
   function step(dt) {
     var i, j, o, q;
     for (i = 0; i < b.length; i++) {
@@ -90,7 +133,7 @@
     var d = tdown; tdown = null;
     if (Math.abs(e.clientX - d.x) + Math.abs(e.clientY - d.y) > 10 || Date.now() - d.t > 600) return;
     var t = e.target; if (t && t.closest && t.closest(SKIP)) return;
-    lastTouch = Date.now(); add(e.clientX, e.clientY);
+    lastTouch = Date.now(); armMotion(); add(e.clientX, e.clientY);
   });
   addEventListener('pointercancel', function () { tdown = null; release(); });
   /* "click" fires for mouse clicks, trackpad taps and touch taps, but never after a scroll gesture */
