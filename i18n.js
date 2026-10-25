@@ -8,6 +8,8 @@ var D={
 "课堂工具集 + 小组赛 + AI 助手。名单和积分只保存在本机。":"Classroom tools + group contests + AI assistant. Rosters and points stay on your device.",
 "自适应调度 + 拨号换卡 + 分段加速下载，尽量叠满多网卡带宽。只在本机 127.0.0.1 运行。":"Adaptive scheduling + interface switching + segmented accelerated downloads to fill the bandwidth of multiple network interfaces. Runs only on 127.0.0.1.",
 "下载 Mac DMG":"Download Mac DMG",
+"已停止开发 · 仍可正常下载和使用":"Development discontinued · Still downloadable and fully usable",
+"将于 2026年11月1日 0:00（北京时间）停止下载":"Downloads end Nov 1, 2026, 0:00 (UTC+8)",
 "微软商店下载":"Get it from Microsoft Store",
 "Plume · Windows / macOS":"Plume · Windows / macOS",
 "Plume Browser v0.1.2（Windows / Mac · 免费）":"Plume Browser v0.1.2 (Windows / Mac · Free)",
