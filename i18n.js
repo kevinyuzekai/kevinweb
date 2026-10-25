@@ -26,7 +26,7 @@ var D={
 "天际航线 SkyRoute beta 0.5.5（网页版 ZIP · 免费）":"SkyRoute beta 0.5.5 (web ZIP · Free)",
 "解压后用 Chrome / Edge 打开 index.html 即可（macOS 可双击「启动游戏.command」）。beta 0.5.2：新增 7 种游戏界面语言（简体中文、English、日本語、한국어、Français、Deutsch、Español）；含 0.5.1 音效与游戏内检查更新、0.5.0 新机模（中性涂装）、按机型重做三维驾驶舱（顶板 / 中央操纵台）、完整冷舱启动；含 0.4.2 可点击座舱、0.4.1 摇杆 / 脚舵热修复与 0.4 的更多 OSM 立体机场、A330 / MAX / 777 机模、自动驾驶手感修复；离线可玩，联网时自动加载真实卫星影像与地形。":"Unzip and open index.html in Chrome / Edge (on macOS you can double-click 启动游戏.command). beta 0.5.2 adds 7 in-game UI languages (简体中文, English, 日本語, 한국어, Français, Deutsch, Español). Also includes 0.5.1 sound effects and in-game update check, 0.5.0 new aircraft models (neutral liveries), 3D cockpits rebuilt per type (overhead / pedestal), a full cold-and-dark start, 0.4.2 clickable cockpit, 0.4.1 joystick / rudder hotfix, and 0.4's extra OSM 3D airports, A330 / MAX / 777 models and autopilot handling fixes. Playable offline; loads real satellite imagery and terrain when online.",
 "下载 ZIP":"Download ZIP","源码":"Source",
-"LinkPool 0.2.0（网卡聚合助手）":"LinkPool 0.2.0 (network bonding helper)",
+"LinkPool 0.2.1（网卡聚合助手）":"LinkPool 0.2.1 (network bonding helper)",
 "自适应调度 + 拨号换卡 + 分段加速下载，尽量叠满多网卡带宽。Apple Silicon 与 Intel 均有 DMG。控制台 http://127.0.0.1:8787；若提示已损坏可 xattr -cr。":"Adaptive scheduling + interface switching + segmented accelerated downloads to fill the bandwidth of multiple network cards. DMGs for both Apple Silicon and Intel. Console at http://127.0.0.1:8787; if macOS says the app is damaged, run xattr -cr.",
 "随机点名工具 · Windows 安装包":"Random Name Picker · Windows installer",
 "随机点名工具 1.0.2":"Random Name Picker 1.0.2",
