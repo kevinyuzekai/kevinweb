@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#141414">
+  <script src="site-transition.js"></script>
+  <title>LinkPool · KevinWeb</title>
+  <meta name="description" content="LinkPool —— macOS 网卡聚合助手，把 Wi-Fi、有线、手机热点的带宽叠在一起。免费。">
+  <link rel="canonical" href="https://kevinyuzekai.github.io/kevinweb/linkpool.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="KevinWeb">
+  <meta property="og:title" content="LinkPool · KevinWeb">
+  <meta property="og:description" content="macOS 网卡聚合助手，把 Wi-Fi、有线、手机热点的带宽叠在一起。免费。">
+  <meta property="og:url" content="https://kevinyuzekai.github.io/kevinweb/linkpool.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="project.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="pd-back" href="./index.html"><span>←</span>首页</a>
+      <nav class="nav" aria-label="Language"></nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="pd-hero">
+      <div class="wrap">
+        <p class="pd-kicker">03 — macOS</p>
+        <h1 class="pd-title"><span class="ln"><i>LinkPool</i></span><span class="ln"><i>网卡聚合</i></span></h1>
+        <p class="pd-lead">把 Wi-Fi、有线网、手机热点叠成一条更快的通道：自适应调度、拨号换卡、分段加速下载。</p>
+        <dl class="pd-meta">
+          <div><dt>平台</dt><dd>macOS</dd></div>
+          <div><dt>版本</dt><dd>0.2.0</dd></div>
+          <div><dt>架构</dt><dd>Apple Silicon / Intel</dd></div>
+          <div><dt>价格</dt><dd>免费</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="pd-sec">
+      <div class="wrap pd-grid">
+        <h2 class="pd-h">概览</h2>
+        <div class="pd-body">
+          <p>LinkPool 同时接管多条网络，按实时质量把流量分到不同的网卡上，尽量把多网卡的带宽叠满。</p>
+          <p>控制台在本机 127.0.0.1:8787，只监听回环地址，不对外暴露。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pd-sec">
+      <div class="wrap pd-grid">
+        <h2 class="pd-h">亮点</h2>
+        <div class="pd-body">
+          <ul class="pd-list">
+            <li><span><strong>自适应调度</strong>　按延迟与丢包动态分配流量，某条线路掉了自动绕开。</span></li>
+            <li><span><strong>拨号换卡</strong>　蜂窝网络可以在多张卡之间切换。</span></li>
+            <li><span><strong>分段加速下载</strong>　单个文件切成多段，走不同网卡同时拉。</span></li>
+            <li><span><strong>纯本机运行</strong>　控制台只监听 127.0.0.1，配置不上传。</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="pd-sec">
+      <div class="wrap pd-grid">
+        <h2 class="pd-h">下载</h2>
+        <div class="pd-body">
+          <div class="pd-actions">
+            <a class="btn" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.0/LinkPool-0.2.0-arm64.dmg" download>Apple Silicon DMG</a>
+            <a class="btn" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.0/LinkPool-0.2.0-amd64.dmg" download>Intel DMG</a>
+            <a class="btn-quiet" href="https://github.com/kevinyuzekai/LinkPool" target="_blank" rel="noopener">源码</a>
+          </div>
+          <p class="pd-note">首次打开若提示「已损坏」，在终端执行 xattr -cr /Applications/LinkPool.app 后再打开。</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="pd-next" aria-label="Next project">
+      <div class="wrap">
+        <span class="lab">下一个</span>
+        <a href="./plume.html">
+          <span class="nm">Plume Browser</span>
+          <span class="arw" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </nav>
+  </main>
+
+  <footer class="pd-foot">
+    <div class="wrap">
+      <span>© 2026 Kevin Yu · 全部免费，全部手搓</span>
+      <span><a href="./All_resources.html">全部资源</a></span>
+    </div>
+  </footer>
+
+  <script src="project.js"></script>
+  <script src="i18n.js"></script>
+</body>
+</html>
