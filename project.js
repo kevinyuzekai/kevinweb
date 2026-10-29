@@ -16,7 +16,7 @@
     ready();
   }
 
-  var targets = document.querySelectorAll('.rv, .pd-sec');
+  var targets = document.querySelectorAll('.rv, .pd-sec, .pd-gallery .pd-fig');
   if (!('IntersectionObserver' in window) || RM) {
     [].forEach.call(targets, function (n) { n.classList.add('in'); });
   } else {
@@ -31,6 +31,31 @@
   }
 
   if (RM) return;
+
+  /* pointer-follow tilt + warm light inside the screenshot grid */
+  var gallery = document.querySelector('.pd-gallery');
+  if (gallery && window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+    var fig = null;
+    gallery.addEventListener('pointermove', function (e) {
+      var f = e.target.closest ? e.target.closest('.pd-fig') : null;
+      if (!f) return;
+      fig = f;
+      var r = f.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      f.style.setProperty('--ry', (px * 5).toFixed(2) + 'deg');
+      f.style.setProperty('--rx', (-py * 4).toFixed(2) + 'deg');
+      f.style.setProperty('--mx', ((px + 0.5) * 100).toFixed(1) + '%');
+      f.style.setProperty('--my', ((py + 0.5) * 100).toFixed(1) + '%');
+    }, { passive: true });
+    gallery.addEventListener('pointerleave', function () {
+      if (!fig) return;
+      fig.style.removeProperty('--rx');
+      fig.style.removeProperty('--ry');
+      fig = null;
+    });
+  }
+
   var shots = [].slice.call(document.querySelectorAll('.pd-fig .shot'));
   if (!shots.length) return;
 
