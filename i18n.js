@@ -128,6 +128,7 @@ var D={
 "A320ceo、A330、737 MAX、777、C919、E190，全部自制模型。":"A320ceo, A330, 737 MAX, 777, C919, E190 — all custom models.",
 "摇杆、脚舵与自动驾驶":"Joystick, rudder pedals and autopilot","支持外接摇杆和脚舵，自动驾驶与手感经过多轮修复。":"Supports external joysticks and rudder pedals; autopilot and handling refined over many rounds.",
 "天际航线 SkyRoute · 主菜单":"SkyRoute · main menu","下载网页版 ZIP":"Download web ZIP",
+"737 · 跑道":"737 · runway","起飞":"Takeoff","737 · 驾驶舱":"737 · cockpit","安第斯山脉上空":"Over the Andes","海岛机场 · 进近":"Island airport · approach",
 "Windows 只提供便携版 zip，解压后运行「天际航线.exe」；网页版解压后用 Chrome / Edge 打开 index.html，macOS 可双击「启动游戏.command」。未签名，SmartScreen 可能提示。":"On Windows there is only a portable zip: unzip and run 天际航线.exe. For the web version, unzip and open index.html in Chrome / Edge; on macOS you can double-click 启动游戏.command. Unsigned, so SmartScreen may warn.",
 "网卡聚合":"Network Bonding",
 "把 Wi-Fi、有线网、手机热点叠成一条更快的通道：自适应调度、拨号换卡、分段加速下载。":"Fuse Wi-Fi, Ethernet and a phone hotspot into one faster pipe: adaptive scheduling, SIM switching, segmented accelerated downloads.",
