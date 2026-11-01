@@ -178,6 +178,19 @@ img {
 /* ---------- hero ---------- */
 .hero {
   padding: clamp(7rem, 17vh, 10.5rem) 0 0;
+  transition: opacity 0.42s ease, filter 0.42s ease;
+}
+
+/* hero copy follows the pointer in 3-D, and dims once the page starts scrolling */
+.hero .wrap.hero-copy {
+  transform: perspective(900px) rotateX(var(--hx, 0deg)) rotateY(var(--hy, 0deg))
+    translate3d(var(--hdx, 0px), var(--hdy, 0px), 0);
+  transform-style: preserve-3d;
+  transition: transform 0.14s ease-out;
+}
+
+html.has-scrolled .hero {
+  opacity: 0.62;
 }
 
 .kicker {
@@ -563,19 +576,39 @@ img {
 }
 
 /* ---------- motion ---------- */
+/* pidanai-style reveal: rise + slight scale + blur, spring easing, staggered by --d */
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  transition: opacity 0.9s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate3d(0, 54px, 0) scale(0.98);
+  filter: blur(10px);
+  transition:
+    opacity 0.76s ease,
+    transform 0.76s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.76s ease;
+  transition-delay: var(--d, 0ms);
 }
 
 .reveal.in {
   opacity: 1;
-  transform: none;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
 }
 
-.hero .reveal.in {
-  transition-delay: var(--d, 0s);
+/* cards keep their pointer tilt while revealing */
+.card.reveal {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+    translate3d(0, calc(54px + var(--lift, 0px)), 0) scale(0.98);
+  transition:
+    opacity 0.76s ease,
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.76s ease,
+    box-shadow 0.4s ease,
+    border-color 0.3s ease;
+}
+
+.card.reveal.in {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+    translate3d(0, var(--lift, 0px), 0) scale(1);
 }
 
 /* ---------- responsive ---------- */
@@ -676,11 +709,15 @@ img {
   .display .ln > i {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
     transition: none !important;
   }
 
-  .card {
+  .card,
+  .hero-copy,
+  .hero {
     transform: none !important;
+    opacity: 1 !important;
   }
 
   *,

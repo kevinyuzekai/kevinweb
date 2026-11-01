@@ -540,6 +540,12 @@
     .btn-download:hover{background:#1d1d1d}
     .pagination a{border-radius:999px;border-color:rgba(7,7,7,.09)}
     .pagination a.active{background:#070707;color:#fff;border-color:#070707}
+
+    /* scroll reveal, pidanai style */
+    .reveal{opacity:0}
+    .reveal.in{animation:kw-rise .76s cubic-bezier(.16,1,.3,1) both;animation-delay:var(--d,0ms)}
+    @keyframes kw-rise{from{opacity:0;transform:translateY(54px) scale(.98);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+    @media (prefers-reduced-motion: reduce){.reveal{opacity:1}.reveal.in{animation:none}}
 </style>
 </head>
 <body>
@@ -571,7 +577,7 @@
 
 
       
-      <article class="resource-card" data-search="天际航线 skyroute 飞行模拟器 flight simulator windows portable 便携版 microsoft store 商店 msix beta 0.6.0 0.5.5 0.5.4 0.5.3 0.5.2 0.5.1 0.5.0 多语言 language 音效 检查更新 0.4.2 0.4.1 0.4 客机 a330 max 777 三维驾驶舱 冷舱启动 a320ceo c919 e190 可点击 立体机场 osm 自动驾驶 摇杆 脚舵 免费">
+      <article class="resource-card reveal" data-search="天际航线 skyroute 飞行模拟器 flight simulator windows portable 便携版 microsoft store 商店 msix beta 0.6.0 0.5.5 0.5.4 0.5.3 0.5.2 0.5.1 0.5.0 多语言 language 音效 检查更新 0.4.2 0.4.1 0.4 客机 a330 max 777 三维驾驶舱 冷舱启动 a320ceo c919 e190 可点击 立体机场 osm 自动驾驶 摇杆 脚舵 免费">
         <div class="resource-meta">
           <img src="https://raw.githubusercontent.com/kevinyuzekai/Flight-Simulator/main/assets/brand/skyroute_logo_transparent.png" alt="天际航线 SkyRoute" style="height:46px;width:auto;display:block;margin-bottom:0.4rem">
           <span class="resource-tag">天际航线 SkyRoute · Windows / 商店</span>
@@ -595,7 +601,7 @@
         </div>
       </article>
 
-      <article class="resource-card" data-search="天际航线 skyroute 飞行模拟器 flight simulator zip 网页版 html 浏览器 离线 beta 0.6.0 0.5.5 0.5.4 0.5.3 0.5.2 0.5.1 0.5.0 多语言 language 音效 检查更新 0.4.2 0.4.1 0.4 三维驾驶舱 冷舱启动 a320ceo c919 e190 可点击 立体机场 osm a330 max 777 摇杆 脚舵 mac 免费">
+      <article class="resource-card reveal" data-search="天际航线 skyroute 飞行模拟器 flight simulator zip 网页版 html 浏览器 离线 beta 0.6.0 0.5.5 0.5.4 0.5.3 0.5.2 0.5.1 0.5.0 多语言 language 音效 检查更新 0.4.2 0.4.1 0.4 三维驾驶舱 冷舱启动 a320ceo c919 e190 可点击 立体机场 osm a330 max 777 摇杆 脚舵 mac 免费">
         <div class="resource-meta">
           <span class="resource-tag">天际航线 SkyRoute · ZIP（网页版）</span>
           <h2 class="resource-title">天际航线 SkyRoute beta 0.6.0（网页版 ZIP · 免费）</h2>
@@ -607,7 +613,7 @@
         </div>
       </article>
 
-      <article class="resource-card" data-search="plume browser 浏览器 browser windows mac macos dmg 安装包 setup nsis 无需登录 历史记录 标签页 tauri webview2 v0.1.2 免费 microsoft store 微软商店">
+      <article class="resource-card reveal" data-search="plume browser 浏览器 browser windows mac macos dmg 安装包 setup nsis 无需登录 历史记录 标签页 tauri webview2 v0.1.2 免费 microsoft store 微软商店">
         <div class="resource-meta">
           <span class="resource-tag">Plume · Windows / macOS</span>
           <h2 class="resource-title">Plume Browser v0.1.2（Windows / Mac · 免费）</h2>
@@ -621,7 +627,7 @@
         </div>
       </article>
 
-            <article class="resource-card" data-search="linkpool 网卡聚合 macos mac arm64 amd64 intel dmg zip wifi 多网卡 代理 自适应 分段">
+            <article class="resource-card reveal" data-search="linkpool 网卡聚合 macos mac arm64 amd64 intel dmg zip wifi 多网卡 代理 自适应 分段">
         <div class="resource-meta">
           <span class="resource-tag">LinkPool · macOS</span>
           <h2 class="resource-title">LinkPool 0.2.1（网卡聚合助手）</h2>
@@ -678,6 +684,7 @@
     })();
   </script>
 
+  <script src="site.js"></script>
   <script src="i18n.js"></script>
 </body>
 </html>

@@ -342,6 +342,46 @@ body .site-header .kw-lang button.on {
   transform: scaleX(1);
 }
 
+/* pidanai-style section reveal: heading then body, blur + rise */
+.pd-sec .pd-h,
+.pd-sec .pd-body {
+  opacity: 0;
+  transform: translate3d(0, 46px, 0) scale(0.985);
+  filter: blur(9px);
+  transition:
+    opacity 0.76s ease,
+    transform 0.76s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.76s ease;
+}
+
+.pd-sec .pd-body {
+  transition-delay: 0.09s;
+}
+
+.pd-sec.in .pd-h,
+.pd-sec.in .pd-body {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+/* the hero shot settles in after the title */
+.pd-hero-fig {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) scale(0.985);
+  filter: blur(10px);
+  transition:
+    opacity 0.9s ease 0.3s,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+    filter 0.9s ease 0.3s;
+}
+
+.pd-ready .pd-hero-fig {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
 .pd-body {
   max-width: 100%;
   margin: clamp(1.2rem, 3vh, 1.8rem) 0 0;
@@ -670,9 +710,13 @@ body .site-header .kw-lang button.on {
   .pd-hero .pd-lead,
   .pd-meta,
   .pd-hero-cta,
+  .pd-hero-fig,
+  .pd-sec .pd-h,
+  .pd-sec .pd-body,
   .pd-gallery .pd-fig {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
     clip-path: none !important;
     -webkit-clip-path: none !important;
     transition: none !important;

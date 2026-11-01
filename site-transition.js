@@ -18,7 +18,7 @@
     '.kw-trans-pane{position:absolute;top:-1px;bottom:-1px;background:#ffffff;box-shadow:inset 0 2px 0 rgba(7,7,7,.14);transform-origin:50% 100%;backface-visibility:hidden;will-change:transform;transform:translate3d(0,101%,0) rotateX(16deg);transition:transform var(--pdur,420ms) cubic-bezier(.7,0,.28,1) var(--pdel,0ms)}',
     '.kw-trans.flat .kw-trans-pane{transition:none;transform:translate3d(0,0,0) rotateX(0)}',
     '.kw-trans.on .kw-trans-pane{transform:translate3d(0,0,0) rotateX(0)}',
-    '.kw-trans.out .kw-trans-pane{transform:translate3d(0,-101%,0) rotateX(-13deg)}',
+    '.kw-trans.out .kw-trans-pane{transform:translate3d(0,-101%,0) rotateX(-13deg);transition-timing-function:cubic-bezier(.22,1.38,.36,1)}',
     '.kw-trans.out .kw-trans-pane:nth-child(odd){transform:translate3d(-2.5%,-101%,0) rotateX(-13deg)}',
     '.kw-trans.out .kw-trans-pane:nth-child(even){transform:translate3d(2.5%,-101%,0) rotateX(-13deg)}',
     'html.kw-trans-lock,html.kw-trans-lock body{overflow:hidden}',
