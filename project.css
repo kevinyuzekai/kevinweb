@@ -861,3 +861,98 @@ img {
     filter: none !important;
   }
 }
+
+/* ---------- liquid glass surfaces (detail pages) ---------- */
+.site-header {
+  background: linear-gradient(180deg, rgba(30, 30, 30, 0.74), rgba(20, 20, 20, 0.5) 72%, rgba(20, 20, 20, 0.38));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 10px 30px -24px rgba(0, 0, 0, 0.9);
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2) 50%, transparent);
+}
+
+.pd-meta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--glass-edge);
+  border-radius: 22px;
+  background-color: rgba(20, 20, 20, 0.52);
+  background-image: linear-gradient(160deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.012) 58%);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-rim), var(--glass-drop);
+}
+
+.pd-meta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(320px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.18), transparent 66%);
+}
+
+.pd-list {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--glass-edge);
+}
+
+.pd-list li {
+  position: relative;
+  isolation: isolate;
+  background-color: rgba(18, 18, 18, 0.58);
+  background-image: linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.008) 62%);
+  -webkit-backdrop-filter: saturate(170%) blur(18px);
+  backdrop-filter: saturate(170%) blur(18px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11);
+}
+
+.pd-list li::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(260px circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.14), transparent 66%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.pd-list li:hover::after {
+  opacity: 1;
+}
+
+.pd-list li:hover {
+  background-color: rgba(30, 30, 30, 0.66);
+  background-image: linear-gradient(160deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.02) 62%);
+}
+
+/* the gold hero button reads as tinted glass */
+.pd-hero-cta .btn {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    0 20px 46px -26px rgba(201, 180, 138, 0.6);
+}
+
+.pd-hero-cta .btn::before {
+  background: radial-gradient(160px circle at var(--gx, 50%) var(--gy, -12%), rgba(255, 255, 255, 0.42), transparent 64%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-meta::after,
+  .pd-list li::after {
+    background: none;
+  }
+}
