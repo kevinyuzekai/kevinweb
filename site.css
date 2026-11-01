@@ -183,10 +183,93 @@ img {
 
 /* hero copy follows the pointer in 3-D, and dims once the page starts scrolling */
 .hero .wrap.hero-copy {
+  position: relative;
   transform: perspective(900px) rotateX(var(--hx, 0deg)) rotateY(var(--hy, 0deg))
     translate3d(var(--hdx, 0px), var(--hdy, 0px), 0);
   transform-style: preserve-3d;
   transition: transform 0.14s ease-out;
+}
+
+/* pointer lens: a black block that reveals the other language in white */
+.lens {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 0 var(--pad);
+  text-align: center;
+  pointer-events: none;
+  background: #070707;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  -webkit-mask-image: radial-gradient(
+    circle var(--lr, clamp(84px, 13vw, 150px)) at var(--cx, 50%) var(--cy, 50%),
+    #000 calc(100% - 16px),
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--lr, clamp(84px, 13vw, 150px)) at var(--cx, 50%) var(--cy, 50%),
+    #000 calc(100% - 16px),
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.lens.on {
+  opacity: 1;
+}
+
+.lens .display {
+  color: #fff;
+}
+
+.lens .kicker {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.lens .lead {
+  color: #fff;
+}
+
+.lens .sub {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.lens .ln > i {
+  transform: none;
+}
+
+.lens .btn.solid {
+  background: #fff;
+  border-color: #fff;
+  color: #070707;
+}
+
+.lens .btn.ghost {
+  border-color: rgba(255, 255, 255, 0.36);
+  color: #fff;
+}
+
+html[lang="en"] .lens .lz-en,
+html:not([lang="en"]) .lens .lz-zh {
+  display: none;
+}
+
+@media (hover: hover) {
+  .hero-copy {
+    cursor: none;
+  }
+
+  .hero-copy .cta a {
+    cursor: pointer;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .lens {
+    display: none;
+  }
 }
 
 html.has-scrolled .hero {

@@ -108,9 +108,11 @@ function tr(s){var t=s.trim();if(!t)return null;var n=t.replace(/\s+/g,' ');
  for(var i=0;i<R.length;i++)if(R[i][0].test(n))return s.replace(t,n.replace(R[i][0],R[i][1]));return null}
 function node(n){
  if(n.nodeType===3){var p=n.parentNode;if(!p||/^(SCRIPT|STYLE)$/.test(p.nodeName))return;
+  if(p.closest&&p.closest('[data-kw-skip]'))return;
   var o=orig.get(n);if(o==null||(n.nodeValue!==o.en)){o={zh:n.nodeValue,en:tr(n.nodeValue)};orig.set(n,o)}
   if(o.en!=null){var v=L==='en'?o.en:o.zh;if(n.nodeValue!==v)n.nodeValue=v}return}
  if(n.nodeType!==1||/^(SCRIPT|STYLE)$/.test(n.nodeName))return;
+ if(n.hasAttribute&&n.hasAttribute('data-kw-skip'))return;
  attrs.forEach(function(a){if(!n.hasAttribute(a))return;var k='data-kw-'+a;
   if(!n.hasAttribute(k))n.setAttribute(k,n.getAttribute(a));var z=n.getAttribute(k),e=tr(z);
   if(e!=null){var v=L==='en'?e:z;if(n.getAttribute(a)!==v)n.setAttribute(a,v)}});

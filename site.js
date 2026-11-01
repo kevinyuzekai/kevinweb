@@ -80,6 +80,7 @@
   /* the hero copy leans towards the pointer, like pidanai's stage */
   var copy = document.querySelector('.hero-copy');
   if (!copy) return;
+  var lens = copy.querySelector('.lens');
   var hraf = 0;
   window.addEventListener('pointermove', function (e) {
     if (hraf) return;
@@ -88,10 +89,20 @@
       var r = copy.getBoundingClientRect();
       var px = (e.clientX - window.innerWidth / 2) / window.innerWidth;
       var py = (e.clientY - r.top) / Math.max(r.height, 1) - 0.5;
-      copy.style.setProperty('--hy', (px * 5).toFixed(2) + 'deg');
-      copy.style.setProperty('--hx', (-py * 4).toFixed(2) + 'deg');
-      copy.style.setProperty('--hdx', (px * 10).toFixed(1) + 'px');
-      copy.style.setProperty('--hdy', (py * 6).toFixed(1) + 'px');
+      copy.style.setProperty('--hy', (px * 11).toFixed(2) + 'deg');
+      copy.style.setProperty('--hx', (-py * 8).toFixed(2) + 'deg');
+      copy.style.setProperty('--hdx', (px * 16).toFixed(1) + 'px');
+      copy.style.setProperty('--hdy', (py * 10).toFixed(1) + 'px');
+      if (!lens) return;
+      var inside = e.clientX >= r.left && e.clientX <= r.right &&
+        e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) {
+        lens.classList.remove('on');
+        return;
+      }
+      lens.style.setProperty('--cx', ((e.clientX - r.left) / r.width * 100).toFixed(2) + '%');
+      lens.style.setProperty('--cy', ((e.clientY - r.top) / r.height * 100).toFixed(2) + '%');
+      lens.classList.add('on');
     });
   }, { passive: true });
 
@@ -101,5 +112,6 @@
     copy.style.setProperty('--hy', '0deg');
     copy.style.setProperty('--hdx', '0px');
     copy.style.setProperty('--hdy', '0px');
+    if (lens) lens.classList.remove('on');
   }
 })();
