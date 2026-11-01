@@ -288,7 +288,7 @@ html.ready .hero-copy {
   }
 }
 
-/* pointer lens: a black block that reveals the other language in white */
+/* pointer lens: a black block that reveals the white Chinese title */
 .lens {
   position: absolute;
   inset: 0;
@@ -324,11 +324,6 @@ html.ready .hero-copy {
 
 .lens .subtitle {
   color: rgba(255, 255, 255, 0.66);
-}
-
-html[lang="en"] .lens .lz-en,
-html:not([lang="en"]) .lens .lz-zh {
-  display: none;
 }
 
 @media (hover: none), (pointer: coarse) {
