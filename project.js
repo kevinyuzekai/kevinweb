@@ -6,6 +6,13 @@
 
   function ready() { root.classList.add('pd-ready'); }
 
+  var hdr = document.querySelector('.site-header');
+  if (hdr) {
+    var sy = function () { hdr.classList.toggle('on', window.scrollY > 12); };
+    sy();
+    window.addEventListener('scroll', sy, { passive: true });
+  }
+
   if (RM) {
     root.classList.add('pd-ready');
   } else if (root.classList.contains('kw-trans-lock')) {
