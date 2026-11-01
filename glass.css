@@ -128,9 +128,10 @@ body {
 
 /* ---------- glass language switch ---------- */
 .site-header .kw-lang {
-  padding: 2px 3px;
-  gap: 1px;
-  border: 1px solid var(--glass-edge);
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
   background: var(--glass-fill);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
@@ -138,18 +139,37 @@ body {
 }
 
 .site-header .kw-lang span {
-  color: rgba(242, 242, 242, 0.32);
+  display: none;
 }
 
 .site-header .kw-lang button {
-  color: var(--muted);
+  min-width: 54px;
+  min-height: 32px;
+  padding: 0 0.55rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: rgba(242, 242, 242, 0.48);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
   font-weight: 500;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition: color 0.22s ease, background-color 0.22s ease;
+}
+
+body .site-header .kw-lang button:hover {
+  color: var(--fg);
 }
 
 body .site-header .kw-lang button.on {
-  background: rgba(201, 180, 138, 0.92);
-  color: #17140f;
+  background: rgba(242, 242, 242, 0.92);
+  color: #141414;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+@media (pointer: coarse) {
+  .site-header .kw-lang button {
+    min-height: 40px;
+  }
 }
 
 @media (max-width: 600px) {

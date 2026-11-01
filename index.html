@@ -944,7 +944,7 @@
 
     <section class="ap-read" aria-label="Kevin">
       <div class="wrap ap-stick">
-        <p id="ap-read" data-zh="Hi，我是 Kevin Yuᥫᩣ༠°ఌ。四个作品，一个浏览器、一个飞行模拟器、一个课堂工具、一个网卡聚合助手——全是我手搓的，一分钱不收。" data-en="Hi, I'm Kevin Yuᥫᩣ༠°ఌ. Four projects — a browser, a flight simulator, a classroom tool, and a network bonding helper — every one handmade by me, not a cent charged."></p>
+        <p id="ap-read" data-zh="Hi，我是 Kevin Yu。浏览器、飞行模拟器、网卡聚合助手，每一个都由我独立开发。我只做自己真正想用的东西，让它简单、好用，并尊重你的设备和隐私。" data-en="Hi, I'm Kevin Yu. A browser, a flight simulator, a network bonding helper — each one built on my own. I make things I actually want to use, and keep them simple, useful, and respectful of your device and privacy."></p>
       </div>
     </section>
 
@@ -1290,7 +1290,7 @@
       function build() {
         var en = document.documentElement.lang === 'en', t = read.getAttribute(en ? 'data-en' : 'data-zh');
         read.textContent = ''; read.setAttribute('aria-label', t);
-        var parts = en ? t.split(/(\s+)/) : (t.match(/Kevin Yu\S*|Hi，|[^\s]/g) || []);
+        var parts = en ? t.split(/(\s+)/) : (t.match(/Kevin Yu|Hi，|[^\s]/g) || []);
         parts.forEach(function (p) {
           if (/^\s+$/.test(p)) { read.appendChild(document.createTextNode(p)); return; }
           if (!en && /^Kevin Yu/.test(p)) { read.appendChild(document.createTextNode(' ')); }

@@ -168,7 +168,7 @@ function set(l){L=l;try{localStorage.setItem(K,l)}catch(e){}apply()}
 window.kwSetLang=set;
 function init(){var nav=document.querySelector('.site-header .nav')||document.querySelector('.site-header')||document.body;
  var w=document.createElement('span');w.className='kw-lang';
- w.innerHTML='<button type="button" data-l="zh">中文</button><span>/</span><button type="button" data-l="en">EN</button>';
+ w.innerHTML='<button type="button" data-l="zh">中文</button><button type="button" data-l="en">EN</button>';
  w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.dataset.l)});nav.appendChild(w);
  var st=document.createElement('style');st.textContent='.kw-lang{display:inline-flex;align-items:center;gap:2px;margin-left:.6rem;padding:2px 4px;border:1.5px solid #0066cc;border-radius:999px;background:#fff;font-size:.85rem;line-height:1;white-space:nowrap;flex-shrink:0}.kw-lang span{color:#0066cc}.kw-lang button{border:0;background:none;color:#0066cc;font:inherit;font-weight:600;padding:4px 8px;border-radius:999px;cursor:pointer}.kw-lang button.on{background:#0066cc;color:#fff}.resource-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.resource-actions>*{margin-left:0!important}ms-store-badge{max-width:100%;overflow:hidden}';
  document.head.appendChild(st);apply();
