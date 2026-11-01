@@ -97,7 +97,11 @@ var D={
 "纯本机运行":"Runs entirely locally","控制台只监听 127.0.0.1，配置不上传。":"The console listens on 127.0.0.1 only; nothing is uploaded.",
 "首次打开若提示「已损坏」，在终端执行 xattr -cr /Applications/LinkPool.app 后再打开。":"If macOS says the app is damaged on first launch, run xattr -cr /Applications/LinkPool.app in Terminal, then open it again.",
 "Portfolio · 2026":"Portfolio · 2026","Hi，我是 Kevin Yu。":"Hi, I'm Kevin Yu.","浏览器、飞行模拟器、网卡聚合助手 —— 每一个都由我独立开发。我只做自己真正想用的东西，让它简单、好用，并尊重你的设备和隐私。":"A browser, a flight simulator, a network bonding helper — each one built on my own. I make things I actually want to use, and keep them simple, useful, and respectful of your device and privacy.","看作品":"View works","定价":"Price","手搓":"Handmade","三个作品":"Three projects","全部手搓":"All handmade","没有账号、没有订阅、没有统计。三个能直接装进电脑里用的小东西。":"No accounts, no subscriptions, no analytics. Three small things you can install and just use.","Windows / macOS":"Windows / macOS","Windows / Web / Store":"Windows / Web / Store","不打包浏览器内核的浏览器：用系统自带的 WebView2 与 WebKit，安装包只有 3.4 MB。":"A browser that ships without a browser engine: it uses the WebView2 / WebKit already on your system, so the installer is only 3.4 MB.","免费的民航客机飞行模拟器：完整冷舱启动、可点击的三维驾驶舱、七种界面语言。":"A free airliner flight simulator: full cold-and-dark start, a clickable 3D cockpit, seven UI languages.","把 Wi-Fi、有线网、手机热点的带宽叠在一起：自适应调度、拨号换卡、分段加速下载。":"Bonds Wi-Fi, Ethernet and phone hotspot into one faster pipe: adaptive scheduling, SIM switching, segmented downloads.","详情":"Details","我为什么":"Why","只做三个":"only three","我不是在做产品矩阵，只把自己每天要用的东西写出来。用完发现好用，就顺手放上来，不收钱。":"I'm not building a product line — I only write the things I use every day, and put them up for free when they turn out well.","东西都很小：一个浏览器、一个飞行模拟器、一个把多网卡叠起来的小工具。没有云端，没有账号，名单和数据都只留在你的机器上。":"Everything is small: a browser, a flight simulator, and a little tool that bonds several network cards. No cloud, no accounts — your data stays on your machine.","全部版本与安装包":"All versions & installers","GitHub Issues":"GitHub Issues",
-"作品":"Works","资源":"Resources"
+"作品":"Works","资源":"Resources",
+"不打包内核的浏览器":"A browser without an engine","从冷舱到起飞":"From cold and dark to takeoff","把几条网叠成一条":"Bonding several links into one","我为什么只做三个":"Why only three",
+"用系统自带的 WebView2 与 WebKit，省下的是内核，不是功能：没有账号、没有同步、没有统计，地址栏既能开网址也能直接搜。":"It runs on the WebView2 and WebKit already on your system — what's saved is the engine, not the features. No accounts, no sync, no analytics, and the address bar takes either a URL or a search.",
+"免费的民航客机飞行模拟器：完整冷舱启动，顶板与中央操纵台的每个开关都能点；七种界面语言，离线也能飞。":"A free airliner flight simulator: a full cold-and-dark start with every switch on the overhead panel and pedestal clickable, seven UI languages, playable offline.",
+"自适应调度、拨号换卡、分段加速下载，尽量叠满多网卡带宽。控制台只监听 127.0.0.1，配置不上传。":"Adaptive scheduling, SIM switching and segmented downloads to fill the bandwidth of several network cards. The console listens on 127.0.0.1 only; nothing is uploaded."
 };
 var R=[];
 var K='kevinweb.lang',L;
@@ -125,7 +129,7 @@ function apply(){busy=true;node(document.body);
  document.querySelectorAll('.kw-lang button').forEach(function(b){b.classList.toggle('on',b.dataset.l===L)});if(obs)obs.takeRecords();busy=false}
 function set(l){L=l;try{localStorage.setItem(K,l)}catch(e){}apply()}
 window.kwSetLang=set;
-function init(){var nav=document.querySelector('.site-header .nav')||document.querySelector('.site-header')||document.body;
+function init(){var nav=document.querySelector('.site-header .header-actions')||document.querySelector('.site-header .nav')||document.querySelector('.site-header')||document.body;
  var w=document.createElement('span');w.className='kw-lang';
  w.innerHTML='<button type="button" data-l="zh">中文</button><button type="button" data-l="en">EN</button>';
  w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.dataset.l)});nav.appendChild(w);

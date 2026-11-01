@@ -6,13 +6,13 @@
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#ffffff">
   <script src="site-transition.js"></script>
-  <title>KevinWeb · Kevin Yu</title>
-  <meta name="description" content="Kevin Yu 的个人作品集：Plume Browser、天际航线 SkyRoute、LinkPool，全部免费、全部手作。">
+  <title>KevinWeb · 全部免费，全部手搓</title>
+  <meta name="description" content="浏览器、飞行模拟器、网卡聚合助手，每一个都由 Kevin Yu 独立开发，全部免费。">
   <link rel="canonical" href="https://kevinyuzekai.github.io/kevinweb/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="KevinWeb">
-  <meta property="og:title" content="KevinWeb · Kevin Yu">
-  <meta property="og:description" content="浏览器、飞行模拟器、网卡聚合助手，全部免费、全部手作。">
+  <meta property="og:title" content="KevinWeb · 全部免费，全部手搓">
+  <meta property="og:description" content="浏览器、飞行模拟器、网卡聚合助手，全部免费、全部手搓。">
   <meta property="og:url" content="https://kevinyuzekai.github.io/kevinweb/">
   <meta property="og:image" content="https://kevinyuzekai.github.io/kevinweb/img/skyroute-shot.webp">
   <meta name="twitter:card" content="summary_large_image">
@@ -20,161 +20,153 @@
   <link rel="stylesheet" href="site.css">
 </head>
 <body>
-  <header class="site-header bar">
-    <div class="bar-in">
-      <a class="brand" href="./index.html">KevinWeb</a>
-      <nav class="pills" aria-label="Sections">
-        <a href="#works">作品</a>
-        <a href="#about">关于</a>
-        <a href="#index">索引</a>
-        <a href="./All_resources.html">资源</a>
-      </nav>
-      <nav class="nav" aria-label="Language"></nav>
-    </div>
+  <header class="site-header">
+    <a class="logo" href="./index.html">KevinWeb</a>
+    <nav class="nav-pills" aria-label="Sections">
+      <a class="nav-pill" href="#works">作品</a>
+      <a class="nav-pill" href="#about">关于</a>
+      <a class="nav-pill" href="#contact">索引</a>
+      <a class="nav-pill" href="./All_resources.html">资源</a>
+    </nav>
+    <div class="header-actions"></div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="wrap hero-copy">
-        <p class="kicker reveal">Portfolio · 2026</p>
-        <h1 class="display"><span class="ln"><i>Kevin</i></span><span class="ln"><i>Yu</i></span></h1>
-        <p class="lead reveal">Hi，我是 Kevin Yu。</p>
-        <p class="sub reveal">浏览器、飞行模拟器、网卡聚合助手 —— 每一个都由我独立开发。我只做自己真正想用的东西，让它简单、好用，并尊重你的设备和隐私。</p>
-        <div class="cta reveal">
-          <a class="btn solid" href="#works">看作品</a>
-          <a class="btn ghost" href="./All_resources.html">全部资源 <span aria-hidden="true">→</span></a>
-        </div>
+  <main class="hero" id="top">
+    <section class="hero-stage">
+      <div class="hero-copy">
+        <p class="eyebrow">Portfolio · 2026</p>
+        <h1><span class="title-strong">KEVIN</span> <span class="title-light">YU</span></h1>
+        <p class="subtitle">浏览器、飞行模拟器、网卡聚合助手 —— 每一个都由我独立开发。我只做自己真正想用的东西，让它简单、好用，并尊重你的设备和隐私。</p>
 
         <!-- pointer lens: the block under the cursor shows the other language in white -->
         <div class="lens" aria-hidden="true" data-kw-skip>
           <div class="lz lz-zh">
-            <p class="kicker">作品集 · 2026</p>
-            <h1 class="display"><span class="ln"><i>凯文</i></span><span class="ln"><i>余</i></span></h1>
-            <p class="lead">Hi，我是 Kevin Yu。</p>
-            <p class="sub">浏览器、飞行模拟器、网卡聚合助手 —— 每一个都由我独立开发。我只做自己真正想用的东西，让它简单、好用，并尊重你的设备和隐私。</p>
-            <div class="cta">
-              <span class="btn solid">看作品</span>
-              <span class="btn ghost">全部资源 <span aria-hidden="true">→</span></span>
-            </div>
+            <p class="eyebrow">作品集 · 2026</p>
+            <h1><span class="title-strong">凯文</span> <span class="title-light">余</span></h1>
+            <p class="subtitle">浏览器、飞行模拟器、网卡聚合助手 —— 每一个都由我独立开发。我只做自己真正想用的东西，让它简单、好用，并尊重你的设备和隐私。</p>
           </div>
           <div class="lz lz-en">
-            <p class="kicker">Portfolio · 2026</p>
-            <h1 class="display"><span class="ln"><i>Kevin</i></span><span class="ln"><i>Yu</i></span></h1>
-            <p class="lead">Hi, I'm Kevin Yu.</p>
-            <p class="sub">A browser, a flight simulator, a network bonding helper — each one built on my own. I make things I actually want to use, and keep them simple, useful, and respectful of your device and privacy.</p>
-            <div class="cta">
-              <span class="btn solid">View works</span>
-              <span class="btn ghost">All Resources <span aria-hidden="true">→</span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <ul class="stats reveal">
-          <li><span class="n">03</span><span class="l">作品</span></li>
-          <li><span class="n">¥0</span><span class="l">定价</span></li>
-          <li><span class="n">04</span><span class="l">平台</span></li>
-          <li><span class="n">100%</span><span class="l">手搓</span></li>
-        </ul>
-      </div>
-      <div class="wrap hero-shot reveal">
-        <figure class="shot-frame">
-          <img src="img/skyroute-shot.webp" width="960" height="540" alt="天际航线 SkyRoute 主菜单" loading="eager" decoding="async">
-        </figure>
-      </div>
-    </section>
-
-    <section class="sec" id="works">
-      <div class="wrap">
-        <p class="kicker reveal">01 — Works</p>
-        <h2 class="h2 reveal">三个作品<br>全部手搓</h2>
-        <p class="body reveal">没有账号、没有订阅、没有统计。三个能直接装进电脑里用的小东西。</p>
-
-        <div class="works">
-          <article class="card reveal" data-tilt>
-            <span class="tag">Windows / macOS</span>
-            <h3>Plume Browser</h3>
-            <p>不打包浏览器内核的浏览器：用系统自带的 WebView2 与 WebKit，安装包只有 3.4 MB。</p>
-            <div class="acts">
-              <a class="btn solid sm" href="https://github.com/kevinyuzekai/Plume/releases/download/v0.1.2/Plume.Browser_0.1.2_x64-setup.exe" download>下载</a>
-              <a class="btn ghost sm" href="./plume.html">详情 <span aria-hidden="true">→</span></a>
-            </div>
-          </article>
-
-          <article class="card reveal" data-tilt>
-            <span class="tag">Windows / Web / Store</span>
-            <h3>天际航线 SkyRoute</h3>
-            <p>免费的民航客机飞行模拟器：完整冷舱启动、可点击的三维驾驶舱、七种界面语言。</p>
-            <div class="acts">
-              <a class="btn solid sm" href="https://github.com/kevinyuzekai/Flight-Simulator/releases/download/beta_v0.6.0/SkyRoute-Windows-portable-beta_v0.6.0-x64.zip" download>下载</a>
-              <a class="btn ghost sm" href="./skyroute.html">详情 <span aria-hidden="true">→</span></a>
-            </div>
-          </article>
-
-          <article class="card reveal" data-tilt>
-            <span class="tag">macOS</span>
-            <h3>LinkPool</h3>
-            <p>把 Wi-Fi、有线网、手机热点的带宽叠在一起：自适应调度、拨号换卡、分段加速下载。</p>
-            <div class="acts">
-              <a class="btn solid sm" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.1/LinkPool-0.2.1-arm64.dmg" download>下载</a>
-              <a class="btn ghost sm" href="./linkpool.html">详情 <span aria-hidden="true">→</span></a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="about">
-      <div class="wrap">
-        <p class="kicker reveal">02 — About</p>
-        <h2 class="h2 reveal">我为什么<br>只做三个</h2>
-        <div class="split">
-          <div class="split-l">
-            <p class="body reveal">我不是在做产品矩阵，只把自己每天要用的东西写出来。用完发现好用，就顺手放上来，不收钱。</p>
-            <p class="body reveal">东西都很小：一个浏览器、一个飞行模拟器、一个把多网卡叠起来的小工具。没有云端，没有账号，名单和数据都只留在你的机器上。</p>
-          </div>
-          <div class="split-r">
-            <figure class="shot-frame reveal">
-              <img src="img/plume-shot.webp" width="960" height="540" alt="Plume Browser 主界面" loading="lazy" decoding="async">
-            </figure>
+            <p class="eyebrow">Portfolio · 2026</p>
+            <h1><span class="title-strong">KEVIN</span> <span class="title-light">YU</span></h1>
+            <p class="subtitle">A browser, a flight simulator, a network bonding helper — each one built on my own. I make things I actually want to use, and keep them simple, useful, and respectful of your device and privacy.</p>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="sec" id="index">
-      <div class="wrap">
-        <p class="kicker reveal">03 — Index</p>
-        <h2 class="h2 reveal">索引</h2>
-        <div class="rows">
-          <a class="row reveal" href="./All_resources.html">
-            <span class="num">01</span>
-            <span class="nm">下载资源</span>
-            <span class="note">全部版本与安装包</span>
-            <span class="arw" aria-hidden="true">↗</span>
-          </a>
-          <a class="row reveal" href="./About_me.html">
-            <span class="num">02</span>
-            <span class="nm">关于我</span>
-            <span class="note">Kevin Yu</span>
-            <span class="arw" aria-hidden="true">↗</span>
-          </a>
-          <a class="row reveal" href="https://github.com/kevinyuzekai/kevinweb/issues" target="_blank" rel="noopener">
-            <span class="num">03</span>
-            <span class="nm">联系</span>
-            <span class="note">GitHub Issues</span>
-            <span class="arw" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </div>
-    </section>
+    <p class="scroll-hint">↓ 看看作品</p>
   </main>
 
-  <footer class="foot">
-    <div class="wrap">
-      <span>© 2026 Kevin Yu · 全部免费，全部手搓</span>
-      <span><a href="./All_resources.html">全部资源</a> · <a href="https://github.com/kevinyuzekai" target="_blank" rel="noopener">GitHub</a></span>
+  <section class="product-section" id="works">
+    <div class="product-layout">
+      <div class="product-copy reveal" data-tilt>
+        <p class="section-kicker">01 — Plume Browser</p>
+        <h3>不打包内核的浏览器</h3>
+        <p>用系统自带的 WebView2 与 WebKit，省下的是内核，不是功能：没有账号、没有同步、没有统计，地址栏既能开网址也能直接搜。</p>
+        <div class="spec-list">
+          <span><strong>Platform</strong>Windows / macOS</span>
+          <span><strong>Size</strong>3.4 MB</span>
+          <span><strong>Price</strong>免费</span>
+        </div>
+        <div class="acts">
+          <a class="btn solid" href="https://github.com/kevinyuzekai/Plume/releases/download/v0.1.2/Plume.Browser_0.1.2_x64-setup.exe" download>下载</a>
+          <a class="btn quiet" href="./plume.html">详情 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <figure class="product-window reveal" data-tilt>
+        <img src="img/plume-shot.webp" width="960" height="540" alt="Plume Browser 主界面" loading="lazy" decoding="async">
+      </figure>
     </div>
+  </section>
+
+  <section class="product-section">
+    <div class="product-layout flip">
+      <div class="product-copy reveal" data-tilt>
+        <p class="section-kicker">02 — SkyRoute</p>
+        <h3>从冷舱到起飞</h3>
+        <p>免费的民航客机飞行模拟器：完整冷舱启动，顶板与中央操纵台的每个开关都能点；七种界面语言，离线也能飞。</p>
+        <div class="spec-list">
+          <span><strong>Platform</strong>Windows / Web / Store</span>
+          <span><strong>Version</strong>beta 0.6.0</span>
+          <span><strong>Language</strong>七种界面语言</span>
+        </div>
+        <div class="acts">
+          <a class="btn solid" href="https://github.com/kevinyuzekai/Flight-Simulator/releases/download/beta_v0.6.0/SkyRoute-Windows-portable-beta_v0.6.0-x64.zip" download>下载</a>
+          <a class="btn quiet" href="./skyroute.html">详情 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <figure class="product-window reveal" data-tilt>
+        <img src="img/skyroute-shot.webp" width="960" height="540" alt="天际航线 SkyRoute 主菜单" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="product-section">
+    <div class="product-layout">
+      <div class="product-copy reveal" data-tilt>
+        <p class="section-kicker">03 — LinkPool</p>
+        <h3>把几条网叠成一条</h3>
+        <p>自适应调度、拨号换卡、分段加速下载，尽量叠满多网卡带宽。控制台只监听 127.0.0.1，配置不上传。</p>
+        <div class="spec-list">
+          <span><strong>Platform</strong>macOS</span>
+          <span><strong>Architecture</strong>arm64 / x64</span>
+          <span><strong>Price</strong>免费</span>
+        </div>
+        <div class="acts">
+          <a class="btn solid" href="https://github.com/kevinyuzekai/LinkPool/releases/download/v0.2.1/LinkPool-0.2.1-arm64.dmg" download>下载</a>
+          <a class="btn quiet" href="./linkpool.html">详情 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <figure class="product-window reveal terminal" data-tilt>
+        <div class="term-bar"><i></i><i></i><i></i><span>LinkPool · 127.0.0.1:8787</span></div>
+        <pre class="term-body">[pool] 检测到 3 条链路
+  en0   Wi-Fi      ↓ 86.4 Mbps
+  en5   Ethernet   ↓ 214.8 Mbps
+  pdp   Cellular   ↓ 42.1 Mbps
+
+[pool] 分段下载 · 8 线程 · 自适应调度
+  总带宽  343.3 Mbps   ≈ 3.4 × 单链路
+  上传     仅本机 127.0.0.1</pre>
+      </figure>
+    </div>
+  </section>
+
+  <section class="product-section" id="about">
+    <div class="product-layout">
+      <div class="product-copy reveal" data-tilt>
+        <p class="section-kicker">04 — About</p>
+        <h3>我为什么只做三个</h3>
+        <p>我不是在做产品矩阵，只把自己每天要用的东西写出来。用完发现好用，就顺手放上来，不收钱。</p>
+        <p>东西都很小：一个浏览器、一个飞行模拟器、一个把多网卡叠起来的小工具。没有云端，没有账号，名单和数据都只留在你的机器上。</p>
+        <div class="acts">
+          <a class="btn quiet" href="./About_me.html">关于我 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <figure class="product-window reveal" data-tilt>
+        <img src="img/skyroute-cockpit.webp" width="960" height="540" alt="SkyRoute 三维驾驶舱" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="product-section" id="contact">
+    <div class="product-layout">
+      <div class="product-copy reveal" data-tilt>
+        <p class="section-kicker">05 — Index</p>
+        <h3>索引</h3>
+        <div class="link-rows">
+          <a class="link-row" href="./All_resources.html"><span>下载资源</span><small>全部版本与安装包</small><i aria-hidden="true">↗</i></a>
+          <a class="link-row" href="./About_me.html"><span>关于我</span><small>Kevin Yu</small><i aria-hidden="true">↗</i></a>
+          <a class="link-row" href="https://github.com/kevinyuzekai/kevinweb/issues" target="_blank" rel="noopener"><span>联系</span><small>GitHub Issues</small><i aria-hidden="true">↗</i></a>
+        </div>
+      </div>
+      <figure class="product-window reveal" data-tilt>
+        <img src="img/skyroute-runway.webp" width="960" height="540" alt="SkyRoute 跑道" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>© 2026 Kevin Yu · 全部免费，全部手搓</span>
+    <span><a href="./All_resources.html">全部资源</a> · <a href="https://github.com/kevinyuzekai" target="_blank" rel="noopener">GitHub</a></span>
   </footer>
 
   <script src="site.js"></script>
