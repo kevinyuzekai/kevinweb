@@ -32,7 +32,6 @@ body {
   background: transparent;
   color: var(--fg);
   font-family: var(--font-main);
-  cursor: none;
   transition: color 0.5s ease;
 }
 
@@ -773,3 +772,7 @@ html.has-scrolled .hero {
     filter: none;
   }
 }
+
+/* hide the system cursor only on the homepage first screen */
+.hero { cursor: none; }
+.hero a, .hero button { cursor: pointer; }
